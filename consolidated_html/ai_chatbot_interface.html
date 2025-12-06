@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EcoBin Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#4CAF50",
+            "background-light": "#F5F5DC",
+            "background-dark": "#112112",
+            "text-light": "#333333",
+            "text-dark": "#F5F5DC"
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex h-screen w-full flex-col group/design-root overflow-hidden">
+<!-- Header -->
+<div class="flex items-center p-4 bg-background-light dark:bg-background-dark border-b border-gray-200 dark:border-gray-700">
+<button class="flex items-center justify-center h-10 w-10">
+<span class="material-symbols-outlined text-text-light dark:text-text-dark">arrow_back</span>
+</button>
+<h1 class="text-xl font-bold flex-1 text-center text-text-light dark:text-text-dark">EcoBin Assistant</h1>
+<div class="flex items-center space-x-2">
+<button class="flex items-center justify-center h-10 w-10">
+<span class="material-symbols-outlined text-text-light dark:text-text-dark">mic</span>
+</button>
+<button class="flex items-center justify-center h-10 w-10">
+<span class="material-symbols-outlined text-text-light dark:text-text-dark">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Chat History -->
+<div class="flex-1 overflow-y-auto p-4 space-y-4">
+<!-- Initial Greeting -->
+<div class="flex items-end gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 h-10 shrink-0" data-alt="EcoBin Assistant avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCh2uoISxRKG3QCCQ9r_x_5L9ox99aa4BLixuicw27xidhksjyXFVEIqZUuECLncNRv7wntExhLOQRuoUVUrIZyRwGT83eUaqFgKB69cH1E0weh5W7LaqhpkKlmfAeF1QpTcF673P_t8F_uOT-Dz8OcUsmE5GcF6CC7WnCW8RXxPpM0UoROAGSjhgWDGoIhqpwC3Oq2XbEn8FMH_ZNSGOZ_vsBpv6DCcJENI49fS0oSJ-nPl6nMwYzDunSp9YX0WS2yDpzrzqcsAQUx");'></div>
+<div class="flex flex-col gap-1 items-start">
+<p class="text-primary text-sm font-medium">EcoBin Assistant</p>
+<div class="bg-primary/20 text-text-light dark:text-text-dark dark:bg-primary/30 rounded-lg px-4 py-3 max-w-sm">
+<p>Hello! I'm your EcoBin Assistant. How can I help you manage your farm today? Here are a few suggestions to get you started:</p>
+</div>
+</div>
+</div>
+<!-- Quick Suggestion Chips -->
+<div class="flex gap-2 p-2 flex-wrap pl-14">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/30 px-4">
+<p class="text-text-light dark:text-text-dark text-sm font-medium">What's the current soil moisture?</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/30 px-4">
+<p class="text-text-light dark:text-text-dark text-sm font-medium">Show me the latest water quality report.</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/30 px-4">
+<p class="text-text-light dark:text-text-dark text-sm font-medium">Optimize my irrigation schedule.</p>
+</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/30 px-4">
+<p class="text-text-light dark:text-text-dark text-sm font-medium">Identify this plant disease.</p>
+</button>
+</div>
+<!-- User Message -->
+<div class="flex items-end gap-3 justify-end">
+<div class="flex flex-col gap-1 items-end">
+<p class="text-primary text-sm font-medium">You</p>
+<div class="bg-primary text-white rounded-lg px-4 py-3 max-w-sm">
+<p>What's the current soil moisture?</p>
+</div>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 h-10 shrink-0" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDjue3qIKh4lKD5XW0Xmt79xvFavYAS9k6P4HLt8rlvIVh25PrJntHMdOw6fumD6FN6edAHHb2bppX9NqtZB4Zl1pzDX5VlVhnH6zhq4uAE1g3t2eUCpfcbjccvrqzB5xA7ROW776CIhgk3IBWDsPR6gPPWwmVgQ8r-J9_BNGhlOxRZfWy2aLxf3OuU0jJhjJgrQaB7ImiNDkmxmmew1DdmygxEJH2_dMaj-Sl6LhfOp1UN-wpj6fC5IOO4D3wbaSN3hDA9WyPqAqNw");'></div>
+</div>
+<!-- Chatbot Response with Data Card -->
+<div class="flex items-end gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 h-10 shrink-0" data-alt="EcoBin Assistant avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCPaJmkKnFO6l9jVK7_eAhfCTPC7eEPbjU6llQsclNPF2Gd5oycF-X78q4ytTs4BrWydgi-_Zjom_wgEnAzS-l_ih3pnmQPbTHpcjrv7In9KQ-s0gtgpk1VV3JkXk_b0VpGGuWUEe9jC1qoZtej3aqHJEaymeXjBbMvRiDk_WUucF_SOv5J6f3JIw2B1ai_aO5HtYhtolVtdgQr00XazPIBsfs6FkmX6RvcZZy0XQRvpIwZNnlaCNkVeRjGEmaiSjU46pT1-ZmiZCD3");'></div>
+<div class="flex flex-col gap-2 items-start">
+<p class="text-primary text-sm font-medium">EcoBin Assistant</p>
+<div class="bg-primary/20 text-text-light dark:text-text-dark dark:bg-primary/30 rounded-lg px-4 py-3 max-w-sm">
+<p>Sure, here is the soil moisture data for the last 24 hours:</p>
+</div>
+<div class="bg-background-light dark:bg-background-dark p-4 rounded-xl border border-gray-200 dark:border-gray-700 w-full max-w-sm">
+<h3 class="font-bold text-lg mb-2 text-text-light dark:text-text-dark">Soil Moisture Levels</h3>
+<div class="w-full h-48 bg-contain bg-center bg-no-repeat" data-alt="A line chart showing soil moisture levels over the past 24 hours" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD0JFBCmZtjseBI0YUPMuD6Z33fLh42mPrZ_qJ9wr_IAz10fSIrdo2-oMZMYAFHFjmxEN5ykw4UU33sTqzAk-C2916_bkw9KU-RPOxspuKukLhL0jxf7dwvBghOAM9jKd0rPFvowibinHG_2YpRkYcINh9pkNGaJPQs3qZse9oUWHLVYeox8K8bdk3sVYCKQoz8Xrc6qLNbNFJUXV8gkQauo4ns_eoGv2rNKuzNdpm6sryFdNshsCBCnvgxrMeVWQoIF9YM8nDDacqx');"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- User Input Area -->
+<div class="p-4 bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-gray-700">
+<div class="flex items-center bg-gray-200 dark:bg-gray-700 rounded-full px-4 py-2">
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-text-light dark:text-text-dark placeholder-gray-500 dark:placeholder-gray-400" placeholder="Ask about your farm..." type="text"/>
+<button class="flex items-center justify-center h-8 w-8 ml-2">
+<span class="material-symbols-outlined text-text-light dark:text-text-dark">attach_file</span>
+</button>
+<button class="flex items-center justify-center h-8 w-8 ml-2 bg-primary rounded-full">
+<span class="material-symbols-outlined text-white">mic</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

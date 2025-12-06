@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EcoBin Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#4CAF50",
+            "background-light": "#F5F5F5",
+            "background-dark": "#112112",
+            "secondary": "#333333",
+            "accent": "#2196F3",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .form-input {
+      border-color: #E0E0E0;
+    }
+    .form-input:focus {
+      border-color: #4CAF50;
+      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    }
+    .error-message {
+      color: #F44336;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s ease, max-height 0.3s ease;
+    }
+    .error-message.show {
+      opacity: 1;
+      max-height: 2rem;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen flex-col justify-center items-center p-4">
+<div class="w-full max-w-sm">
+<div class="flex justify-center mb-8">
+<div class="flex items-center justify-center h-20 w-20 bg-primary/20 rounded-full">
+<span class="material-symbols-outlined text-primary" style="font-size: 48px;">eco</span>
+</div>
+</div>
+<h1 class="text-secondary dark:text-white tracking-tight text-3xl font-bold text-center mb-6">Welcome Back!</h1>
+<form class="space-y-4">
+<div>
+<label class="text-secondary dark:text-gray-300 text-sm font-medium" for="email">Email</label>
+<input class="form-input mt-1 flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-secondary dark:text-white bg-background-light dark:bg-gray-800 h-12 placeholder:text-gray-400 p-3 text-base font-normal leading-normal focus:outline-none" id="email" placeholder="Enter your email" required="" type="email"/>
+<p class="error-message">Invalid email address</p>
+</div>
+<div>
+<label class="text-secondary dark:text-gray-300 text-sm font-medium" for="password">Password</label>
+<div class="relative mt-1">
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-secondary dark:text-white bg-background-light dark:bg-gray-800 h-12 placeholder:text-gray-400 p-3 pr-10 text-base font-normal leading-normal focus:outline-none" id="password" placeholder="Enter your password" required="" type="password"/>
+<button class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-secondary dark:hover:text-white" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined" id="password-toggle-icon">visibility_off</span>
+</button>
+</div>
+<p class="error-message" id="password-error">Password is required</p>
+</div>
+<div class="text-right">
+<a class="text-sm text-accent hover:underline" href="#">Forgot Password?</a>
+</div>
+<div class="flex items-center gap-4 pt-4">
+<button class="flex-grow bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50 dark:focus:ring-offset-background-dark flex items-center justify-center transition-all duration-300" type="submit">
+<span class="login-text">LOGIN</span>
+<div class="loader hidden">
+<svg class="animate-spin h-5 w-5 text-white" fill="none" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+<path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" fill="currentColor"></path>
+</svg>
+</div>
+</button>
+<button class="flex-shrink-0 h-12 w-12 flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-secondary dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 dark:focus:ring-offset-background-dark" type="button">
+<span class="material-symbols-outlined">fingerprint</span>
+</button>
+</div>
+</form>
+<div class="relative my-8">
+<div class="absolute inset-0 flex items-center">
+<span class="w-full border-t border-gray-300 dark:border-gray-600"></span>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="bg-background-light dark:bg-background-dark px-2 text-secondary dark:text-gray-400">or continue with</span>
+</div>
+</div>
+<div class="flex justify-center space-x-4">
+<button class="w-12 h-12 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+<img class="h-6 w-6" data-alt="Google logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQhYmLzA0NfLRquVzBfMzWfUx3h74XGy-U6emgjUXjM-Gnm6kgc5rwxCM5U4xfP87ImHfzyqfmLcbE5JnpGiAURHZqyc6FwLVPBZL9v90NbHg8AgpNzrltJoX-Ho52cPUm8MwzS8lQBVe-yuo9hxgCcXtLd3vGLStYWhaXHk-aUPMLfYrNSXzuY_kcb1LwJIUtA43DyyrXYEvGUJBf0bcvIJ7kiG75HpO_ssujvqNz2agNddoamwJ9Mo_ptf6RM_So5BZVLPIuhn_r"/>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-[#1877F2] text-white hover:bg-blue-700">
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v2.385z"></path></svg>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path d="M12.012 16.326c-1.375-1.385-2.017-3.08-2.017-4.665 0-1.574.632-3.25 1.982-4.635.132-.127.346-.127.478 0 .132.127.126.341 0 .468-1.223 1.258-1.854 2.796-1.854 4.167 0 1.385.626 2.899 1.872 4.19.126.127.126.341 0 .468-.138.127-.346.127-.461 0zm4.232-8.51c-.696-2.19-2.399-3.411-4.214-3.411-1.346 0-2.83.91-3.784 2.295-.126.175.025.421.218.421.107 0 .212-.05.281-.148.868-1.229 2.115-1.939 3.284-1.939 1.488 0 2.812.986 3.39 2.848.075.246.335.378.563.291.229-.088.34-.367.262-.607zm-1.884 10.669c.862-.927 1.369-2.054 1.369-3.235 0-.056-.006-.107-.006-.164a.35.35 0 0 0-.351-.351.35.35 0 0 0-.351.351c0 .05.006.101.006.152 0 1.053-.44 2.054-1.196 2.87-.132.14-.121.368.025.489.146.121.374.11.498-.024zm-5.513-3.628c0 2.375 1.5 4.142 3.655 4.142 1.134 0 2.14-.52 2.88-1.428.14-.175.056-.432-.132-.533-.187-.101-.438-.025-.557.152-.585.733-1.369 1.182-2.191 1.182-1.636 0-2.986-1.31-2.986-3.486 0-2.22 1.385-3.55 2.94-3.55 1.01 0 1.83.509 2.454 1.321.132.169.39.2.557.067s.198-.38-.025-.544c-.752-1.028-1.921-1.684-3.21-1.684-2.179 0-3.454 1.776-3.454 3.86z"></path></svg>
+</button>
+</div>
+<p class="mt-8 text-center text-sm text-secondary dark:text-gray-400">
+        Don't have an account? <a class="font-medium text-accent hover:underline" href="#">Sign Up</a>
+</p>
+</div>
+</div>
+<script>
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('password');
+      const icon = document.getElementById('password-toggle-icon');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.textContent = 'visibility';
+      } else {
+        passwordInput.type = 'password';
+        icon.textContent = 'visibility_off';
+      }
+    }
+
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const passwordError = document.getElementById('password-error');
+      let isValid = true;
+      
+      // Reset errors
+      document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+
+      if (!passwordInput.value) {
+        passwordError.textContent = 'Password is required';
+        passwordError.classList.add('show');
+        isValid = false;
+      }
+      
+      // Simple email validation for demo
+      if (!/^\S+@\S+\.\S+$/.test(emailInput.value)) {
+          emailInput.nextElementSibling.textContent = 'Invalid email address';
+          emailInput.nextElementSibling.classList.add('show');
+          isValid = false;
+      }
+
+      if(isValid) {
+        // Show loading state
+        const loginButton = form.querySelector('button[type="submit"]');
+        loginButton.querySelector('.login-text').classList.add('hidden');
+        loginButton.querySelector('.loader').classList.remove('hidden');
+        loginButton.disabled = true;
+
+        // Simulate network request
+        setTimeout(() => {
+            // On success, you'd redirect. On failure, show error.
+            // For demo, we'll simulate a failure.
+            
+            loginButton.querySelector('.login-text').classList.remove('hidden');
+            loginButton.querySelector('.loader').classList.add('hidden');
+            loginButton.disabled = false;
+            
+            passwordError.textContent = 'Invalid email or password';
+            passwordError.classList.add('show');
+            emailInput.nextElementSibling.classList.add('show');
+
+        }, 2000);
+      }
+
+    });
+  </script>
+</body></html>

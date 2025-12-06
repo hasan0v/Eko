@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EcoBin Home Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4CAF50",
+                        "secondary": "#A1887F",
+                        "background-light": "#F5F5F5",
+                        "background-dark": "#112112",
+                        "text-light": "#333333",
+                        "text-dark": "#F5F5F5",
+                        "status-good": "#66BB6A",
+                        "status-warning": "#FFCA28",
+                        "status-critical": "#EF5350"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<!-- Header Bar -->
+<header class="flex items-center justify-between p-4 sticky top-0 bg-background-light dark:bg-background-dark z-10 shadow-sm">
+<button class="p-2">
+<span class="material-symbols-outlined text-text-light dark:text-text-dark">menu</span>
+</button>
+<div class="flex items-center space-x-2">
+<button class="p-2">
+<span class="material-symbols-outlined text-text-light dark:text-text-dark">notifications</span>
+</button>
+<button class="p-2">
+<span class="material-symbols-outlined text-text-light dark:text-text-dark">analytics</span>
+</button>
+<img alt="User profile avatar" class="w-10 h-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP2lbFu109OsP1JHVOQ4ia9NLLV2oylne3Rk3QTQHE_oebdakZo7_KE7Jvqcyq6Zjgb6IoEbb51-yjWCDE2gq2kZvgU5rOhgFQkTTdwP3jeXtFGPLfCopHRpcvz_Zz-5-94Xu-jLnyXfFEYbPea5sLyQ4h73BtV_gh-HgS3i1BUTRV_OXIXGHGib35RykOg1L2U-oX_pcSlipnFN5lx7Rti46WnSc_bTUaoIKv-b4rqi_i8lCbndR4XR0tnBIb6N1wHPc8v6ka1-2f"/>
+</div>
+</header>
+<!-- Pull to refresh indicator -->
+<div class="flex justify-center items-center py-2 text-text-light/50 dark:text-text-dark/50">
+<span class="material-symbols-outlined animate-spin">refresh</span>
+</div>
+<!-- Personalized Greeting -->
+<div class="px-4 pb-4">
+<h1 class="text-3xl font-bold text-text-light dark:text-text-dark">Good morning, Alex</h1>
+<p class="text-secondary dark:text-secondary/80">Green Valley Farm</p>
+</div>
+<!-- Weather Widget -->
+<div class="px-4 pb-4">
+<div class="rounded-xl bg-white dark:bg-zinc-800 p-4 shadow-md">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col gap-1">
+<p class="text-base font-bold text-text-light dark:text-text-dark">Current Weather</p>
+<p class="text-sm text-secondary dark:text-secondary/80">Humidity: 60%, Wind: 5 mph</p>
+<div class="flex items-center mt-2">
+<span class="material-symbols-outlined text-4xl text-primary">partly_cloudy_day</span>
+<span class="text-4xl font-bold ml-2 text-text-light dark:text-text-dark">25°C</span>
+</div>
+</div>
+<div class="flex-shrink-0">
+<button class="flex items-center justify-center rounded-full h-10 px-4 bg-primary/20 text-primary text-sm font-medium">
+<span>5-day forecast</span>
+<span class="material-symbols-outlined ml-1">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="mt-4 overflow-x-auto">
+<div class="flex space-x-4">
+<div class="flex flex-col items-center flex-shrink-0">
+<p class="font-medium text-sm text-text-light dark:text-text-dark">Mon</p>
+<span class="material-symbols-outlined text-2xl my-1 text-primary">sunny</span>
+<p class="font-bold text-sm text-text-light dark:text-text-dark">28°</p>
+</div>
+<div class="flex flex-col items-center flex-shrink-0">
+<p class="font-medium text-sm text-text-light dark:text-text-dark">Tue</p>
+<span class="material-symbols-outlined text-2xl my-1 text-primary">cloud</span>
+<p class="font-bold text-sm text-text-light dark:text-text-dark">26°</p>
+</div>
+<div class="flex flex-col items-center flex-shrink-0">
+<p class="font-medium text-sm text-text-light dark:text-text-dark">Wed</p>
+<span class="material-symbols-outlined text-2xl my-1 text-primary">rainy</span>
+<p class="font-bold text-sm text-text-light dark:text-text-dark">22°</p>
+</div>
+<div class="flex flex-col items-center flex-shrink-0">
+<p class="font-medium text-sm text-text-light dark:text-text-dark">Thu</p>
+<span class="material-symbols-outlined text-2xl my-1 text-primary">thunderstorm</span>
+<p class="font-bold text-sm text-text-light dark:text-text-dark">20°</p>
+</div>
+<div class="flex flex-col items-center flex-shrink-0">
+<p class="font-medium text-sm text-text-light dark:text-text-dark">Fri</p>
+<span class="material-symbols-outlined text-2xl my-1 text-primary">partly_cloudy_day</span>
+<p class="font-bold text-sm text-text-light dark:text-text-dark">24°</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Stats Grid -->
+<div class="grid grid-cols-2 gap-4 p-4">
+<div class="flex flex-col gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-primary">compost</span>
+<div class="w-2 h-2 rounded-full bg-status-good"></div>
+</div>
+<div>
+<h2 class="text-lg font-bold text-text-light dark:text-text-dark">Compost</h2>
+<p class="text-sm text-status-good">Good</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-primary">water_drop</span>
+<div class="w-2 h-2 rounded-full bg-status-warning"></div>
+</div>
+<div>
+<h2 class="text-lg font-bold text-text-light dark:text-text-dark">Water</h2>
+<p class="text-sm text-status-warning">Warning</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-primary">thermostat</span>
+<div class="w-2 h-2 rounded-full bg-status-good"></div>
+</div>
+<div>
+<h2 class="text-lg font-bold text-text-light dark:text-text-dark">EcoBin Temp</h2>
+<p class="text-sm text-status-good">Good</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="material-symbols-outlined text-primary">science</span>
+<div class="w-2 h-2 rounded-full bg-status-good"></div>
+</div>
+<div>
+<h2 class="text-lg font-bold text-text-light dark:text-text-dark">Soil pH</h2>
+<p class="text-sm text-status-good">Good</p>
+</div>
+</div>
+</div>
+<!-- Alerts & Notifications Section -->
+<div class="px-4 pb-4">
+<h2 class="text-xl font-bold text-text-light dark:text-text-dark mb-2">Alerts &amp; Notifications</h2>
+<div class="space-y-3">
+<div class="flex items-center gap-4 rounded-xl bg-white dark:bg-zinc-800 p-3 shadow-sm">
+<span class="material-symbols-outlined text-status-critical">error</span>
+<div class="flex-grow">
+<p class="font-semibold text-text-light dark:text-text-dark">Critical: Water level is low.</p>
+<p class="text-sm text-secondary dark:text-secondary/80">Tank 2 is at 15% capacity.</p>
+</div>
+<span class="text-xs text-secondary dark:text-secondary/80">2m ago</span>
+</div>
+<div class="flex items-center gap-4 rounded-xl bg-white dark:bg-zinc-800 p-3 shadow-sm">
+<span class="material-symbols-outlined text-status-warning">warning</span>
+<div class="flex-grow">
+<p class="font-semibold text-text-light dark:text-text-dark">Warning: High temperature in EcoBin.</p>
+<p class="text-sm text-secondary dark:text-secondary/80">EcoBin 1 temperature is 75°C.</p>
+</div>
+<span class="text-xs text-secondary dark:text-secondary/80">1h ago</span>
+</div>
+</div>
+</div>
+<!-- Featured Learning Content -->
+<div class="px-4 pb-4">
+<h2 class="text-xl font-bold text-text-light dark:text-text-dark mb-2">Featured Learning</h2>
+<div class="rounded-xl bg-white dark:bg-zinc-800 shadow-md overflow-hidden">
+<div class="relative">
+<img class="w-full h-40 object-cover" data-alt="A person holding rich compost soil in their hands, showing its texture and dark color." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvAZJGyoDsIdJtqmMybnuTRXeE6ylv9PfpTAEGh7rKRZiu-m7rhZ0qpZfM2BO2I8cX0MEffsD_hTIcOGOnLRxEQ8grxFYxmDbbHkLz1CC6YTmpa8LhZ-ryO9HM7llddgePc4njdDTDOkF28TJbtBX8DRimqS4WTa6aSH1Q-MOWglQ_7-WPQqm2hZ4Kmcz6kQLWL4vz_C_iVjOvWJAbNA09ZQxLLCbvCFZ76EV1dAvYEborlghngdghnrAlrIECFkWSETuT9U7CXpEA"/>
+<div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+</div>
+</div>
+<div class="p-4">
+<p class="font-bold text-lg text-text-light dark:text-text-dark">Optimizing Your Compost Mix</p>
+<p class="text-sm text-secondary dark:text-secondary/80">Duration: 12:35</p>
+</div>
+</div>
+</div>
+<!-- AI Assistant Shortcut -->
+<div class="px-4 pt-4 pb-8 sticky bottom-0 bg-background-light dark:bg-background-dark">
+<h2 class="text-xl font-bold text-text-light dark:text-text-dark mb-2">AI Assistant</h2>
+<div class="relative">
+<input class="w-full h-14 pl-4 pr-12 rounded-full border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 focus:ring-primary focus:border-primary text-text-light dark:text-text-dark" placeholder="Ask the AI Assistant..." type="text"/>
+<button class="absolute inset-y-0 right-0 flex items-center pr-4">
+<span class="material-symbols-outlined text-primary">mic</span>
+</button>
+</div>
+<div class="flex gap-2 mt-3 overflow-x-auto pb-2">
+<button class="text-sm py-1 px-3 rounded-full bg-primary/20 text-primary flex-shrink-0">What's my soil moisture?</button>
+<button class="text-sm py-1 px-3 rounded-full bg-primary/20 text-primary flex-shrink-0">Best time to irrigate?</button>
+<button class="text-sm py-1 px-3 rounded-full bg-primary/20 text-primary flex-shrink-0">Analyze compost data</button>
+</div>
+</div>
+</div>
+</body></html>

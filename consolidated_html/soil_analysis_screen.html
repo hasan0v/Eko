@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EcoBin Soil Analysis</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#4CAF50",
+            "primary-accent": "#FF9800",
+            "background-light": "#f6f8f6",
+            "background-dark": "#112112",
+            "text-light": "#111827",
+            "text-dark": "#f3f4f6",
+            "card-light": "#ffffff",
+            "card-dark": "#1f2937",
+            "border-light": "#e5e7eb",
+            "border-dark": "#374151"
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="flex items-center p-4 pb-2 justify-between sticky top-0 bg-background-light dark:bg-background-dark z-10">
+<span class="material-symbols-outlined text-text-light dark:text-text-dark text-2xl">arrow_back</span>
+<h2 class="text-text-light dark:text-text-dark text-xl font-bold leading-tight tracking-tight flex-1 text-center">Soil Analysis</h2>
+<div class="w-6"></div>
+</div>
+<div class="p-4 flex flex-col items-center">
+<div class="relative w-40 h-40">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle class="text-border-light dark:text-border-dark" cx="50" cy="50" fill="transparent" r="46" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="50" cy="50" fill="transparent" r="46" stroke="currentColor" stroke-dasharray="289.027" stroke-dashoffset="43.354" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<p class="text-3xl font-bold text-text-light dark:text-text-dark">85<span class="text-lg">/100</span></p>
+<p class="text-sm text-primary font-semibold">Good</p>
+</div>
+</div>
+</div>
+<div class="px-4 py-3">
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary-accent text-white text-base font-bold leading-normal tracking-wide shadow-lg">
+<span class="truncate">UPDATE DATA</span>
+</button>
+</div>
+<div class="px-4 py-3">
+<h3 class="text-lg font-bold leading-tight tracking-tight text-text-light dark:text-text-dark">Primary Nutrients</h3>
+</div>
+<div class="flex flex-col gap-3 px-4">
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark">
+<div class="flex gap-6 justify-between mb-2">
+<p class="text-base font-medium text-text-light dark:text-text-dark">Nitrogen</p>
+<p class="text-sm font-normal text-text-light dark:text-text-dark">120 ppm</p>
+</div>
+<div class="rounded-full bg-border-light dark:bg-border-dark h-2.5">
+<div class="h-2.5 rounded-full bg-primary" style="width: 80%;"></div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark">
+<div class="flex gap-6 justify-between mb-2">
+<p class="text-base font-medium text-text-light dark:text-text-dark">Phosphorus</p>
+<p class="text-sm font-normal text-text-light dark:text-text-dark">45 ppm</p>
+</div>
+<div class="rounded-full bg-border-light dark:bg-border-dark h-2.5">
+<div class="h-2.5 rounded-full bg-yellow-500" style="width: 60%;"></div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg border border-border-light dark:border-border-dark">
+<div class="flex gap-6 justify-between mb-2">
+<p class="text-base font-medium text-text-light dark:text-text-dark">Potassium</p>
+<p class="text-sm font-normal text-text-light dark:text-text-dark">90 ppm</p>
+</div>
+<div class="rounded-full bg-border-light dark:bg-border-dark h-2.5">
+<div class="h-2.5 rounded-full bg-primary" style="width: 75%;"></div>
+</div>
+</div>
+</div>
+<div class="px-4 pt-6 pb-3">
+<h3 class="text-lg font-bold leading-tight tracking-tight text-text-light dark:text-text-dark">Secondary Nutrients &amp; Physical Properties</h3>
+</div>
+<div class="grid grid-cols-2 gap-4 px-4">
+<div class="flex flex-col gap-2 rounded-lg border border-border-light dark:border-border-dark p-3 items-center text-center bg-card-light dark:bg-card-dark">
+<p class="text-sm font-medium text-text-light dark:text-text-dark">Magnesium</p>
+<p class="text-xl font-bold text-text-light dark:text-text-dark">60 ppm</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg border border-border-light dark:border-border-dark p-3 items-center text-center bg-card-light dark:bg-card-dark">
+<p class="text-sm font-medium text-text-light dark:text-text-dark">Calcium</p>
+<p class="text-xl font-bold text-text-light dark:text-text-dark">1500 ppm</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg border border-border-light dark:border-border-dark p-3 items-center text-center bg-card-light dark:bg-card-dark">
+<p class="text-sm font-medium text-text-light dark:text-text-dark">pH</p>
+<p class="text-xl font-bold text-blue-500">6.8</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg border border-border-light dark:border-border-dark p-3 items-center text-center bg-card-light dark:bg-card-dark">
+<p class="text-sm font-medium text-text-light dark:text-text-dark">Infiltration Rate</p>
+<p class="text-xl font-bold text-blue-500">1.2 in/hr</p>
+</div>
+<div class="flex flex-col gap-2 rounded-lg border border-border-light dark:border-border-dark p-3 items-center text-center bg-card-light dark:bg-card-dark col-span-2">
+<p class="text-sm font-medium text-text-light dark:text-text-dark">Water Holding Capacity</p>
+<p class="text-xl font-bold text-blue-500">0.15 in/in</p>
+</div>
+</div>
+<div class="px-4 py-3 mt-4">
+<div class="bg-card-light dark:bg-card-dark rounded-lg border border-border-light dark:border-border-dark">
+<details>
+<summary class="flex items-center justify-between p-4 cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<h4 class="text-base font-bold text-text-light dark:text-text-dark">AI Recommendations</h4>
+</div>
+<span class="material-symbols-outlined text-text-light dark:text-text-dark transition-transform duration-300 transform open:rotate-180">expand_more</span>
+</summary>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<p class="text-sm text-text-light dark:text-text-dark">
+              Your soil health is generally good. Consider adding a slow-release nitrogen source to maintain optimal levels for crop growth. Phosphorus levels are slightly low; applying bone meal or rock phosphate could be beneficial. Continue monitoring pH to ensure it remains in the optimal range for nutrient uptake.
+            </p>
+</div>
+</details>
+</div>
+</div>
+<div class="h-24"></div>
+<div class="fixed bottom-0 left-0 right-0 bg-card-light dark:bg-card-dark p-4 border-t border-border-light dark:border-border-dark flex justify-around items-center">
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-xs font-medium">View Trends</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-text-light dark:text-text-dark">
+<span class="material-symbols-outlined">ios_share</span>
+<span class="text-xs font-medium">Export Data</span>
+</button>
+</div>
+</div>
+</body></html>

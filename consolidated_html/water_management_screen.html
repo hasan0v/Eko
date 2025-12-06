@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EcoBin - Water Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#19e624",
+            "background-light": "#f6f8f6",
+            "background-dark": "#112112",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .water-tank {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border: 8px solid #e0e0e0;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .water {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #3b82f6;
+      transition: height 1s ease-in-out;
+    }
+
+    .wave {
+      position: absolute;
+      top: -10px;
+      left: 0;
+      width: 200%;
+      height: 20px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 100" preserveAspectRatio="none"><path d="M 0 50 C 200 0, 300 100, 500 50 S 700 0, 800 50" fill="%233b82f6"></path></svg>');
+      background-size: 50% 100%;
+      animation: wave 3s linear infinite;
+    }
+
+    @keyframes wave {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10">
+<div class="text-[#0e1b0f] dark:text-white flex size-12 shrink-0 items-center">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</div>
+<h2 class="text-[#0e1b0f] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Water Management</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-[#0e1b0f] dark:text-white gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+<span class="material-symbols-outlined text-2xl">more_vert</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center p-6 bg-background-light dark:bg-background-dark">
+<div class="water-tank">
+<div class="water" style="height: 75%;">
+<div class="wave"></div>
+</div>
+</div>
+<p class="text-[#0e1b0f] dark:text-white text-4xl font-bold leading-normal pt-4">75%</p>
+<p class="text-gray-500 dark:text-gray-400 text-lg font-normal leading-normal">3750 L</p>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-6 p-4 bg-background-light dark:bg-background-dark">
+<div class="flex min-w-72 max-w-[336px] flex-1 flex-col gap-0.5">
+<div class="flex items-center p-1 justify-between">
+<button>
+<div class="text-[#0e1b0f] dark:text-white flex size-10 items-center justify-center">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</div>
+</button>
+<p class="text-[#0e1b0f] dark:text-white text-base font-bold leading-tight flex-1 text-center">July 2024</p>
+<button>
+<div class="text-[#0e1b0f] dark:text-white flex size-10 items-center justify-center">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</div>
+</button>
+</div>
+<div class="grid grid-cols-7 text-center">
+<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] flex h-10 w-full items-center justify-center pb-0.5">S</p>
+<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] flex h-10 w-full items-center justify-center pb-0.5">M</p>
+<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] flex h-10 w-full items-center justify-center pb-0.5">T</p>
+<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] flex h-10 w-full items-center justify-center pb-0.5">W</p>
+<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] flex h-10 w-full items-center justify-center pb-0.5">T</p>
+<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] flex h-10 w-full items-center justify-center pb-0.5">F</p>
+<p class="text-gray-500 dark:text-gray-400 text-[13px] font-bold leading-normal tracking-[0.015em] flex h-10 w-full items-center justify-center pb-0.5">S</p>
+<div class="text-gray-400 dark:text-gray-600 text-sm font-medium leading-normal h-10 w-full flex items-center justify-center col-start-1">29</div>
+<div class="text-gray-400 dark:text-gray-600 text-sm font-medium leading-normal h-10 w-full flex items-center justify-center">30</div>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">1</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-blue-500/30">2</div></button>
+<button class="h-10 w-full text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-green-500">3</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">4</div></button>
+<button class="h-10 w-full text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-primary">5</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">6</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-orange-500/30">7</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">8</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-blue-500/30">9</div></button>
+<button class="h-10 w-full text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-green-500">10</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">11</div></button>
+<button class="h-10 w-full text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-primary">12</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">13</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">14</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-blue-500/30">15</div></button>
+<button class="h-10 w-full text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-green-500">16</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">17</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">18</div></button>
+<button class="h-10 w-full text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-primary">19</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">20</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">21</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-blue-500/30">22</div></button>
+<button class="h-10 w-full text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-green-500">23</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">24</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">25</div></button>
+<button class="h-10 w-full text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-primary">26</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">27</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">28</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-blue-500/30">29</div></button>
+<button class="h-10 w-full text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full bg-green-500">30</div></button>
+<button class="h-10 w-full text-[#0e1b0f] dark:text-white text-sm font-medium leading-normal"><div class="flex size-full items-center justify-center rounded-full">31</div></button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 p-4 bg-background-light dark:bg-background-dark">
+<div class="p-4 bg-white dark:bg-zinc-800 rounded-lg shadow">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-gray-500 dark:text-gray-400">pH</p>
+<span class="material-symbols-outlined text-green-500 text-lg">science</span>
+</div>
+<p class="text-2xl font-bold text-[#0e1b0f] dark:text-white mt-1">6.8</p>
+</div>
+<div class="p-4 bg-white dark:bg-zinc-800 rounded-lg shadow">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-gray-500 dark:text-gray-400">Dissolved Oxygen</p>
+<span class="material-symbols-outlined text-green-500 text-lg">bubble_chart</span>
+</div>
+<p class="text-2xl font-bold text-[#0e1b0f] dark:text-white mt-1">8.2 <span class="text-sm">mg/L</span></p>
+</div>
+<div class="p-4 bg-white dark:bg-zinc-800 rounded-lg shadow">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-gray-500 dark:text-gray-400">Nitrate</p>
+<span class="material-symbols-outlined text-green-500 text-lg">local_drink</span>
+</div>
+<p class="text-2xl font-bold text-[#0e1b0f] dark:text-white mt-1">12 <span class="text-sm">ppm</span></p>
+</div>
+<div class="p-4 bg-white dark:bg-zinc-800 rounded-lg shadow">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-gray-500 dark:text-gray-400">Chemical Oxygen Demand</p>
+<span class="material-symbols-outlined text-yellow-500 text-lg">opacity</span>
+</div>
+<p class="text-2xl font-bold text-[#0e1b0f] dark:text-white mt-1">35 <span class="text-sm">mg/L</span></p>
+</div>
+<div class="p-4 bg-white dark:bg-zinc-800 rounded-lg shadow">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Dissolved Solids</p>
+<span class="material-symbols-outlined text-green-500 text-lg">grain</span>
+</div>
+<p class="text-2xl font-bold text-[#0e1b0f] dark:text-white mt-1">250 <span class="text-sm">ppm</span></p>
+</div>
+<div class="p-4 bg-white dark:bg-zinc-800 rounded-lg shadow">
+<div class="flex items-center justify-between">
+<p class="text-sm font-medium text-gray-500 dark:text-gray-400">Electrical Conductivity</p>
+<span class="material-symbols-outlined text-green-500 text-lg">bolt</span>
+</div>
+<p class="text-2xl font-bold text-[#0e1b0f] dark:text-white mt-1">0.5 <span class="text-sm">mS/cm</span></p>
+</div>
+</div>
+<div class="p-4 bg-background-light dark:bg-background-dark">
+<div class="bg-white dark:bg-zinc-800 rounded-lg shadow p-4 flex items-center justify-between">
+<span class="text-lg font-semibold text-[#0e1b0f] dark:text-white">AUTO IRRIGATE</span>
+<label class="relative inline-flex items-center cursor-pointer" for="auto-irrigate-toggle">
+<input checked="" class="sr-only peer" id="auto-irrigate-toggle" type="checkbox"/>
+<div class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+<p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2">Next irrigation: Tomorrow at 6:00 AM. Estimated usage: 500 L.</p>
+</div>
+</div>
+</body></html>

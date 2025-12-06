@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<title>EcoBin - Composting History</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#19e624",
+            "background-light": "#f6f8f6",
+            "background-dark": "#112112",
+            "text-light": "#0e1b0f",
+            "text-dark": "#e3f4e4",
+            "surface-light": "#e7f3e8",
+            "surface-dark": "#1a2e1b",
+            "accent-light": "#4e9752",
+            "accent-dark": "#8bc38c",
+          },
+          fontFamily: {
+            "display": ["Lexend", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<!-- Top App Bar -->
+<div class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10">
+<div class="flex size-12 shrink-0 items-center justify-center">
+<span class="material-symbols-outlined text-text-light dark:text-text-dark text-2xl">arrow_back</span>
+</div>
+<h2 class="text-text-light dark:text-text-dark text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Composting History</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 bg-transparent text-text-light dark:text-text-dark gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+<span class="material-symbols-outlined text-2xl">sort</span>
+</button>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="px-4 py-3">
+<label class="flex flex-col min-w-40 h-14 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-accent-light dark:text-accent-dark flex border-none bg-surface-light dark:bg-surface-dark items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-2xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-0 border-none bg-surface-light dark:bg-surface-dark focus:border-none h-full placeholder:text-accent-light dark:placeholder:text-accent-dark px-4 pl-2 text-base font-normal leading-normal" placeholder="Search by Batch ID or notes" value=""/>
+</div>
+</label>
+</div>
+<!-- Date Filters & Export -->
+<div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+<label class="flex flex-col min-w-0 flex-1">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal pb-2">Start Date</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-0 border-none bg-surface-light dark:bg-surface-dark focus:border-none h-12 placeholder:text-accent-light dark:placeholder:text-accent-dark p-3 text-base font-normal leading-normal" placeholder="Select Date" type="date" value=""/>
+</label>
+<label class="flex flex-col min-w-0 flex-1">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal pb-2">End Date</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-0 border-none bg-surface-light dark:bg-surface-dark focus:border-none h-12 placeholder:text-accent-light dark:placeholder:text-accent-dark p-3 text-base font-normal leading-normal" placeholder="Select Date" type="date" value=""/>
+</label>
+</div>
+<div class="flex px-4 py-3 justify-center">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 flex-1 bg-primary text-text-light gap-2 pl-4 text-base font-bold leading-normal tracking-[0.015em]">
+<span class="material-symbols-outlined text-text-light text-2xl">download</span>
+<span class="truncate">Export History</span>
+</button>
+</div>
+<div class="w-full h-px bg-surface-light dark:bg-surface-dark my-4"></div>
+<!-- Compost Batch Cards -->
+<div class="flex flex-col gap-4 px-4 pb-4">
+<!-- Card 1 -->
+<div class="p-4 @container bg-white dark:bg-surface-dark rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+<div class="flex flex-col items-stretch justify-start">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em]">Batch #C0M-007</p>
+<p class="text-accent-light dark:text-accent-dark text-sm font-normal leading-normal">2023-10-01 to 2023-11-15</p>
+</div>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg text-gray-300 dark:text-gray-600">star_border</span>
+<p class="text-text-light dark:text-text-dark text-sm font-medium ml-1">4.2/5</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-4">
+<div class="flex justify-between text-sm">
+<span class="text-accent-light dark:text-accent-dark">Duration:</span>
+<span class="font-medium text-text-light dark:text-text-dark">45 days</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-accent-light dark:text-accent-dark">Weight:</span>
+<span class="font-medium text-text-light dark:text-text-dark">75kg → 55kg</span>
+</div>
+</div>
+<button class="mt-4 flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/20 text-primary font-bold text-sm leading-normal">
+<span class="truncate">View Details</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-4 @container bg-white dark:bg-surface-dark rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+<div class="flex flex-col items-stretch justify-start">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em]">Batch #C0M-006</p>
+<p class="text-accent-light dark:text-accent-dark text-sm font-normal leading-normal">2023-08-15 to 2023-09-20</p>
+</div>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<p class="text-text-light dark:text-text-dark text-sm font-medium ml-1">4.8/5</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-4">
+<div class="flex justify-between text-sm">
+<span class="text-accent-light dark:text-accent-dark">Duration:</span>
+<span class="font-medium text-text-light dark:text-text-dark">36 days</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-accent-light dark:text-accent-dark">Weight:</span>
+<span class="font-medium text-text-light dark:text-text-dark">60kg → 40kg</span>
+</div>
+</div>
+<button class="mt-4 flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/20 text-primary font-bold text-sm leading-normal">
+<span class="truncate">View Details</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="p-4 @container bg-white dark:bg-surface-dark rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+<div class="flex flex-col items-stretch justify-start">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em]">Batch #C0M-005</p>
+<p class="text-accent-light dark:text-accent-dark text-sm font-normal leading-normal">2023-07-01 to 2023-08-05</p>
+</div>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg">star</span>
+<span class="material-symbols-outlined text-lg text-gray-300 dark:text-gray-600">star_border</span>
+<span class="material-symbols-outlined text-lg text-gray-300 dark:text-gray-600">star_border</span>
+<p class="text-text-light dark:text-text-dark text-sm font-medium ml-1">3.0/5</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-4">
+<div class="flex justify-between text-sm">
+<span class="text-accent-light dark:text-accent-dark">Duration:</span>
+<span class="font-medium text-text-light dark:text-text-dark">35 days</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-accent-light dark:text-accent-dark">Weight:</span>
+<span class="font-medium text-text-light dark:text-text-dark">80kg → 62kg</span>
+</div>
+</div>
+<button class="mt-4 flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary/20 text-primary font-bold text-sm leading-normal">
+<span class="truncate">View Details</span>
+</button>
+</div>
+</div>
+<!-- No batches message -->
+<!-- 
+       <div class="text-center py-16">
+           <span class="material-symbols-outlined text-6xl text-accent-light/50 dark:text-accent-dark/50">compost</span>
+           <p class="mt-4 text-lg font-medium text-text-light dark:text-text-dark">No Batches Found</p>
+           <p class="text-accent-light dark:text-accent-dark">Try adjusting your filters to find composting history.</p>
+       </div>
+       -->
+</div>
+</div>
+</body></html>
