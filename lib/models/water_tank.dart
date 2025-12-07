@@ -1,12 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 /// Water quality status
-enum WaterQuality {
-  excellent,
-  good,
-  fair,
-  poor,
-}
+enum WaterQuality { excellent, good, fair, poor }
 
 /// Water tank model
 class WaterTank extends Equatable {
@@ -41,7 +36,8 @@ class WaterTank extends Equatable {
   });
 
   /// Get level percentage (0-100)
-  double get levelPercentage => (currentLevel / capacity * 100).clamp(0.0, 100.0);
+  double get levelPercentage =>
+      (currentLevel / capacity * 100).clamp(0.0, 100.0);
 
   /// Check if tank is low (below 20%)
   bool get isLow => levelPercentage < 20;
@@ -123,18 +119,18 @@ class WaterTank extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        capacity,
-        currentLevel,
-        quality,
-        ph,
-        dissolvedOxygen,
-        nitrate,
-        electricalConductivity,
-        temperature,
-        turbidity,
-        lastUpdated,
-        autoIrrigate,
-      ];
+    id,
+    name,
+    capacity,
+    currentLevel,
+    quality,
+    ph,
+    dissolvedOxygen,
+    nitrate,
+    electricalConductivity,
+    temperature,
+    turbidity,
+    lastUpdated,
+    autoIrrigate,
+    
 }

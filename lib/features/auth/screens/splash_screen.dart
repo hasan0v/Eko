@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    
+
     // Set status bar to transparent
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -64,22 +64,22 @@ class _SplashScreenState extends State<SplashScreen>
 
   void _navigateBasedOnAuthState(AuthState state) {
     if (_hasNavigated) return;
-    
+
     Widget destination;
-    
+
     if (state is AuthAuthenticated) {
       destination = const HomeScreen();
     } else {
       destination = const OnboardingScreen();
     }
-    
+
     _hasNavigated = true;
-    
+
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => destination),
-        );
+        Navigator.of(
+          context,
+        ).pushReplacement(MaterialPageRoute(builder: (context) => destination));
       }
     });
   }
@@ -100,10 +100,7 @@ class _SplashScreenState extends State<SplashScreen>
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                AppColors.primary,
-                AppColors.primaryDark,
-              ],
+              colors: [AppColors.primary, AppColors.primaryDark],
             ),
           ),
           child: SafeArea(
@@ -111,7 +108,7 @@ class _SplashScreenState extends State<SplashScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Spacer(),
-                
+
                 // Logo Animation
                 AnimatedBuilder(
                   animation: _animationController,
@@ -144,29 +141,27 @@ class _SplashScreenState extends State<SplashScreen>
                               ),
                             ),
                             const SizedBox(height: 24),
-                            
+
                             // App Name
                             Text(
                               AppStrings.appName,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displayMedium
-                                  ?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              style: Theme.of(
+                                context,
+                              ).textTheme.displayMedium?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             const SizedBox(height: 8),
-                            
+
                             // Tagline
                             Text(
                               AppStrings.appTagline,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
-                                    color: Colors.white.withOpacity(0.9),
-                                  ),
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyLarge?.copyWith(
+                                color: Colors.white.withOpacity(0.9),
+                              ),
                             ),
                           ],
                         ),
@@ -174,9 +169,9 @@ class _SplashScreenState extends State<SplashScreen>
                     );
                   },
                 ),
-                
+
                 const Spacer(),
-                
+
                 // Version Number
                 FadeTransition(
                   opacity: _fadeAnimation,
@@ -185,8 +180,8 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Text(
                       'v${AppStrings.appVersion}',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.white.withOpacity(0.7),
-                          ),
+                        color: Colors.white.withOpacity(0.7),
+                      ),
                     ),
                   ),
                 ),

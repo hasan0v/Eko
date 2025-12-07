@@ -144,59 +144,69 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                       width: 135,
                       margin: const EdgeInsets.only(right: 12),
                       decoration: BoxDecoration(
-                        gradient: isSelected
-                            ? LinearGradient(
-                                colors: [level.color, level.color.withOpacity(0.7)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )
-                            : LinearGradient(
-                                colors: [
-                                  Colors.white.withOpacity(0.08),
-                                  Colors.white.withOpacity(0.04),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
+                        gradient:
+                            isSelected
+                                ? LinearGradient(
+                                  colors: [
+                                    level.color,
+                                    level.color.withOpacity(0.7),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                )
+                                : LinearGradient(
+                                  colors: [
+                                    Colors.white.withOpacity(0.08),
+                                    Colors.white.withOpacity(0.04),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
                         borderRadius: BorderRadius.circular(24),
                         border: Border.all(
-                          color: isSelected
-                              ? level.color.withOpacity(0.6)
-                              : Colors.white.withOpacity(0.15),
+                          color:
+                              isSelected
+                                  ? level.color.withOpacity(0.6)
+                                  : Colors.white.withOpacity(0.15),
                           width: 2,
                         ),
-                        boxShadow: isSelected
-                            ? [
-                                BoxShadow(
-                                  color: level.color.withOpacity(0.35),
-                                  blurRadius: 16,
-                                  offset: const Offset(0, 8),
-                                ),
-                                BoxShadow(
-                                  color: level.color.withOpacity(0.2),
-                                  blurRadius: 32,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ]
-                            : [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
+                        boxShadow:
+                            isSelected
+                                ? [
+                                  BoxShadow(
+                                    color: level.color.withOpacity(0.35),
+                                    blurRadius: 16,
+                                    offset: const Offset(0, 8),
+                                  ),
+                                  BoxShadow(
+                                    color: level.color.withOpacity(0.2),
+                                    blurRadius: 32,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ]
+                                : [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 14,
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
                               padding: const EdgeInsets.all(9),
                               decoration: BoxDecoration(
-                                color: isSelected
-                                    ? Colors.white.withOpacity(0.25)
-                                    : level.color.withOpacity(0.15),
+                                color:
+                                    isSelected
+                                        ? Colors.white.withOpacity(0.25)
+                                        : level.color.withOpacity(0.15),
                                 borderRadius: BorderRadius.circular(14),
                               ),
                               child: Icon(
@@ -209,7 +219,10 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                             Text(
                               'Səviyyə ${index + 1}',
                               style: TextStyle(
-                                color: isSelected ? Colors.white : Colors.white.withOpacity(0.9),
+                                color:
+                                    isSelected
+                                        ? Colors.white
+                                        : Colors.white.withOpacity(0.9),
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -223,15 +236,17 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                                 vertical: 3,
                               ),
                               decoration: BoxDecoration(
-                                color: isSelected
-                                    ? Colors.white.withOpacity(0.25)
-                                    : level.color.withOpacity(0.2),
+                                color:
+                                    isSelected
+                                        ? Colors.white.withOpacity(0.25)
+                                        : level.color.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
                                 '$lessonCount dərs',
                                 style: TextStyle(
-                                  color: isSelected ? Colors.white : level.color,
+                                  color:
+                                      isSelected ? Colors.white : level.color,
                                   fontSize: 10,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -277,117 +292,108 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
 
   Widget _buildAllLessons() {
     return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          final level = LessonLevel.values[index];
-          final lessons = _lessons[level] ?? [];
+      delegate: SliverChildBuilderDelegate((context, index) {
+        final level = LessonLevel.values[index];
+        final lessons = _lessons[level] ?? [];
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Level header
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        level.color.withOpacity(0.2),
-                        level.color.withOpacity(0.05),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: level.color.withOpacity(0.3),
-                      width: 1.5,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [level.color, level.color.withOpacity(0.7)],
-                          ),
-                          borderRadius: BorderRadius.circular(14),
-                          boxShadow: [
-                            BoxShadow(
-                              color: level.color.withOpacity(0.4),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Icon(
-                          level.icon,
-                          color: Colors.white,
-                          size: 28,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              level.title,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 19,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              level.subtitle,
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: level.color.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: level.color.withOpacity(0.4),
-                          ),
-                        ),
-                        child: Text(
-                          '${lessons.length}',
-                          style: TextStyle(
-                            color: level.color,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Level header
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      level.color.withOpacity(0.2),
+                      level.color.withOpacity(0.05),
                     ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: level.color.withOpacity(0.3),
+                    width: 1.5,
                   ),
                 ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [level.color, level.color.withOpacity(0.7)],
+                        ),
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: [
+                          BoxShadow(
+                            color: level.color.withOpacity(0.4),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Icon(level.icon, color: Colors.white, size: 28),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            level.title,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 19,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            level.subtitle,
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.7),
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: level.color.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: level.color.withOpacity(0.4)),
+                      ),
+                      child: Text(
+                        '${lessons.length}',
+                        style: TextStyle(
+                          color: level.color,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
+            ),
 
-              // Lessons
-              ...lessons.map((lesson) => _buildLessonCard(lesson, level)),
+            // Lessons
+            ...lessons.map((lesson) => _buildLessonCard(lesson, level)),
 
-              const SizedBox(height: 12),
-            ],
-          );
-        },
-        childCount: LessonLevel.values.length,
-      ),
+            const SizedBox(height: 12),
+          ],
+        );
+      }, childCount: LessonLevel.values.length),
     );
   }
 
@@ -427,10 +433,7 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(22),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.15),
-            width: 1.5,
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.15), width: 1.5),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
@@ -448,7 +451,7 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
           builder: (context, constraints) {
             final thumbnailWidth = constraints.maxWidth * 0.32;
             final thumbnailHeight = thumbnailWidth * 0.75;
-            
+
             return Row(
               children: [
                 // Thumbnail
@@ -588,7 +591,10 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                 // Content
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 12,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -625,11 +631,7 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
-                                Icons.school,
-                                size: 12,
-                                color: level.color,
-                              ),
+                              Icon(Icons.school, size: 12, color: level.color),
                               const SizedBox(width: 5),
                               Flexible(
                                 child: Text(

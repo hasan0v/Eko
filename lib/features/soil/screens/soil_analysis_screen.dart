@@ -17,7 +17,7 @@ class SoilAnalysisScreen extends StatefulWidget {
 class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _pulseController;
-  
+
   // Mock data - Replace with BLoC/API data later
   final SoilAnalysis _currentAnalysis = SoilAnalysis(
     id: '1',
@@ -58,7 +58,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final horizontalPadding = screenWidth < 360 ? 12.0 : 20.0;
-    
+
     return Scaffold(
       extendBodyBehindAppBar: false,
       appBar: AppBar(
@@ -99,9 +99,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Health Score Card
-                AnimatedCard(
-                  child: _buildHealthScoreCard(),
-                ),
+                AnimatedCard(child: _buildHealthScoreCard()),
                 const SizedBox(height: 32),
 
                 // NPK Section
@@ -113,10 +111,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
                   ),
                 ),
                 const SizedBox(height: 16),
-                StaggeredListItem(
-                  index: 1,
-                  child: _buildNPKSection(),
-                ),
+                StaggeredListItem(index: 1, child: _buildNPKSection()),
                 const SizedBox(height: 32),
 
                 // Environmental Factors
@@ -135,10 +130,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
                 const SizedBox(height: 32),
 
                 // Organic Matter
-                StaggeredListItem(
-                  index: 4,
-                  child: _buildOrganicMatterCard(),
-                ),
+                StaggeredListItem(index: 4, child: _buildOrganicMatterCard()),
                 const SizedBox(height: 32),
 
                 // Recommendations
@@ -163,7 +155,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
   Widget _buildHealthScoreCard() {
     final healthColor = _getHealthColor(_currentAnalysis.health);
     final healthGradient = _getHealthGradient(_currentAnalysis.health);
-    
+
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -198,9 +190,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.25),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.3),
-                  ),
+                  border: Border.all(color: Colors.white.withOpacity(0.3)),
                 ),
                 child: Text(
                   _getHealthLabel(_currentAnalysis.health),
@@ -380,11 +370,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
                 ),
               ],
             ),
-            child: Icon(
-              icon,
-              color: Colors.white,
-              size: 24,
-            ),
+            child: Icon(icon, color: Colors.white, size: 24),
           ),
           const SizedBox(height: 12),
           Text(
@@ -492,11 +478,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
                 color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
-                icon,
-                color: color,
-                size: 20,
-              ),
+              child: Icon(icon, color: color, size: 20),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -550,9 +532,10 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
 
   Widget _buildOrganicMatterCard() {
     final organicMatter = _currentAnalysis.organicMatter ?? 0;
-    final color = organicMatter >= 3.5
-        ? const Color(0xFF4CAF50)
-        : organicMatter >= 2.0
+    final color =
+        organicMatter >= 3.5
+            ? const Color(0xFF4CAF50)
+            : organicMatter >= 2.0
             ? const Color(0xFFFFA726)
             : const Color(0xFFEF5350);
 
@@ -563,12 +546,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
             width: 72,
             height: 72,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  color,
-                  color.withOpacity(0.7),
-                ],
-              ),
+              gradient: LinearGradient(colors: [color, color.withOpacity(0.7)]),
               borderRadius: BorderRadius.circular(18),
               boxShadow: [
                 BoxShadow(
@@ -578,11 +556,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
                 ),
               ],
             ),
-            child: const Icon(
-              Icons.eco,
-              color: Colors.white,
-              size: 32,
-            ),
+            child: const Icon(Icons.eco, color: Colors.white, size: 32),
           ),
           const SizedBox(width: 20),
           Expanded(
@@ -644,7 +618,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
     return _currentAnalysis.recommendations.asMap().entries.map((entry) {
       final index = entry.key;
       final recommendation = entry.value;
-      
+
       return Padding(
         padding: const EdgeInsets.only(bottom: 12),
         child: StaggeredListItem(
@@ -668,11 +642,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
                     ],
                   ),
                   child: Center(
-                    child: Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 18,
-                    ),
+                    child: Icon(Icons.check, color: Colors.white, size: 18),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -731,7 +701,7 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
   String _formatTimestamp(DateTime timestamp) {
     final now = DateTime.now();
     final difference = now.difference(timestamp);
-    
+
     if (difference.inMinutes < 60) {
       return '${difference.inMinutes} dəqiqə əvvəl';
     } else if (difference.inHours < 24) {
@@ -747,32 +717,31 @@ class _CircularProgressPainter extends CustomPainter {
   final double progress;
   final Color color;
 
-  _CircularProgressPainter({
-    required this.progress,
-    required this.color,
-  });
+  _CircularProgressPainter({required this.progress, required this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2;
-    
+
     // Background circle
-    final bgPaint = Paint()
-      ..color = color.withOpacity(0.2)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 10
-      ..strokeCap = StrokeCap.round;
-    
+    final bgPaint =
+        Paint()
+          ..color = color.withOpacity(0.2)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 10
+          ..strokeCap = StrokeCap.round;
+
     canvas.drawCircle(center, radius - 5, bgPaint);
-    
+
     // Progress arc
-    final progressPaint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 10
-      ..strokeCap = StrokeCap.round;
-    
+    final progressPaint =
+        Paint()
+          ..color = color
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 10
+          ..strokeCap = StrokeCap.round;
+
     final sweepAngle = 2 * math.pi * progress;
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius - 5),

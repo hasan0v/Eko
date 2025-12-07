@@ -51,18 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.compost),
             label: AppStrings.compost,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.water_drop),
-            label: 'Su',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.grass),
-            label: 'Torpaq',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'Dərslər',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.water_drop), label: 'Su'),
+          BottomNavigationBarItem(icon: Icon(Icons.grass), label: 'Torpaq'),
+          BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Dərslər'),
         ],
       ),
       floatingActionButton: Container(
@@ -74,9 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const ChatbotScreen(),
-              ),
+              MaterialPageRoute(builder: (context) => const ChatbotScreen()),
             );
           },
           backgroundColor: Colors.transparent,
@@ -94,7 +83,7 @@ class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authRepository = context.read<AuthRepository>();
-    
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -116,7 +105,9 @@ class DashboardView extends StatelessWidget {
                         children: [
                           Text(
                             '${_getGreeting()}, ${authRepository.getCurrentUser()?.name.split(' ').first ?? AppStrings.welcome}!',
-                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                            style: Theme.of(
+                              context,
+                            ).textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF1A1D1F),
                             ),
@@ -124,9 +115,8 @@ class DashboardView extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             AppStrings.monitorFarm,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: const Color(0xFF6C7278),
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(color: const Color(0xFF6C7278)),
                           ),
                         ],
                       ),
@@ -135,9 +125,10 @@ class DashboardView extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => ProfileScreen(
-                              authRepository: authRepository,
-                            ),
+                            builder:
+                                (context) => ProfileScreen(
+                                  authRepository: authRepository,
+                                ),
                           ),
                         );
                       },
@@ -157,7 +148,11 @@ class DashboardView extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            authRepository.getCurrentUser()?.name[0].toUpperCase() ?? 'U',
+                            authRepository
+                                    .getCurrentUser()
+                                    ?.name[0]
+                                    .toUpperCase() ??
+                                'U',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -190,7 +185,11 @@ class DashboardView extends StatelessWidget {
                               color: Colors.white.withOpacity(0.3),
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            child: const Icon(Icons.wb_sunny, size: 48, color: Colors.white),
+                            child: const Icon(
+                              Icons.wb_sunny,
+                              size: 48,
+                              color: Colors.white,
+                            ),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
@@ -199,7 +198,9 @@ class DashboardView extends StatelessWidget {
                               children: [
                                 Text(
                                   '24°C',
-                                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.displaySmall?.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -207,7 +208,9 @@ class DashboardView extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 Text(
                                   AppStrings.sunny,
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium?.copyWith(
                                     color: Colors.white.withOpacity(0.9),
                                   ),
                                 ),
@@ -240,7 +243,7 @@ class DashboardView extends StatelessWidget {
                     final width = constraints.maxWidth;
                     final spacing = width < 360 ? 10.0 : 14.0;
                     final aspectRatio = width < 360 ? 1.05 : 1.15;
-                    
+
                     return GridView.count(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -341,10 +344,7 @@ class DashboardView extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Opacity(
-                opacity: 0.1,
-                child: Icon(icon, size: 80),
-              ),
+              child: Opacity(opacity: 0.1, child: Icon(icon, size: 80)),
             ),
           ),
           // Content

@@ -95,7 +95,8 @@ class AppStrings {
   static const String saved = 'Qorunub';
   static const String cost = 'Xərc';
   static const String autoIrrigation = 'Avtomatik Suvarma';
-  static const String autoWaterBasedOnSchedule = 'Cədvələ əsasən avtomatik suvarma';
+  static const String autoWaterBasedOnSchedule =
+      'Cədvələ əsasən avtomatik suvarma';
   static const String startManualIrrigation = 'Əl ilə Suvarma Başlat';
   static const String waterImmediately = 'Dərhal suvar';
   static const String failedToLoadWaterData = 'Su məlumatları yüklənmədi';
@@ -155,7 +156,8 @@ class AppStrings {
   static const String enterEmail = 'Zəhmət olmasa e-poçtunuzu daxil edin';
   static const String enterValidEmail = 'Düzgün e-poçt ünvanı daxil edin';
   static const String enterPassword = 'Zəhmət olmasa şifrənizi daxil edin';
-  static const String passwordMinLength = 'Şifrə ən azı 6 simvoldan ibarət olmalıdır';
+  static const String passwordMinLength =
+      'Şifrə ən azı 6 simvoldan ibarət olmalıdır';
   static const String continueToLogin = 'Davam etmək üçün daxil olun';
   static const String enterEmailHint = 'E-poçt ünvanınızı daxil edin';
   static const String enterPasswordHint = 'Şifrənizi daxil edin';

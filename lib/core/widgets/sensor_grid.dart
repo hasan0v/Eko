@@ -10,11 +10,7 @@ class SensorGrid extends StatelessWidget {
   final SensorData? sensorData;
   final bool isLoading;
 
-  const SensorGrid({
-    super.key,
-    this.sensorData,
-    this.isLoading = false,
-  });
+  const SensorGrid({super.key, this.sensorData, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +19,7 @@ class SensorGrid extends StatelessWidget {
     }
 
     if (sensorData == null) {
-      return const Center(
-        child: Text('No sensor data available'),
-      );
+      return const Center(child: Text('No sensor data available'));
     }
 
     return LayoutBuilder(
@@ -34,7 +28,7 @@ class SensorGrid extends StatelessWidget {
         final width = constraints.maxWidth;
         final spacing = width < 360 ? 8.0 : 12.0;
         final aspectRatio = width < 360 ? 1.3 : 1.4;
-        
+
         return GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -42,32 +36,32 @@ class SensorGrid extends StatelessWidget {
           mainAxisSpacing: spacing,
           crossAxisSpacing: spacing,
           childAspectRatio: aspectRatio,
-      children: [
-        _SensorCard(
-          icon: Icons.thermostat,
-          label: 'Temperatur',
-          value: '${sensorData!.temperature?.toStringAsFixed(1) ?? '--'}°C',
-          gradient: AppGradients.errorGradient,
-        ),
-        _SensorCard(
-          icon: Icons.water_drop,
-          label: 'Nəmlik',
-          value: '${sensorData!.humidity?.toStringAsFixed(1) ?? '--'}%',
-          gradient: AppGradients.infoGradient,
-        ),
-        _SensorCard(
-          icon: Icons.cloud,
-          label: 'CO₂ Səviyyəsi',
-          value: '${sensorData!.co2Level?.toStringAsFixed(0) ?? '--'} ppm',
-          gradient: AppGradients.warningGradient,
-        ),
-        _SensorCard(
-          icon: Icons.scale,
-          label: 'Çəki',
-          value: '${sensorData!.weight?.toStringAsFixed(1) ?? '--'} kg',
-          gradient: AppGradients.successGradient,
-        ),
-      ],
+          children: [
+            _SensorCard(
+              icon: Icons.thermostat,
+              label: 'Temperatur',
+              value: '${sensorData!.temperature?.toStringAsFixed(1) ?? '--'}°C',
+              gradient: AppGradients.errorGradient,
+            ),
+            _SensorCard(
+              icon: Icons.water_drop,
+              label: 'Nəmlik',
+              value: '${sensorData!.humidity?.toStringAsFixed(1) ?? '--'}%',
+              gradient: AppGradients.infoGradient,
+            ),
+            _SensorCard(
+              icon: Icons.cloud,
+              label: 'CO₂ Səviyyəsi',
+              value: '${sensorData!.co2Level?.toStringAsFixed(0) ?? '--'} ppm',
+              gradient: AppGradients.warningGradient,
+            ),
+            _SensorCard(
+              icon: Icons.scale,
+              label: 'Çəki',
+              value: '${sensorData!.weight?.toStringAsFixed(1) ?? '--'} kg',
+              gradient: AppGradients.successGradient,
+            ),
+          ],
         );
       },
     );
@@ -98,7 +92,7 @@ class _SensorCard extends StatelessWidget {
         final iconSize = cardWidth < 140 ? 22.0 : 28.0;
         final spacing = cardWidth < 140 ? 8.0 : 12.0;
         final fontSize = cardWidth < 140 ? 16.0 : 18.0;
-        
+
         return Container(
           decoration: BoxDecoration(
             gradient: gradient,
@@ -116,11 +110,7 @@ class _SensorCard extends StatelessWidget {
                   color: Colors.white.withOpacity(0.25),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  icon,
-                  color: Colors.white,
-                  size: iconSize,
-                ),
+                child: Icon(icon, color: Colors.white, size: iconSize),
               ),
               SizedBox(height: spacing),
               Flexible(

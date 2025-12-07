@@ -18,7 +18,8 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -71,16 +72,13 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           );
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.red,
-            ),
+            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
           );
         }
       },
       builder: (context, state) {
         final isLoading = state is AuthLoading;
-        
+
         return Scaffold(
           body: Container(
             decoration: const BoxDecoration(
@@ -95,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 32),
-                      
+
                       // Logo with animation and glow
                       AnimatedCard(
                         child: Center(
@@ -122,9 +120,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                         index: 0,
                         child: Text(
                           AppStrings.welcome,
-                          style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                            fontWeight: FontWeight.w700,
-                          ),
+                          style: Theme.of(context).textTheme.displaySmall
+                              ?.copyWith(fontWeight: FontWeight.w700),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -132,7 +129,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                         index: 1,
                         child: Text(
                           AppStrings.continueToLogin,
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
                             color: Theme.of(context).textTheme.bodySmall?.color,
                             height: 1.5,
                           ),
@@ -163,7 +162,11 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   gradient: AppGradients.primaryGradient,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: const Icon(Icons.email_outlined, color: Colors.white, size: 20),
+                                child: const Icon(
+                                  Icons.email_outlined,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
                               ),
                               border: InputBorder.none,
                               contentPadding: const EdgeInsets.all(20),
@@ -172,7 +175,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                               if (value == null || value.trim().isEmpty) {
                                 return AppStrings.enterEmail;
                               }
-                              if (!value.contains('@') || !value.contains('.')) {
+                              if (!value.contains('@') ||
+                                  !value.contains('.')) {
                                 return AppStrings.enterValidEmail;
                               }
                               return null;
@@ -205,7 +209,11 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   gradient: AppGradients.primaryGradient,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: const Icon(Icons.lock_outline, color: Colors.white, size: 20),
+                                child: const Icon(
+                                  Icons.lock_outline,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
                               ),
                               suffixIcon: IconButton(
                                 icon: Icon(
@@ -242,12 +250,17 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                            onPressed: isLoading ? null : () {
-                              // TODO: Navigate to forgot password screen
-                            },
+                            onPressed:
+                                isLoading
+                                    ? null
+                                    : () {
+                                      // TODO: Navigate to forgot password screen
+                                    },
                             style: TextButton.styleFrom(
                               foregroundColor: AppColors.primary,
-                              textStyle: const TextStyle(fontWeight: FontWeight.w600),
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                             child: const Text(AppStrings.forgotPassword),
                           ),
@@ -275,24 +288,27 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                 borderRadius: BorderRadius.circular(16),
                               ),
                             ),
-                            child: isLoading
-                                ? const SizedBox(
-                                    height: 24,
-                                    width: 24,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2.5,
-                                      valueColor:
-                                          AlwaysStoppedAnimation<Color>(Colors.white),
+                            child:
+                                isLoading
+                                    ? const SizedBox(
+                                      height: 24,
+                                      width: 24,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2.5,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              Colors.white,
+                                            ),
+                                      ),
+                                    )
+                                    : Text(
+                                      AppStrings.login,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  )
-                                : Text(
-                                    AppStrings.login,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
                           ),
                         ),
                       ),
@@ -305,12 +321,13 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           children: [
                             const Expanded(child: Divider(thickness: 1)),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
                               child: Text(
                                 AppStrings.orContinueWith,
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: Colors.grey.shade600,
-                                ),
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(color: Colors.grey.shade600),
                               ),
                             ),
                             const Expanded(child: Divider(thickness: 1)),
@@ -332,13 +349,22 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   boxShadow: AppShadows.cardShadow,
                                 ),
                                 child: OutlinedButton.icon(
-                                  onPressed: isLoading ? null : () {
-                                    // TODO: Google Sign In
-                                  },
-                                  icon: const Icon(Icons.g_mobiledata, size: 32, color: AppColors.primary),
+                                  onPressed:
+                                      isLoading
+                                          ? null
+                                          : () {
+                                            // TODO: Google Sign In
+                                          },
+                                  icon: const Icon(
+                                    Icons.g_mobiledata,
+                                    size: 32,
+                                    color: AppColors.primary,
+                                  ),
                                   label: const Text(AppStrings.google),
                                   style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                    ),
                                     side: BorderSide.none,
                                     foregroundColor: Colors.black87,
                                   ),
@@ -354,13 +380,22 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                                   boxShadow: AppShadows.cardShadow,
                                 ),
                                 child: OutlinedButton.icon(
-                                  onPressed: isLoading ? null : () {
-                                    // TODO: Facebook Sign In
-                                  },
-                                  icon: const Icon(Icons.facebook, size: 24, color: Color(0xFF1877F2)),
+                                  onPressed:
+                                      isLoading
+                                          ? null
+                                          : () {
+                                            // TODO: Facebook Sign In
+                                          },
+                                  icon: const Icon(
+                                    Icons.facebook,
+                                    size: 24,
+                                    color: Color(0xFF1877F2),
+                                  ),
                                   label: const Text(AppStrings.facebook),
                                   style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(vertical: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                    ),
                                     side: BorderSide.none,
                                     foregroundColor: Colors.black87,
                                   ),
@@ -384,16 +419,23 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                             ),
                             const SizedBox(width: 4),
                             TextButton(
-                              onPressed: isLoading ? null : () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const RegistrationScreen(),
-                                  ),
-                                );
-                              },
+                              onPressed:
+                                  isLoading
+                                      ? null
+                                      : () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder:
+                                                (context) =>
+                                                    const RegistrationScreen(),
+                                          ),
+                                        );
+                                      },
                               style: TextButton.styleFrom(
                                 foregroundColor: AppColors.primary,
-                                textStyle: const TextStyle(fontWeight: FontWeight.w700),
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                               child: const Text(AppStrings.signUp),
                             ),

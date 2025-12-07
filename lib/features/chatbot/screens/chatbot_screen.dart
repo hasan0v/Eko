@@ -32,14 +32,14 @@ class _ChatbotScreenState extends State<ChatbotScreen>
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     )..repeat();
-    
+
     _loadChatHistory();
   }
 
   Future<void> _loadChatHistory() async {
     await ChatHistoryService.initialize();
     final history = _historyService.getRecentMessages(limit: 100);
-    
+
     if (history.isEmpty) {
       // Add welcome message if no history
       final welcomeMessage = ChatMessage.assistant(
@@ -54,9 +54,10 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         _messages.addAll(history);
       });
       // Initialize Gemini with chat history (excluding welcome messages)
-      final chatHistory = history.where((msg) => 
-        !msg.content.contains('Salam! Mən EcoKöməkçiyəm')
-      ).toList();
+      final chatHistory =
+          history
+              .where((msg) => !msg.content.contains('Salam! Mən EcoKöməkçiyəm'))
+              .toList();
       _geminiService.initializeWithHistory(chatHistory);
     }
   }
@@ -84,10 +85,10 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         _messages.add(response);
         _isLoading = false;
       });
-      
+
       // Save AI response to history
       await _historyService.saveMessage(response);
-      
+
       _scrollToBottom();
     } catch (e) {
       final errorMessage = ChatMessage.error('Xəta: $e');
@@ -115,202 +116,215 @@ class _ChatbotScreenState extends State<ChatbotScreen>
   void _clearChat() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF2A2D2F),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        title: const Row(
-          children: [
-            Icon(Icons.delete_outline, color: Colors.white),
-            SizedBox(width: 12),
-            Text(
-              'Söhbəti Təmizlə',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: const Color(0xFF2A2D2F),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-          ],
-        ),
-        content: const Text(
-          'Bütün söhbət tarixçəsini silmək istədiyinizdən əminsiniz?',
-          style: TextStyle(color: Colors.white70, fontSize: 15),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Ləğv et',
-              style: TextStyle(color: Colors.white70),
-            ),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            onPressed: () async {
-              await _historyService.clearHistory();
-              setState(() {
-                _messages.clear();
-                _showQuickResponses = true;
-                _messages.add(
-                  ChatMessage.assistant(
-                    '🌾 Salam! Mən EcoKöməkçiyəm.\n\nKənd təsərrüfatı, torpaq sağlamlığı, suvarma və kompost haqqında suallarınıza cavab verməyə hazıram. Necə kömək edə bilərəm?',
+            title: const Row(
+              children: [
+                Icon(Icons.delete_outline, color: Colors.white),
+                SizedBox(width: 12),
+                Text(
+                  'Söhbəti Təmizlə',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
                   ),
-                );
-              });
-              _geminiService.clearHistory();
-              Navigator.pop(context);
-            },
-            child: const Text('Təmizlə'),
+                ),
+              ],
+            ),
+            content: const Text(
+              'Bütün söhbət tarixçəsini silmək istədiyinizdən əminsiniz?',
+              style: TextStyle(color: Colors.white70, fontSize: 15),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  'Ləğv et',
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () async {
+                  await _historyService.clearHistory();
+                  setState(() {
+                    _messages.clear();
+                    _showQuickResponses = true;
+                    _messages.add(
+                      ChatMessage.assistant(
+                        '🌾 Salam! Mən EcoKöməkçiyəm.\n\nKənd təsərrüfatı, torpaq sağlamlığı, suvarma və kompost haqqında suallarınıza cavab verməyə hazıram. Necə kömək edə bilərəm?',
+                      ),
+                    );
+                  });
+                  _geminiService.clearHistory();
+                  Navigator.pop(context);
+                },
+                child: const Text('Təmizlə'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
   void _showChatHistory() {
     final allMessages = _historyService.getAllMessages();
-    
+
     showModalBottomSheet(
       context: context,
       backgroundColor: const Color(0xFF1A1D1F),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      builder:
+          (context) => Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '📜 Söhbət Tarixçəsi',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      '📜 Söhbət Tarixçəsi',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close, color: Colors.white),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '${allMessages.length} mesaj',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
+                    color: Colors.white.withOpacity(0.6),
+                    fontSize: 14,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white),
-                  onPressed: () => Navigator.pop(context),
+                const Divider(height: 24, color: Colors.white24),
+                Expanded(
+                  child:
+                      allMessages.isEmpty
+                          ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.history,
+                                  size: 64,
+                                  color: Colors.white.withOpacity(0.3),
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'Hələ heç bir mesaj yoxdur',
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.5),
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                          : ListView.builder(
+                            itemCount: allMessages.length,
+                            itemBuilder: (context, index) {
+                              final message = allMessages[index];
+                              final isUser = message.role == MessageRole.user;
+
+                              return Container(
+                                margin: const EdgeInsets.only(bottom: 12),
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color:
+                                      isUser
+                                          ? const Color(
+                                            0xFF19E624,
+                                          ).withOpacity(0.1)
+                                          : Colors.white.withOpacity(0.05),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color:
+                                        isUser
+                                            ? const Color(
+                                              0xFF19E624,
+                                            ).withOpacity(0.3)
+                                            : Colors.white.withOpacity(0.1),
+                                  ),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          isUser ? Icons.person : Icons.eco,
+                                          size: 16,
+                                          color:
+                                              isUser
+                                                  ? const Color(0xFF19E624)
+                                                  : Colors.white70,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          isUser ? 'Siz' : 'EcoKöməkçi',
+                                          style: TextStyle(
+                                            color:
+                                                isUser
+                                                    ? const Color(0xFF19E624)
+                                                    : Colors.white70,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        Text(
+                                          _formatTimestamp(message.timestamp),
+                                          style: TextStyle(
+                                            color: Colors.white.withOpacity(
+                                              0.4,
+                                            ),
+                                            fontSize: 11,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      message.content.length > 150
+                                          ? '${message.content.substring(0, 150)}...'
+                                          : message.content,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ),
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            Text(
-              '${allMessages.length} mesaj',
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.6),
-                fontSize: 14,
-              ),
-            ),
-            const Divider(height: 24, color: Colors.white24),
-            Expanded(
-              child: allMessages.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.history,
-                            size: 64,
-                            color: Colors.white.withOpacity(0.3),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            'Hələ heç bir mesaj yoxdur',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.5),
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: allMessages.length,
-                      itemBuilder: (context, index) {
-                        final message = allMessages[index];
-                        final isUser = message.role == MessageRole.user;
-                        
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: isUser
-                                ? const Color(0xFF19E624).withOpacity(0.1)
-                                : Colors.white.withOpacity(0.05),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: isUser
-                                  ? const Color(0xFF19E624).withOpacity(0.3)
-                                  : Colors.white.withOpacity(0.1),
-                            ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    isUser ? Icons.person : Icons.eco,
-                                    size: 16,
-                                    color: isUser
-                                        ? const Color(0xFF19E624)
-                                        : Colors.white70,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    isUser ? 'Siz' : 'EcoKöməkçi',
-                                    style: TextStyle(
-                                      color: isUser
-                                          ? const Color(0xFF19E624)
-                                          : Colors.white70,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    _formatTimestamp(message.timestamp),
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.4),
-                                      fontSize: 11,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                message.content.length > 150
-                                    ? '${message.content.substring(0, 150)}...'
-                                    : message.content,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                ),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-            ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
@@ -366,11 +380,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                   ),
                 ],
               ),
-              child: const Icon(
-                Icons.eco,
-                color: Colors.white,
-                size: 20,
-              ),
+              child: const Icon(Icons.eco, color: Colors.white, size: 20),
             ),
             const SizedBox(width: 12),
             const Column(
@@ -415,20 +425,23 @@ class _ChatbotScreenState extends State<ChatbotScreen>
             child: ListView.builder(
               controller: _scrollController,
               padding: const EdgeInsets.all(16),
-              itemCount: _messages.length + (_isLoading ? 1 : 0) + (_showQuickResponses ? 1 : 0),
+              itemCount:
+                  _messages.length +
+                  (_isLoading ? 1 : 0) +
+                  (_showQuickResponses ? 1 : 0),
               itemBuilder: (context, index) {
                 // Quick responses at the top (if shown)
                 if (_showQuickResponses && index == 0) {
                   return _buildQuickResponses();
                 }
-                
+
                 final messageIndex = _showQuickResponses ? index - 1 : index;
-                
+
                 // Loading indicator
                 if (_isLoading && messageIndex == _messages.length) {
                   return _buildTypingIndicator();
                 }
-                
+
                 // Regular messages
                 final message = _messages[messageIndex];
                 return _buildMessageBubble(message);
@@ -459,48 +472,49 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: GeminiConfig.quickResponses.map((response) {
-            return InkWell(
-              onTap: () => _sendMessage(predefinedMessage: response['question']),
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.white.withOpacity(0.1),
-                      Colors.white.withOpacity(0.05),
-                    ],
-                  ),
+          children:
+              GeminiConfig.quickResponses.map((response) {
+                return InkWell(
+                  onTap:
+                      () =>
+                          _sendMessage(predefinedMessage: response['question']),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.2),
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      response['icon']!,
-                      style: const TextStyle(fontSize: 18),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      response['title']!,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.white.withOpacity(0.1),
+                          Colors.white.withOpacity(0.05),
+                        ],
                       ),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.white.withOpacity(0.2)),
                     ),
-                  ],
-                ),
-              ),
-            );
-          }).toList(),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          response['icon']!,
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          response['title']!,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
         ),
         const SizedBox(height: 24),
       ],
@@ -525,16 +539,17 @@ class _ChatbotScreenState extends State<ChatbotScreen>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               decoration: BoxDecoration(
-                gradient: isUser
-                    ? AppGradients.primaryGradient
-                    : isError
+                gradient:
+                    isUser
+                        ? AppGradients.primaryGradient
+                        : isError
                         ? AppGradients.errorGradient
                         : LinearGradient(
-                            colors: [
-                              Colors.white.withOpacity(0.12),
-                              Colors.white.withOpacity(0.08),
-                            ],
-                          ),
+                          colors: [
+                            Colors.white.withOpacity(0.12),
+                            Colors.white.withOpacity(0.08),
+                          ],
+                        ),
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(20),
                   topRight: const Radius.circular(20),
@@ -548,12 +563,13 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                     offset: const Offset(0, 4),
                   ),
                 ],
-                border: isUser
-                    ? null
-                    : Border.all(
-                        color: Colors.white.withOpacity(0.1),
-                        width: 1,
-                      ),
+                border:
+                    isUser
+                        ? null
+                        : Border.all(
+                          color: Colors.white.withOpacity(0.1),
+                          width: 1,
+                        ),
               ),
               child: _buildFormattedText(message.content, isUser),
             ),
@@ -581,7 +597,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
 
     for (var i = 0; i < lines.length; i++) {
       final line = lines[i];
-      
+
       if (line.trim().isEmpty) {
         if (widgets.isNotEmpty) {
           widgets.add(const SizedBox(height: 8));
@@ -658,9 +674,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                   ),
                 ),
                 const SizedBox(width: 12),
-                Expanded(
-                  child: _buildRichText(text, isUser),
-                ),
+                Expanded(child: _buildRichText(text, isUser)),
               ],
             ),
           ),
@@ -694,7 +708,9 @@ class _ChatbotScreenState extends State<ChatbotScreen>
 
   Widget _buildRichText(String text, bool isUser) {
     final spans = <TextSpan>[];
-    final regex = RegExp(r'\*\*(.*?)\*\*|(\d+[-.]?\d*[%°C]?)|([🌱💧🌾♻️🌿⚗️📊✅💡🔧📝🎯⚠️])');
+    final regex = RegExp(
+      r'\*\*(.*?)\*\*|(\d+[-.]?\d*[%°C]?)|([🌱💧🌾♻️🌿⚗️📊✅💡🔧📝🎯⚠️])',
+    );
     var lastIndex = 0;
 
     for (final match in regex.allMatches(text)) {
@@ -745,10 +761,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         spans.add(
           TextSpan(
             text: match.group(3),
-            style: const TextStyle(
-              fontSize: 16,
-              height: 1.5,
-            ),
+            style: const TextStyle(fontSize: 16, height: 1.5),
           ),
         );
       }
@@ -773,11 +786,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
 
     return Text.rich(
       TextSpan(children: spans.isEmpty ? [TextSpan(text: text)] : spans),
-      style: const TextStyle(
-        color: Colors.white,
-        fontSize: 14,
-        height: 1.5,
-      ),
+      style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.5),
     );
   }
 
@@ -822,7 +831,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         final offset = (index * 0.33) % 1.0;
         final value = (_typingController.value + offset) % 1.0;
         final opacity = 0.3 + (0.7 * (1 - (value - 0.5).abs() * 2));
-        
+
         return Container(
           width: 8,
           height: 8,
@@ -856,9 +865,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                 decoration: BoxDecoration(
                   color: const Color(0xFF2A2D2F),
                   borderRadius: BorderRadius.circular(24),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.2),
-                  ),
+                  border: Border.all(color: Colors.white.withOpacity(0.2)),
                 ),
                 child: TextField(
                   controller: _messageController,
@@ -907,21 +914,23 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                   onTap: _isLoading ? null : () => _sendMessage(),
                   borderRadius: BorderRadius.circular(16),
                   child: Center(
-                    child: _isLoading
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2.5,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                    child:
+                        _isLoading
+                            ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                              ),
+                            )
+                            : const Icon(
+                              Icons.send,
+                              color: Colors.white,
+                              size: 20,
                             ),
-                          )
-                        : const Icon(
-                            Icons.send,
-                            color: Colors.white,
-                            size: 20,
-                          ),
                   ),
                 ),
               ),

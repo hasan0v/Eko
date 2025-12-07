@@ -19,7 +19,8 @@ class CompostMonitoringScreen extends StatefulWidget {
   const CompostMonitoringScreen({super.key});
 
   @override
-  State<CompostMonitoringScreen> createState() => _CompostMonitoringScreenState();
+  State<CompostMonitoringScreen> createState() =>
+      _CompostMonitoringScreenState();
 }
 
 class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
@@ -76,7 +77,8 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
               return _buildEmptyState();
             }
 
-            final activeBatch = state.selectedBatch ?? 
+            final activeBatch =
+                state.selectedBatch ??
                 state.batches.firstWhere(
                   (b) => b.status == CompostStatus.active,
                   orElse: () => state.batches.first,
@@ -92,12 +94,13 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
                 },
                 child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width < 360 ? 12 : 20,
+                    horizontal:
+                        MediaQuery.of(context).size.width < 360 ? 12 : 20,
                     vertical: 16,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                    children: [
                       AnimatedCard(
                         child: Center(
                           child: CircularProgress(
@@ -122,7 +125,9 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
                       const SizedBox(height: 16),
                       StaggeredListItem(
                         index: 2,
-                        child: SensorGrid(sensorData: activeBatch.latestReading),
+                        child: SensorGrid(
+                          sensorData: activeBatch.latestReading,
+                        ),
                       ),
                     ],
                   ),
@@ -155,9 +160,15 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
             ],
           ),
           const Divider(height: 24),
-          _buildInfoRow(AppStrings.initialWeight, '${batch.initialWeight.toStringAsFixed(1)} kg'),
+          _buildInfoRow(
+            AppStrings.initialWeight,
+            '${batch.initialWeight.toStringAsFixed(1)} kg',
+          ),
           const SizedBox(height: 12),
-          _buildInfoRow(AppStrings.currentWeight, '${(batch.currentWeight ?? batch.initialWeight).toStringAsFixed(1)} kg'),
+          _buildInfoRow(
+            AppStrings.currentWeight,
+            '${(batch.currentWeight ?? batch.initialWeight).toStringAsFixed(1)} kg',
+          ),
           const SizedBox(height: 12),
           _buildInfoRow(
             AppStrings.reduction,
@@ -172,12 +183,7 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          label,
-          style: const TextStyle(
-            color: Color(0xFF6C7278),
-          ),
-        ),
+        Text(label, style: const TextStyle(color: Color(0xFF6C7278))),
         Text(
           value,
           style: const TextStyle(
@@ -215,58 +221,57 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
 
     showDialog(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text(AppStrings.createNewBatch),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                labelText: 'Batch Name',
-                hintText: 'BATCH-2025-001',
-              ),
+      builder:
+          (dialogContext) => AlertDialog(
+            title: const Text(AppStrings.createNewBatch),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Batch Name',
+                    hintText: 'BATCH-2025-001',
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: weightController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: 'Initial Weight (kg)',
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: locationController,
+                  decoration: const InputDecoration(labelText: 'Location'),
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: weightController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Initial Weight (kg)',
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext),
+                child: const Text(AppStrings.cancel),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: locationController,
-              decoration: const InputDecoration(
-                labelText: 'Location',
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: const Text(AppStrings.cancel),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (nameController.text.isNotEmpty &&
-                  weightController.text.isNotEmpty) {
-                context.read<CompostBloc>().add(
+              ElevatedButton(
+                onPressed: () {
+                  if (nameController.text.isNotEmpty &&
+                      weightController.text.isNotEmpty) {
+                    context.read<CompostBloc>().add(
                       CompostCreateBatch(
                         name: nameController.text,
                         initialWeight: double.parse(weightController.text),
                         location: locationController.text,
                       ),
                     );
-                Navigator.pop(dialogContext);
-              }
-            },
-            child: const Text(AppStrings.create),
+                    Navigator.pop(dialogContext);
+                  }
+                },
+                child: const Text(AppStrings.create),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 }

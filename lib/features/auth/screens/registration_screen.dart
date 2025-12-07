@@ -25,7 +25,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-  
+
   File? _profileImage;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -44,7 +44,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source);
-    
+
     if (pickedFile != null) {
       setState(() {
         _profileImage = File(pickedFile.path);
@@ -55,30 +55,31 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   void _showImageSourceDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text(AppStrings.profilePhoto),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: const Text(AppStrings.takePhoto),
-              onTap: () {
-                Navigator.pop(context);
-                _pickImage(ImageSource.camera);
-              },
+      builder:
+          (context) => AlertDialog(
+            title: const Text(AppStrings.profilePhoto),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text(AppStrings.takePhoto),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _pickImage(ImageSource.camera);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text(AppStrings.uploadPhoto),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _pickImage(ImageSource.gallery);
+                  },
+                ),
+              ],
             ),
-            ListTile(
-              leading: const Icon(Icons.photo_library),
-              title: const Text(AppStrings.uploadPhoto),
-              onTap: () {
-                Navigator.pop(context);
-                _pickImage(ImageSource.gallery);
-              },
-            ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
@@ -126,44 +127,42 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           );
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.red,
-            ),
+            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
           );
         }
       },
       builder: (context, state) {
         final isLoading = state is AuthLoading;
-        
+
         return Scaffold(
-          appBar: AppBar(
-            title: const Text(AppStrings.register),
-          ),
+          appBar: AppBar(title: const Text(AppStrings.register)),
           body: SafeArea(
             child: Stepper(
               type: StepperType.horizontal,
               currentStep: _currentStep,
-              onStepContinue: isLoading ? null : () {
-                if (_currentStep < 2) {
-                  // Validate current step before moving forward
-                  if (_validateCurrentStep()) {
-                    setState(() => _currentStep++);
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(AppStrings.tryAgain),
-                        backgroundColor: Colors.orange,
-                      ),
-                    );
-                  }
-                } else {
-                  // Final step - validate and register
-                  if (_validateCurrentStep()) {
-                    _handleRegister();
-                  }
-                }
-              },
+              onStepContinue:
+                  isLoading
+                      ? null
+                      : () {
+                        if (_currentStep < 2) {
+                          // Validate current step before moving forward
+                          if (_validateCurrentStep()) {
+                            setState(() => _currentStep++);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(AppStrings.tryAgain),
+                                backgroundColor: Colors.orange,
+                              ),
+                            );
+                          }
+                        } else {
+                          // Final step - validate and register
+                          if (_validateCurrentStep()) {
+                            _handleRegister();
+                          }
+                        }
+                      },
               onStepCancel: () {
                 if (_currentStep > 0) {
                   setState(() => _currentStep--);
@@ -185,16 +184,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       Expanded(
                         child: ElevatedButton(
                           onPressed: details.onStepContinue,
-                          child: isLoading && _currentStep == 2
-                              ? const SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          child:
+                              isLoading && _currentStep == 2
+                                  ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                  : Text(
+                                    _currentStep == 2
+                                        ? AppStrings.register
+                                        : AppStrings.next,
                                   ),
-                                )
-                              : Text(_currentStep == 2 ? AppStrings.register : AppStrings.next),
                         ),
                       ),
                     ],
@@ -205,13 +211,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 Step(
                   title: Text(AppStrings.profilePhoto),
                   isActive: _currentStep >= 0,
-                  state: _currentStep > 0 ? StepState.complete : StepState.indexed,
+                  state:
+                      _currentStep > 0 ? StepState.complete : StepState.indexed,
                   content: _buildPhotoStep(),
                 ),
                 Step(
                   title: Text(AppStrings.personalInfo),
                   isActive: _currentStep >= 1,
-                  state: _currentStep > 1 ? StepState.complete : StepState.indexed,
+                  state:
+                      _currentStep > 1 ? StepState.complete : StepState.indexed,
                   content: _buildPersonalInfoStep(),
                 ),
                 Step(
@@ -240,26 +248,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               color: AppColors.primary.withOpacity(0.1),
               border: Border.all(color: AppColors.primary, width: 2),
             ),
-            child: _profileImage != null
-                ? ClipOval(
-                    child: Image.file(
-                      _profileImage!,
-                      fit: BoxFit.cover,
+            child:
+                _profileImage != null
+                    ? ClipOval(
+                      child: Image.file(_profileImage!, fit: BoxFit.cover),
+                    )
+                    : const Icon(
+                      Icons.add_a_photo,
+                      size: 50,
+                      color: AppColors.primary,
                     ),
-                  )
-                : const Icon(
-                    Icons.add_a_photo,
-                    size: 50,
-                    color: AppColors.primary,
-                  ),
           ),
         ),
         const SizedBox(height: 16),
         Text(
           _profileImage != null ? AppStrings.uploadPhoto : AppStrings.takePhoto,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.primary,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: AppColors.primary),
         ),
       ],
     );
@@ -378,8 +384,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       : Icons.visibility_off_outlined,
                 ),
                 onPressed: () {
-                  setState(() =>
-                      _obscureConfirmPassword = !_obscureConfirmPassword);
+                  setState(
+                    () => _obscureConfirmPassword = !_obscureConfirmPassword,
+                  );
                 },
               ),
             ),

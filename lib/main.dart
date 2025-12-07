@@ -16,38 +16,41 @@ import 'features/water/logic/water_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize local database
   final localDb = LocalDatabase();
   await localDb.initialize();
-  
+
   // Seed database with sample data (only on first run)
-  final isFirstRun = localDb.getSetting('is_first_run', defaultValue: true) as bool;
+  final isFirstRun =
+      localDb.getSetting('is_first_run', defaultValue: true) as bool;
   if (isFirstRun) {
     await DatabaseSeeder.seedAll();
     await localDb.saveSetting('is_first_run', false);
   }
-  
+
   // Initialize services
   final storageService = StorageService();
   await storageService.init();
-  
+
   final apiClient = ApiClient();
-  
+
   // Initialize repositories
   final authRepository = AuthRepository(
     apiClient: apiClient,
     storage: storageService,
   );
-  
+
   final compostRepository = CompostRepository(apiClient: apiClient);
   final waterRepository = WaterRepository(apiClient: apiClient);
-  
-  runApp(EcoBinApp(
-    authRepository: authRepository,
-    compostRepository: compostRepository,
-    waterRepository: waterRepository,
-  ));
+
+  runApp(
+    EcoBinApp(
+      authRepository: authRepository,
+      compostRepository: compostRepository,
+      waterRepository: waterRepository,
+    ),
+  );
 }
 
 class EcoBinApp extends StatelessWidget {
@@ -73,11 +76,14 @@ class EcoBinApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => AuthBloc(authRepository: authRepository)
-              ..add(const AuthCheckStatus()),
+            create:
+                (context) =>
+                    AuthBloc(authRepository: authRepository)
+                      ..add(const AuthCheckStatus()),
           ),
           BlocProvider(
-            create: (context) => CompostBloc(compostRepository: compostRepository),
+            create:
+                (context) => CompostBloc(compostRepository: compostRepository),
           ),
           BlocProvider(
             create: (context) => WaterBloc(waterRepository: waterRepository),
