@@ -11,6 +11,7 @@ enum WaterQuality {
 /// Water tank model
 class WaterTank extends Equatable {
   final String id;
+  final String name;
   final double capacity; // in liters
   final double currentLevel; // in liters
   final WaterQuality quality;
@@ -25,6 +26,7 @@ class WaterTank extends Equatable {
 
   const WaterTank({
     required this.id,
+    required this.name,
     required this.capacity,
     required this.currentLevel,
     required this.quality,
@@ -50,6 +52,7 @@ class WaterTank extends Equatable {
   factory WaterTank.fromJson(Map<String, dynamic> json) {
     return WaterTank(
       id: json['id'] as String,
+      name: json['name'] as String,
       capacity: (json['capacity'] as num).toDouble(),
       currentLevel: (json['currentLevel'] as num).toDouble(),
       quality: WaterQuality.values.firstWhere(
@@ -70,6 +73,7 @@ class WaterTank extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'name': name,
       'capacity': capacity,
       'currentLevel': currentLevel,
       'quality': quality.toString().split('.').last,
@@ -86,6 +90,7 @@ class WaterTank extends Equatable {
 
   WaterTank copyWith({
     String? id,
+    String? name,
     double? capacity,
     double? currentLevel,
     WaterQuality? quality,
@@ -100,6 +105,7 @@ class WaterTank extends Equatable {
   }) {
     return WaterTank(
       id: id ?? this.id,
+      name: name ?? this.name,
       capacity: capacity ?? this.capacity,
       currentLevel: currentLevel ?? this.currentLevel,
       quality: quality ?? this.quality,
@@ -118,6 +124,7 @@ class WaterTank extends Equatable {
   @override
   List<Object?> get props => [
         id,
+        name,
         capacity,
         currentLevel,
         quality,

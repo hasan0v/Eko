@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../core/constants/app_strings.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/theme/app_gradients.dart';
+import '../../../core/theme/app_shadows.dart';
+import '../../../core/theme/app_animations.dart';
 import '../../../core/widgets/eco_card.dart';
 import '../../../core/widgets/circular_progress.dart';
 import '../../../core/widgets/sensor_grid.dart';
 import '../../../core/widgets/batch_status_badge.dart';
+import '../../../core/widgets/modern_widgets.dart';
 import '../logic/compost_bloc.dart';
 import '../logic/compost_event.dart';
 import '../logic/compost_state.dart';
@@ -27,8 +32,11 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: false,
       appBar: AppBar(
-        title: const Text('Compost Monitoring'),
+        title: const Text(AppStrings.compostMonitoring),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -56,7 +64,7 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
                       context.read<CompostBloc>().add(const CompostRefresh());
                     },
                     icon: const Icon(Icons.refresh),
-                    label: const Text('Retry'),
+                    label: const Text(AppStrings.retry),
                   ),
                 ],
               ),
@@ -74,34 +82,50 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
                   orElse: () => state.batches.first,
                 );
 
-            return RefreshIndicator(
-              onRefresh: () async {
-                context.read<CompostBloc>().add(const CompostRefresh());
-              },
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: CircularProgress(
-                        progress: activeBatch.progress / 100,
-                        label: activeBatch.batchNumber,
-                        subtitle: '${activeBatch.durationDays} days',
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    _buildBatchInfo(activeBatch),
-                    const SizedBox(height: 24),
-                    Text(
-                      'Real-time Sensors',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
+            return Container(
+              decoration: const BoxDecoration(
+                gradient: AppGradients.backgroundGradient,
+              ),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  context.read<CompostBloc>().add(const CompostRefresh());
+                },
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width < 360 ? 12 : 20,
+                    vertical: 16,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                      AnimatedCard(
+                        child: Center(
+                          child: CircularProgress(
+                            progress: activeBatch.progress / 100,
+                            label: activeBatch.batchNumber,
+                            subtitle: '${activeBatch.durationDays} gün',
                           ),
-                    ),
-                    const SizedBox(height: 12),
-                    SensorGrid(sensorData: activeBatch.latestReading),
-                  ],
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      StaggeredListItem(
+                        index: 0,
+                        child: _buildBatchInfo(activeBatch),
+                      ),
+                      const SizedBox(height: 32),
+                      StaggeredListItem(
+                        index: 1,
+                        child: const SectionHeader(
+                          title: AppStrings.realtimeSensors,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      StaggeredListItem(
+                        index: 2,
+                        child: SensorGrid(sensorData: activeBatch.latestReading),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -114,23 +138,29 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
   }
 
   Widget _buildBatchInfo(CompostBatch batch) {
-    return EcoCard(
+    return ModernCard(
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Status'),
+              const Text(
+                AppStrings.status,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1A1D1F),
+                ),
+              ),
               BatchStatusBadge(status: batch.status),
             ],
           ),
           const Divider(height: 24),
-          _buildInfoRow('Initial Weight', '${batch.initialWeight.toStringAsFixed(1)} kg'),
+          _buildInfoRow(AppStrings.initialWeight, '${batch.initialWeight.toStringAsFixed(1)} kg'),
           const SizedBox(height: 12),
-          _buildInfoRow('Current Weight', '${(batch.currentWeight ?? batch.initialWeight).toStringAsFixed(1)} kg'),
+          _buildInfoRow(AppStrings.currentWeight, '${(batch.currentWeight ?? batch.initialWeight).toStringAsFixed(1)} kg'),
           const SizedBox(height: 12),
           _buildInfoRow(
-            'Reduction',
+            AppStrings.reduction,
             '${(batch.weightReduction ?? 0.0).toStringAsFixed(1)}%',
           ),
         ],
@@ -142,10 +172,18 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label),
+        Text(
+          label,
+          style: const TextStyle(
+            color: Color(0xFF6C7278),
+          ),
+        ),
         Text(
           value,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF1A1D1F),
+          ),
         ),
       ],
     );
@@ -178,7 +216,7 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Create New Batch'),
+        title: const Text(AppStrings.createNewBatch),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -209,7 +247,7 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('Cancel'),
+            child: const Text(AppStrings.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -225,7 +263,7 @@ class _CompostMonitoringScreenState extends State<CompostMonitoringScreen> {
                 Navigator.pop(dialogContext);
               }
             },
-            child: const Text('Create'),
+            child: const Text(AppStrings.create),
           ),
         ],
       ),

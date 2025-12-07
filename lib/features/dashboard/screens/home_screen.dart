@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
+import '../../../core/theme/app_gradients.dart';
+import '../../../core/theme/app_shadows.dart';
+import '../../../core/theme/app_animations.dart';
 import '../../compost/screens/compost_monitoring_screen.dart';
 import '../../water/screens/water_management_screen.dart';
 import '../../soil/screens/soil_analysis_screen.dart';
 import '../../education/screens/education_center_screen.dart';
 import '../../chatbot/screens/chatbot_screen.dart';
+import '../../profile/screens/profile_screen.dart';
+import '../../auth/data/auth_repository.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -47,28 +53,36 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.water_drop),
-            label: 'Water',
+            label: 'Su',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.grass),
-            label: 'Soil',
+            label: 'Torpaq',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'Learn',
+            label: 'Dərslər',
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const ChatbotScreen(),
-            ),
-          );
-        },
-        backgroundColor: AppColors.primary,
-        child: const Icon(Icons.chat_bubble_outline),
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          gradient: AppGradients.primaryGradient,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: AppShadows.fabShadow,
+        ),
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const ChatbotScreen(),
+              ),
+            );
+          },
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: const Icon(Icons.chat_bubble_outline, color: Colors.white),
+        ),
       ),
     );
   }
@@ -79,100 +93,208 @@ class DashboardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authRepository = context.read<AuthRepository>();
+    
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Greeting
-              Text(
-                '${_getGreeting()}, User!',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Monitor your farm from anywhere',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).textTheme.bodySmall?.color,
-                    ),
-              ),
-              const SizedBox(height: 24),
-
-              // Weather Card
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.wb_sunny, size: 48, color: AppColors.chartOrange),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '24°C',
-                              style: Theme.of(context).textTheme.headlineLarge,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: AppGradients.backgroundGradient,
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header with Profile Button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${_getGreeting()}, ${authRepository.getCurrentUser()?.name.split(' ').first ?? AppStrings.welcome}!',
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFF1A1D1F),
                             ),
-                            Text(
-                              'Sunny',
-                              style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            AppStrings.monitorFarm,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: const Color(0xFF6C7278),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(
+                              authRepository: authRepository,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          gradient: AppGradients.primaryGradient,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF19E624).withOpacity(0.3),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
                             ),
                           ],
                         ),
+                        child: Center(
+                          child: Text(
+                            authRepository.getCurrentUser()?.name[0].toUpperCase() ?? 'U',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ),
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                // Weather Card with gradient
+                StaggeredListItem(
+                  index: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: AppGradients.warningGradient,
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: AppShadows.cardShadow,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: const Icon(Icons.wb_sunny, size: 48, color: Colors.white),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '24°C',
+                                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  AppStrings.sunny,
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: Colors.white.withOpacity(0.9),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 24),
+                const SizedBox(height: 32),
 
-              // Quick Stats
-              Text(
-                AppStrings.quickStats,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: 16),
-              GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                children: [
-                  _buildStatCard(
-                    context,
-                    'Compost',
-                    '75%',
-                    Icons.compost,
-                    AppColors.chartGreen,
+                // Quick Stats Header
+                StaggeredListItem(
+                  index: 1,
+                  child: Text(
+                    AppStrings.quickStats,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF1A1D1F),
+                    ),
                   ),
-                  _buildStatCard(
-                    context,
-                    'Water Level',
-                    '85%',
-                    Icons.water_drop,
-                    AppColors.chartBlue,
-                  ),
-                  _buildStatCard(
-                    context,
-                    'Temperature',
-                    '45°C',
-                    Icons.thermostat,
-                    AppColors.chartOrange,
-                  ),
-                  _buildStatCard(
-                    context,
-                    'Soil pH',
-                    '6.5',
-                    Icons.grass,
-                    AppColors.chartPurple,
-                  ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: 16),
+
+                // Quick Stats Grid with animations
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final width = constraints.maxWidth;
+                    final spacing = width < 360 ? 10.0 : 14.0;
+                    final aspectRatio = width < 360 ? 1.05 : 1.15;
+                    
+                    return GridView.count(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: 2,
+                      mainAxisSpacing: spacing,
+                      crossAxisSpacing: spacing,
+                      childAspectRatio: aspectRatio,
+                      children: [
+                        StaggeredListItem(
+                          index: 2,
+                          child: _buildStatCard(
+                            context,
+                            AppStrings.compost,
+                            '75%',
+                            Icons.compost,
+                            AppGradients.successGradient,
+                          ),
+                        ),
+                        StaggeredListItem(
+                          index: 3,
+                          child: _buildStatCard(
+                            context,
+                            AppStrings.waterLevel,
+                            '85%',
+                            Icons.water_drop,
+                            AppGradients.infoGradient,
+                          ),
+                        ),
+                        StaggeredListItem(
+                          index: 4,
+                          child: _buildStatCard(
+                            context,
+                            AppStrings.temperature,
+                            '45°C',
+                            Icons.thermostat,
+                            AppGradients.warningGradient,
+                          ),
+                        ),
+                        StaggeredListItem(
+                          index: 5,
+                          child: _buildStatCard(
+                            context,
+                            AppStrings.soilPh,
+                            '6.5',
+                            Icons.grass,
+                            AppGradients.soilHealthGradient,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -191,31 +313,87 @@ class DashboardView extends StatelessWidget {
     String title,
     String value,
     IconData icon,
-    Color color,
+    Gradient gradient,
   ) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 40, color: color),
-            const SizedBox(height: 12),
-            Text(
-              value,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: color,
-                    fontWeight: FontWeight.bold,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: AppShadows.cardShadow,
+      ),
+      child: Stack(
+        children: [
+          // Gradient background for icon
+          Positioned(
+            top: -20,
+            right: -20,
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                gradient: gradient,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 20,
+                    spreadRadius: 0,
                   ),
+                ],
+              ),
+              child: Opacity(
+                opacity: 0.1,
+                child: Icon(icon, size: 80),
+              ),
             ),
-            const SizedBox(height: 4),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
+          ),
+          // Content
+          Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(9),
+                  decoration: BoxDecoration(
+                    gradient: gradient,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 8,
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: Icon(icon, size: 22, color: Colors.white),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF1A1D1F),
+                    fontSize: 19,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: const Color(0xFF6C7278),
+                    fontSize: 11.5,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

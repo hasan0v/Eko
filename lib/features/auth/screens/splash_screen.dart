@@ -6,7 +6,6 @@ import '../../../core/constants/app_strings.dart';
 import '../logic/auth_bloc.dart';
 import '../logic/auth_state.dart';
 import 'onboarding_screen.dart';
-import 'login_screen.dart';
 import '../../dashboard/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -1,167 +1,202 @@
-/// App string constants for EcoBin
+/// App string constants for EcoBin (Azerbaijani)
 class AppStrings {
   AppStrings._();
 
   // App Info
   static const String appName = 'EcoBin';
   static const String appVersion = '1.0.0';
-  static const String appTagline = 'Smart Farming & Sustainability';
+  static const String appTagline = 'Ağıllı Fermerlik və Davamlılıq';
 
   // Onboarding
-  static const String onboardingTitle1 = 'Intelligent Water Management';
+  static const String onboardingTitle1 = 'Ağıllı Su İdarəetməsi';
   static const String onboardingDesc1 =
-      'Monitor and control your irrigation system with real-time data and automated schedules';
-  static const String onboardingTitle2 = 'Turn Waste into Treasure';
+      'Real vaxt məlumatları və avtomatik cədvəllərlə suvarma sisteminizi izləyin və idarə edin';
+  static const String onboardingTitle2 = 'Tullantıları Xəzinəyə Çevirin';
   static const String onboardingDesc2 =
-      'Transform your organic waste into nutrient-rich compost with smart monitoring';
-  static const String onboardingTitle3 = 'Real-time Monitoring';
+      'Üzvi tullantılarınızı ağıllı monitorinq ilə qida maddələri ilə zəngin komposta çevirin';
+  static const String onboardingTitle3 = 'Real Vaxt Monitorinqi';
   static const String onboardingDesc3 =
-      'Track temperature, moisture, pH levels, and more with IoT sensors';
-  static const String skip = 'Skip';
-  static const String next = 'Next';
-  static const String getStarted = 'Get Started';
+      'IoT sensorları ilə temperaturu, rütubəti, pH səviyyələrini və daha çoxunu izləyin';
+  static const String skip = 'Keç';
+  static const String next = 'Növbəti';
+  static const String getStarted = 'Başla';
 
   // Authentication
-  static const String login = 'Login';
-  static const String register = 'Register';
-  static const String email = 'Email';
-  static const String password = 'Password';
-  static const String confirmPassword = 'Confirm Password';
-  static const String forgotPassword = 'Forgot Password?';
-  static const String noAccount = "Don't have an account?";
-  static const String haveAccount = 'Already have an account?';
-  static const String signUp = 'Sign Up';
-  static const String signIn = 'Sign In';
-  static const String signInWithGoogle = 'Sign in with Google';
-  static const String signInWithFacebook = 'Sign in with Facebook';
-  static const String orContinueWith = 'Or continue with';
+  static const String login = 'Daxil ol';
+  static const String register = 'Qeydiyyat';
+  static const String email = 'E-poçt';
+  static const String password = 'Şifrə';
+  static const String confirmPassword = 'Şifrəni təsdiqlə';
+  static const String forgotPassword = 'Şifrəni unutmusunuz?';
+  static const String noAccount = "Hesabınız yoxdur?";
+  static const String haveAccount = 'Artıq hesabınız var?';
+  static const String signUp = 'Qeydiyyatdan keç';
+  static const String signIn = 'Daxil ol';
+  static const String signInWithGoogle = 'Google ilə daxil ol';
+  static const String signInWithFacebook = 'Facebook ilə daxil ol';
+  static const String orContinueWith = 'Və ya davam edin';
 
   // Registration Steps
-  static const String personalInfo = 'Personal Information';
-  static const String fullName = 'Full Name';
-  static const String phoneNumber = 'Phone Number';
-  static const String profilePhoto = 'Profile Photo';
-  static const String uploadPhoto = 'Upload Photo';
-  static const String takePhoto = 'Take Photo';
+  static const String personalInfo = 'Şəxsi Məlumat';
+  static const String fullName = 'Ad və Soyad';
+  static const String phoneNumber = 'Telefon Nömrəsi';
+  static const String profilePhoto = 'Profil Şəkli';
+  static const String uploadPhoto = 'Şəkil Yüklə';
+  static const String takePhoto = 'Şəkil Çək';
 
   // Dashboard
-  static const String dashboard = 'Dashboard';
-  static const String welcome = 'Welcome';
-  static const String goodMorning = 'Good Morning';
-  static const String goodAfternoon = 'Good Afternoon';
-  static const String goodEvening = 'Good Evening';
-  static const String weatherForecast = 'Weather Forecast';
-  static const String quickStats = 'Quick Stats';
-  static const String alerts = 'Alerts';
-  static const String viewAll = 'View All';
+  static const String dashboard = 'İdarə Paneli';
+  static const String welcome = 'Xoş gəldiniz';
+  static const String goodMorning = 'Sabahınız xeyir';
+  static const String goodAfternoon = 'Günortanız xeyir';
+  static const String goodEvening = 'Axşamınız xeyir';
+  static const String weatherForecast = 'Hava Proqnozu';
+  static const String quickStats = 'Sürətli Statistika';
+  static const String alerts = 'Xəbərdarlıqlar';
+  static const String viewAll = 'Hamısına bax';
+  static const String monitorFarm = 'Fermanı hər yerdən izləyin';
+  static const String sunny = 'Günəşli';
+  static const String soilPh = 'Torpaq pH';
 
   // Compost
-  static const String compost = 'Compost';
-  static const String compostMonitoring = 'Compost Monitoring';
-  static const String compostHistory = 'Compost History';
-  static const String activeBatch = 'Active Batch';
-  static const String batchStatus = 'Batch Status';
-  static const String weight = 'Weight';
-  static const String temperature = 'Temperature';
-  static const String humidity = 'Humidity';
-  static const String co2Level = 'CO₂ Level';
-  static const String nextActions = 'Next Actions';
-  static const String batchNumber = 'Batch';
-  static const String duration = 'Duration';
-  static const String weightReduction = 'Weight Reduction';
-  static const String rating = 'Rating';
+  static const String compost = 'Kompost';
+  static const String compostMonitoring = 'Kompost Monitorinqi';
+  static const String compostHistory = 'Kompost Tarixçəsi';
+  static const String activeBatch = 'Aktiv Partiya';
+  static const String batchStatus = 'Partiya Statusu';
+  static const String weight = 'Çəki';
+  static const String temperature = 'Temperatur';
+  static const String humidity = 'Rütubət';
+  static const String co2Level = 'CO₂ Səviyyəsi';
+  static const String nextActions = 'Növbəti Əməliyyatlar';
+  static const String batchNumber = 'Partiya';
+  static const String duration = 'Müddət';
+  static const String weightReduction = 'Çəki Azalması';
+  static const String rating = 'Qiymət';
+  static const String realtimeSensors = 'Real Vaxt Sensorları';
+  static const String status = 'Status';
+  static const String initialWeight = 'İlkin Çəki';
+  static const String currentWeight = 'Cari Çəki';
+  static const String reduction = 'Azalma';
 
   // Water Management
-  static const String waterManagement = 'Water Management';
-  static const String irrigationHistory = 'Irrigation History';
-  static const String waterLevel = 'Water Level';
-  static const String autoIrrigate = 'Auto Irrigate';
-  static const String waterQuality = 'Water Quality';
-  static const String phLevel = 'pH Level';
-  static const String dissolvedOxygen = 'Dissolved Oxygen';
-  static const String nitrate = 'Nitrate';
-  static const String electricalConductivity = 'EC';
-  static const String turbidity = 'Turbidity';
-  static const String schedule = 'Schedule';
-  static const String usage = 'Usage';
-  static const String saved = 'Saved';
-  static const String cost = 'Cost';
+  static const String waterManagement = 'Su İdarəetməsi';
+  static const String irrigationHistory = 'Suvarma Tarixçəsi';
+  static const String waterLevel = 'Su Səviyyəsi';
+  static const String autoIrrigate = 'Avtomatik Suvarma';
+  static const String waterQuality = 'Su Keyfiyyəti';
+  static const String phLevel = 'pH Səviyyəsi';
+  static const String dissolvedOxygen = 'Həll Olunmuş Oksigen';
+  static const String nitrate = 'Nitrat';
+  static const String electricalConductivity = 'Elektrik Keçiriciliyi';
+  static const String turbidity = 'Bulanıqlıq';
+  static const String schedule = 'Cədvəl';
+  static const String usage = 'İstifadə';
+  static const String saved = 'Qorunub';
+  static const String cost = 'Xərc';
+  static const String autoIrrigation = 'Avtomatik Suvarma';
+  static const String autoWaterBasedOnSchedule = 'Cədvələ əsasən avtomatik suvarma';
+  static const String startManualIrrigation = 'Əl ilə Suvarma Başlat';
+  static const String waterImmediately = 'Dərhal suvar';
+  static const String failedToLoadWaterData = 'Su məlumatları yüklənmədi';
+  static const String today = 'Bu gün';
+  static const String durationMinutes = 'Müddət (dəqiqə)';
+  static const String zone = 'Zona';
+  static const String zoneOptional = 'Zona (istəyə bağlı)';
+  static const String start = 'Başlat';
+  static const String irrigationStarted = 'Suvarma başladıldı';
 
   // Soil Analysis
-  static const String soilAnalysis = 'Soil Analysis';
-  static const String soilHealth = 'Soil Health';
-  static const String healthScore = 'Health Score';
-  static const String nitrogen = 'Nitrogen (N)';
-  static const String phosphorus = 'Phosphorus (P)';
-  static const String potassium = 'Potassium (K)';
-  static const String soilMoisture = 'Soil Moisture';
-  static const String aiRecommendations = 'AI Recommendations';
-  static const String lastUpdated = 'Last Updated';
-  static const String refresh = 'Refresh';
+  static const String soilAnalysis = 'Torpaq Analizi';
+  static const String soilHealth = 'Torpaq Sağlamlığı';
+  static const String healthScore = 'Sağlamlıq Balı';
+  static const String nitrogen = 'Azot (N)';
+  static const String phosphorus = 'Fosfor (P)';
+  static const String potassium = 'Kalium (K)';
+  static const String soilMoisture = 'Torpaq Rütubəti';
+  static const String aiRecommendations = 'AI Tövsiyələri';
+  static const String lastUpdated = 'Son Yenilənmə';
+  static const String refresh = 'Yenilə';
+  static const String comingSoon = 'Tezliklə';
 
   // Education Center
-  static const String educationCenter = 'Education Center';
-  static const String library = 'Library';
-  static const String search = 'Search';
-  static const String categories = 'Categories';
-  static const String videos = 'Videos';
-  static const String articles = 'Articles';
-  static const String composting101 = 'Composting 101';
-  static const String irrigationTips = 'Irrigation Tips';
-  static const String soilCare = 'Soil Care';
+  static const String educationCenter = 'Təhsil Mərkəzi';
+  static const String library = 'Kitabxana';
+  static const String search = 'Axtar';
+  static const String categories = 'Kateqoriyalar';
+  static const String videos = 'Videolar';
+  static const String articles = 'Məqalələr';
+  static const String composting101 = 'Kompostlaşdırma 101';
+  static const String irrigationTips = 'Suvarma Məsləhətləri';
+  static const String soilCare = 'Torpaq Qayğısı';
 
   // AI Chatbot
-  static const String aiAssistant = 'AI Assistant';
-  static const String askQuestion = 'Ask a question...';
-  static const String voiceInput = 'Voice Input';
-  static const String listening = 'Listening...';
-  static const String typeMessage = 'Type a message...';
+  static const String aiAssistant = 'AI Köməkçi';
+  static const String askQuestion = 'Sual verin...';
+  static const String voiceInput = 'Səsli Giriş';
+  static const String listening = 'Dinləyirəm...';
+  static const String typeMessage = 'Mesaj yazın...';
 
   // Settings
-  static const String settings = 'Settings';
-  static const String profile = 'Profile';
-  static const String notifications = 'Notifications';
-  static const String theme = 'Theme';
-  static const String language = 'Language';
-  static const String units = 'Units';
-  static const String about = 'About';
-  static const String privacyPolicy = 'Privacy Policy';
-  static const String termsOfService = 'Terms of Service';
-  static const String logout = 'Logout';
-  static const String darkMode = 'Dark Mode';
-  static const String lightMode = 'Light Mode';
+  static const String settings = 'Parametrlər';
+  static const String profile = 'Profil';
+  static const String notifications = 'Bildirişlər';
+  static const String theme = 'Tema';
+  static const String language = 'Dil';
+  static const String units = 'Vahidlər';
+  static const String about = 'Haqqında';
+  static const String privacyPolicy = 'Məxfilik Siyasəti';
+  static const String termsOfService = 'İstifadə Şərtləri';
+  static const String logout = 'Çıxış';
+  static const String darkMode = 'Qaranlıq Rejim';
+  static const String lightMode = 'İşıqlı Rejim';
+
+  // Validation Messages
+  static const String enterEmail = 'Zəhmət olmasa e-poçtunuzu daxil edin';
+  static const String enterValidEmail = 'Düzgün e-poçt ünvanı daxil edin';
+  static const String enterPassword = 'Zəhmət olmasa şifrənizi daxil edin';
+  static const String passwordMinLength = 'Şifrə ən azı 6 simvoldan ibarət olmalıdır';
+  static const String continueToLogin = 'Davam etmək üçün daxil olun';
+  static const String enterEmailHint = 'E-poçt ünvanınızı daxil edin';
+  static const String enterPasswordHint = 'Şifrənizi daxil edin';
 
   // Common Actions
-  static const String save = 'Save';
-  static const String cancel = 'Cancel';
-  static const String delete = 'Delete';
-  static const String edit = 'Edit';
-  static const String share = 'Share';
-  static const String export = 'Export';
-  static const String import = 'Import';
-  static const String retry = 'Retry';
-  static const String ok = 'OK';
-  static const String yes = 'Yes';
-  static const String no = 'No';
+  static const String save = 'Yadda saxla';
+  static const String cancel = 'Ləğv et';
+  static const String delete = 'Sil';
+  static const String edit = 'Redaktə et';
+  static const String share = 'Paylaş';
+  static const String export = 'İxrac et';
+  static const String import = 'İdxal et';
+  static const String retry = 'Yenidən cəhd et';
+  static const String ok = 'Tamam';
+  static const String yes = 'Bəli';
+  static const String no = 'Xeyr';
+  static const String create = 'Yarat';
+  static const String createBatch = 'Partiya Yarat';
+  static const String createNewBatch = 'Yeni Partiya Yarat';
+  static const String noCompostBatches = 'Kompost Partiyası Yoxdur';
+  static const String google = 'Google';
+  static const String facebook = 'Facebook';
 
   // Status Messages
-  static const String loading = 'Loading...';
-  static const String noData = 'No data available';
-  static const String error = 'An error occurred';
-  static const String success = 'Success!';
-  static const String tryAgain = 'Please try again';
-  static const String checkConnection = 'Check your internet connection';
+  static const String loading = 'Yüklənir...';
+  static const String noData = 'Məlumat yoxdur';
+  static const String error = 'Xəta baş verdi';
+  static const String success = 'Uğurlu!';
+  static const String tryAgain = 'Zəhmət olmasa yenidən cəhd edin';
+  static const String checkConnection = 'İnternet bağlantınızı yoxlayın';
 
   // Units
   static const String celsius = '°C';
   static const String fahrenheit = '°F';
-  static const String kilogram = 'kg';
-  static const String pound = 'lb';
+  static const String kilogram = 'kq';
+  static const String pound = 'funt';
   static const String liter = 'L';
-  static const String gallon = 'gal';
+  static const String gallon = 'qallon';
   static const String percentage = '%';
   static const String ppm = 'ppm';
-  static const String hours = 'hours';
-  static const String days = 'days';
-  static const String weeks = 'weeks';
+  static const String hours = 'saat';
+  static const String days = 'gün';
+  static const String weeks = 'həftə';
 }

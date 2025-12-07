@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
+import '../logic/auth_bloc.dart';
+import '../logic/auth_event.dart';
+import '../logic/auth_state.dart';
 import 'login_screen.dart';
+import '../../dashboard/screens/home_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -13,7 +18,8 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _personalInfoFormKey = GlobalKey<FormState>();
+  final _passwordFormKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -23,7 +29,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   File? _profileImage;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
-  bool _isLoading = false;
   int _currentStep = 0;
 
   @override
@@ -77,100 +82,148 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  Future<void> _handleRegister() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
-      
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
-      
-      setState(() => _isLoading = false);
-      
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Registration successful!')),
-        );
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
-          ),
-        );
-      }
+  void _handleRegister() {
+    if (_passwordFormKey.currentState!.validate()) {
+      context.read<AuthBloc>().add(
+        AuthRegisterRequested(
+          name: _nameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+          phone: _phoneController.text.trim(),
+          photoUrl: _profileImage?.path,
+        ),
+      );
+    }
+  }
+
+  bool _validateCurrentStep() {
+    switch (_currentStep) {
+      case 0: // Photo step - optional, always valid
+        return true;
+      case 1: // Personal info step - validate form
+        return _personalInfoFormKey.currentState?.validate() ?? false;
+      case 2: // Password step - validate form
+        return _passwordFormKey.currentState?.validate() ?? false;
+      default:
+        return false;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppStrings.register),
-      ),
-      body: SafeArea(
-        child: Stepper(
-          type: StepperType.horizontal,
-          currentStep: _currentStep,
-          onStepContinue: () {
-            if (_currentStep < 2) {
-              setState(() => _currentStep++);
-            } else {
-              _handleRegister();
-            }
-          },
-          onStepCancel: () {
-            if (_currentStep > 0) {
-              setState(() => _currentStep--);
-            }
-          },
-          controlsBuilder: (context, details) {
-            return Padding(
-              padding: const EdgeInsets.only(top: 24),
-              child: Row(
-                children: [
-                  if (_currentStep > 0)
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: details.onStepCancel,
-                        child: const Text('Back'),
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthAuthenticated) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${AppStrings.register} ${AppStrings.success}'),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
+            (route) => false,
+          );
+        } else if (state is AuthError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      builder: (context, state) {
+        final isLoading = state is AuthLoading;
+        
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text(AppStrings.register),
+          ),
+          body: SafeArea(
+            child: Stepper(
+              type: StepperType.horizontal,
+              currentStep: _currentStep,
+              onStepContinue: isLoading ? null : () {
+                if (_currentStep < 2) {
+                  // Validate current step before moving forward
+                  if (_validateCurrentStep()) {
+                    setState(() => _currentStep++);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(AppStrings.tryAgain),
+                        backgroundColor: Colors.orange,
                       ),
-                    ),
-                  if (_currentStep > 0) const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _isLoading ? null : details.onStepContinue,
-                      child: _isLoading && _currentStep == 2
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : Text(_currentStep == 2 ? 'Register' : 'Next'),
-                    ),
+                    );
+                  }
+                } else {
+                  // Final step - validate and register
+                  if (_validateCurrentStep()) {
+                    _handleRegister();
+                  }
+                }
+              },
+              onStepCancel: () {
+                if (_currentStep > 0) {
+                  setState(() => _currentStep--);
+                }
+              },
+              controlsBuilder: (context, details) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 24),
+                  child: Row(
+                    children: [
+                      if (_currentStep > 0)
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: isLoading ? null : details.onStepCancel,
+                            child: Text(AppStrings.cancel),
+                          ),
+                        ),
+                      if (_currentStep > 0) const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: details.onStepContinue,
+                          child: isLoading && _currentStep == 2
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  ),
+                                )
+                              : Text(_currentStep == 2 ? AppStrings.register : AppStrings.next),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          },
-          steps: [
-            Step(
-              title: const Text('Photo'),
-              isActive: _currentStep >= 0,
-              state: _currentStep > 0 ? StepState.complete : StepState.indexed,
-              content: _buildPhotoStep(),
+                );
+              },
+              steps: [
+                Step(
+                  title: Text(AppStrings.profilePhoto),
+                  isActive: _currentStep >= 0,
+                  state: _currentStep > 0 ? StepState.complete : StepState.indexed,
+                  content: _buildPhotoStep(),
+                ),
+                Step(
+                  title: Text(AppStrings.personalInfo),
+                  isActive: _currentStep >= 1,
+                  state: _currentStep > 1 ? StepState.complete : StepState.indexed,
+                  content: _buildPersonalInfoStep(),
+                ),
+                Step(
+                  title: Text(AppStrings.password),
+                  isActive: _currentStep >= 2,
+                  content: _buildPasswordStep(),
+                ),
+              ],
             ),
-            Step(
-              title: const Text('Info'),
-              isActive: _currentStep >= 1,
-              state: _currentStep > 1 ? StepState.complete : StepState.indexed,
-              content: _buildPersonalInfoStep(),
-            ),
-            Step(
-              title: const Text('Password'),
-              isActive: _currentStep >= 2,
-              content: _buildPasswordStep(),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -203,7 +256,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
         const SizedBox(height: 16),
         Text(
-          'Tap to ${_profileImage != null ? 'change' : 'add'} photo',
+          _profileImage != null ? AppStrings.uploadPhoto : AppStrings.takePhoto,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: AppColors.primary,
               ),
@@ -214,19 +267,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Widget _buildPersonalInfoStep() {
     return Form(
-      key: _formKey,
+      key: _personalInfoFormKey,
       child: Column(
         children: [
           TextFormField(
             controller: _nameController,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: AppStrings.fullName,
-              hintText: 'Enter your full name',
-              prefixIcon: Icon(Icons.person_outline),
+              hintText: AppStrings.fullName,
+              prefixIcon: const Icon(Icons.person_outline),
             ),
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your name';
+              if (value == null || value.trim().isEmpty) {
+                return AppStrings.tryAgain;
+              }
+              if (value.trim().length < 3) {
+                return AppStrings.tryAgain;
               }
               return null;
             },
@@ -235,17 +291,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           TextFormField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: AppStrings.email,
-              hintText: 'Enter your email',
-              prefixIcon: Icon(Icons.email_outlined),
+              hintText: AppStrings.email,
+              prefixIcon: const Icon(Icons.email_outlined),
             ),
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
+              if (value == null || value.trim().isEmpty) {
+                return AppStrings.tryAgain;
               }
-              if (!value.contains('@')) {
-                return 'Please enter a valid email';
+              if (!value.contains('@') || !value.contains('.')) {
+                return AppStrings.tryAgain;
               }
               return null;
             },
@@ -254,14 +310,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           TextFormField(
             controller: _phoneController,
             keyboardType: TextInputType.phone,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: AppStrings.phoneNumber,
-              hintText: 'Enter your phone number',
-              prefixIcon: Icon(Icons.phone_outlined),
+              hintText: AppStrings.phoneNumber,
+              prefixIcon: const Icon(Icons.phone_outlined),
             ),
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your phone number';
+              if (value == null || value.trim().isEmpty) {
+                return AppStrings.tryAgain;
+              }
+              if (value.trim().length < 9) {
+                return AppStrings.tryAgain;
               }
               return null;
             },
@@ -272,67 +331,70 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   Widget _buildPasswordStep() {
-    return Column(
-      children: [
-        TextFormField(
-          controller: _passwordController,
-          obscureText: _obscurePassword,
-          decoration: InputDecoration(
-            labelText: AppStrings.password,
-            hintText: 'Enter your password',
-            prefixIcon: const Icon(Icons.lock_outline),
-            suffixIcon: IconButton(
-              icon: Icon(
-                _obscurePassword
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
+    return Form(
+      key: _passwordFormKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _passwordController,
+            obscureText: _obscurePassword,
+            decoration: InputDecoration(
+              labelText: AppStrings.password,
+              hintText: AppStrings.password,
+              prefixIcon: const Icon(Icons.lock_outline),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscurePassword
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                ),
+                onPressed: () {
+                  setState(() => _obscurePassword = !_obscurePassword);
+                },
               ),
-              onPressed: () {
-                setState(() => _obscurePassword = !_obscurePassword);
-              },
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return AppStrings.tryAgain;
+              }
+              if (value.length < 6) {
+                return AppStrings.tryAgain;
+              }
+              return null;
+            },
           ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter a password';
-            }
-            if (value.length < 6) {
-              return 'Password must be at least 6 characters';
-            }
-            return null;
-          },
-        ),
-        const SizedBox(height: 16),
-        TextFormField(
-          controller: _confirmPasswordController,
-          obscureText: _obscureConfirmPassword,
-          decoration: InputDecoration(
-            labelText: AppStrings.confirmPassword,
-            hintText: 'Confirm your password',
-            prefixIcon: const Icon(Icons.lock_outline),
-            suffixIcon: IconButton(
-              icon: Icon(
-                _obscureConfirmPassword
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _confirmPasswordController,
+            obscureText: _obscureConfirmPassword,
+            decoration: InputDecoration(
+              labelText: AppStrings.confirmPassword,
+              hintText: AppStrings.confirmPassword,
+              prefixIcon: const Icon(Icons.lock_outline),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _obscureConfirmPassword
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                ),
+                onPressed: () {
+                  setState(() =>
+                      _obscureConfirmPassword = !_obscureConfirmPassword);
+                },
               ),
-              onPressed: () {
-                setState(() =>
-                    _obscureConfirmPassword = !_obscureConfirmPassword);
-              },
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return AppStrings.tryAgain;
+              }
+              if (value != _passwordController.text) {
+                return AppStrings.tryAgain;
+              }
+              return null;
+            },
           ),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please confirm your password';
-            }
-            if (value != _passwordController.text) {
-              return 'Passwords do not match';
-            }
-            return null;
-          },
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
