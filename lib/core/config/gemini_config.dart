@@ -1,11 +1,12 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Gemini AI Configuration
 class GeminiConfig {
   GeminiConfig._();
 
-  // API Key - Replace with your actual API key or load from environment
-  static const String apiKey = 'AIzaSyAW7tjLqQnUB1hCvcAsXq5Y9-XtOI_VMcQ';
+  // API Key - Loaded from environment variables
+  static String get apiKey => dotenv.env['GEMINI_API_KEY'] ?? '';
 
   // Model configuration
   static const String modelName = 'gemini-2.5-flash';

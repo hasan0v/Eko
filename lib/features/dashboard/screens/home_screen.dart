@@ -12,6 +12,7 @@ import '../../education/screens/education_center_screen.dart';
 import '../../chatbot/screens/chatbot_screen.dart';
 import '../../profile/screens/profile_screen.dart';
 import '../../auth/data/auth_repository.dart';
+import '../widgets/weather_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -91,36 +92,22 @@ class DashboardView extends StatelessWidget {
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header with Profile Button
+                // Header with Logo and Profile Button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${_getGreeting()}, ${authRepository.getCurrentUser()?.name.split(' ').first ?? AppStrings.welcome}!',
-                            style: Theme.of(
-                              context,
-                            ).textTheme.headlineMedium?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: const Color(0xFF1A1D1F),
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            AppStrings.monitorFarm,
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(color: const Color(0xFF6C7278)),
-                          ),
-                        ],
-                      ),
+                    // Logo
+                    Image.asset(
+                      'assets/images/logo.png',
+                      height: 50,
+                      fit: BoxFit.contain,
                     ),
+                    const Spacer(),
+                    // Profile Button
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
@@ -136,7 +123,12 @@ class DashboardView extends StatelessWidget {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          gradient: AppGradients.primaryGradient,
+                          gradient: authRepository.getCurrentUser()?.photoUrl == null
+                              ? AppGradients.primaryGradient
+                              : null,
+                          color: authRepository.getCurrentUser()?.photoUrl != null
+                              ? Colors.white
+                              : null,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -146,80 +138,79 @@ class DashboardView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: Center(
-                          child: Text(
-                            authRepository
-                                    .getCurrentUser()
-                                    ?.name[0]
-                                    .toUpperCase() ??
-                                'U',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        ),
+                        child: authRepository.getCurrentUser()?.photoUrl != null
+                            ? ClipOval(
+                                child: Image.network(
+                                  authRepository.getCurrentUser()!.photoUrl!,
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Center(
+                                      child: Text(
+                                        authRepository
+                                                .getCurrentUser()
+                                                ?.name[0]
+                                                .toUpperCase() ??
+                                            'U',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )
+                            : Center(
+                                child: Text(
+                                  authRepository
+                                          .getCurrentUser()
+                                          ?.name[0]
+                                          .toUpperCase() ??
+                                      'U',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ),
                       ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                // Greeting Message
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${_getGreeting()}, ${authRepository.getCurrentUser()?.name.split(' ').first ?? AppStrings.welcome}!',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF1A1D1F),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      AppStrings.monitorFarm,
+                      style: Theme.of(context).textTheme.bodyMedium
+                          ?.copyWith(color: const Color(0xFF6C7278)),
                     ),
                   ],
                 ),
                 const SizedBox(height: 24),
 
-                // Weather Card with gradient
+                // Weather Card with animated weather display
                 StaggeredListItem(
                   index: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: AppGradients.warningGradient,
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: AppShadows.cardShadow,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: const Icon(
-                              Icons.wb_sunny,
-                              size: 48,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '24°C',
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.displaySmall?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  AppStrings.sunny,
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.titleMedium?.copyWith(
-                                    color: Colors.white.withOpacity(0.9),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  child: const WeatherCard(
+                    temperature: 24,
+                    condition: WeatherCondition.sunny,
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -242,7 +233,7 @@ class DashboardView extends StatelessWidget {
                   builder: (context, constraints) {
                     final width = constraints.maxWidth;
                     final spacing = width < 360 ? 10.0 : 14.0;
-                    final aspectRatio = width < 360 ? 1.05 : 1.15;
+                    final aspectRatio = width < 360 ? 0.95 : 1.05;
 
                     return GridView.count(
                       shrinkWrap: true,
@@ -277,7 +268,7 @@ class DashboardView extends StatelessWidget {
                           child: _buildStatCard(
                             context,
                             AppStrings.temperature,
-                            '45°C',
+                            '45C',
                             Icons.thermostat,
                             AppGradients.warningGradient,
                           ),

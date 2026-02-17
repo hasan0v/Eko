@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/theme/app_theme.dart';
-import 'core/database/local_database.dart';
-import 'core/database/database_seeder.dart';
+import 'core/services/supabase_service.dart';
 import 'core/services/api_client.dart';
 import 'core/services/storage_service.dart';
 import 'features/auth/data/auth_repository.dart';
@@ -17,32 +17,29 @@ import 'features/water/logic/water_bloc.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize local database
-  final localDb = LocalDatabase();
-  await localDb.initialize();
+  // Load environment variables
+  await dotenv.load(fileName: ".env");
+  print('✅ Environment variables loaded');
 
-  // Seed database with sample data (only on first run)
-  final isFirstRun =
-      localDb.getSetting('is_first_run', defaultValue: true) as bool;
-  if (isFirstRun) {
-    await DatabaseSeeder.seedAll();
-    await localDb.saveSetting('is_first_run', false);
-  }
+  // Initialize Supabase
+  await SupabaseService.initialize();
+  print('✅ Supabase initialized');
+
+  // Note: Authentication is now handled by AuthBloc
+  // Users must log in with: test@ecobin.app / testpassword123
 
   // Initialize services
   final storageService = StorageService();
   await storageService.init();
 
-  final apiClient = ApiClient();
-
   // Initialize repositories
   final authRepository = AuthRepository(
-    apiClient: apiClient,
+    apiClient: ApiClient(),
     storage: storageService,
   );
 
-  final compostRepository = CompostRepository(apiClient: apiClient);
-  final waterRepository = WaterRepository(apiClient: apiClient);
+  final compostRepository = CompostRepository();
+  final waterRepository = WaterRepository();
 
   runApp(
     EcoBinApp(
@@ -94,7 +91,7 @@ class EcoBinApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.system,
+          themeMode: ThemeMode.light,
           home: const SplashScreen(),
         ),
       ),

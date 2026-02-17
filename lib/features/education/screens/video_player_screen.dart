@@ -20,6 +20,7 @@ class VideoPlayerScreen extends StatefulWidget {
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   late YoutubePlayerController _controller;
   bool _isPlayerReady = false;
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -28,24 +29,46 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void _initializePlayer() {
-    _controller = YoutubePlayerController(
-      initialVideoId: widget.lesson.videoId,
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
-        enableCaption: true,
-        controlsVisibleAtStart: true,
-        hideThumbnail: true,
-        forceHD: false,
-        disableDragSeek: false,
-      ),
-    )..addListener(_listener);
+    try {
+      _controller = YoutubePlayerController(
+        initialVideoId: widget.lesson.videoId,
+        flags: const YoutubePlayerFlags(
+          autoPlay: false,
+          mute: false,
+          enableCaption: true,
+          controlsVisibleAtStart: true,
+          hideThumbnail: true,
+          forceHD: false,
+          disableDragSeek: false,
+        ),
+      )..addListener(_listener);
+    } catch (e) {
+      setState(() {
+        _hasError = true;
+      });
+    }
   }
 
   void _listener() {
     if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+      // Check for player errors
+      if (_controller.value.hasError) {
+        setState(() {
+          _hasError = true;
+        });
+        return;
+      }
       setState(() {});
     }
+  }
+
+  void _retryPlayer() {
+    setState(() {
+      _hasError = false;
+      _isPlayerReady = false;
+    });
+    _controller.dispose();
+    _initializePlayer();
   }
 
   @override
@@ -105,28 +128,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       ),
       builder: (context, player) {
         return Scaffold(
-          backgroundColor: const Color(0xFF1A1D1F),
+          backgroundColor: const Color(0xFFF8FAFB),
           appBar: AppBar(
-            backgroundColor: const Color(0xFF1A1D1F),
+            backgroundColor: Colors.white,
             elevation: 0,
-            systemOverlayStyle: SystemUiOverlayStyle.light,
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
             leading: Container(
               margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.white.withOpacity(0.25),
-                    Colors.white.withOpacity(0.15),
-                  ],
-                ),
+                color: const Color(0xFFF0F4F8),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.3),
+                  color: const Color(0xFFE8ECF0),
                   width: 1.5,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withOpacity(0.05),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -134,7 +152,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               ),
               child: IconButton(
                 icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                color: Colors.white,
+                color: const Color(0xFF1A1D1F),
                 iconSize: 20,
                 onPressed: () => Navigator.of(context).pop(),
               ),
@@ -142,10 +160,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             title: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
+                color: const Color(0xFFF0F4F8),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: Colors.white.withOpacity(0.2),
+                  color: const Color(0xFFE8ECF0),
                 ),
               ),
               child: const Text(
@@ -153,7 +171,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                  color: Color(0xFF1A1D1F),
                 ),
               ),
             ),
@@ -189,8 +207,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                player,
-                _buildVideoControls(),
+                if (_hasError)
+                  _buildErrorWidget()
+                else
+                  player,
+                if (!_hasError) _buildVideoControls(),
                 _buildVideoInfo(),
               ],
             ),
@@ -200,28 +221,90 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     );
   }
 
+  Widget _buildErrorWidget() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: const Color(0xFFE8ECF0), width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.red.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.error_outline,
+              color: Colors.red,
+              size: 48,
+            ),
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            'Video yüklənmədi',
+            style: TextStyle(
+              color: Color(0xFF1A1D1F),
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'İnternet bağlantınızı yoxlayın və yenidən cəhd edin',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xFF6C7278),
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton.icon(
+            onPressed: _retryPlayer,
+            icon: const Icon(Icons.refresh),
+            label: const Text('Yenidən cəhd et'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: widget.lesson.level.color,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildVideoInfo() {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.white.withOpacity(0.08),
-            Colors.white.withOpacity(0.04),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: Colors.white.withOpacity(0.15),
+          color: const Color(0xFFE8ECF0),
           width: 1.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -279,7 +362,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           Text(
             widget.lesson.title,
             style: const TextStyle(
-              color: Colors.white,
+              color: Color(0xFF1A1D1F),
               fontSize: 22,
               fontWeight: FontWeight.w800,
               height: 1.3,
@@ -306,8 +389,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           // Description
           Text(
             widget.lesson.level.subtitle,
-            style: TextStyle(
-              color: Colors.white.withOpacity(0.8),
+            style: const TextStyle(
+              color: Color(0xFF6C7278),
               fontSize: 15,
               height: 1.6,
             ),
@@ -388,8 +471,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             children: [
               Text(
                 label,
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.6),
+                style: const TextStyle(
+                  color: Color(0xFF6C7278),
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
                 ),
@@ -398,7 +481,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               Text(
                 value,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFF1A1D1F),
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
                 ),
@@ -494,8 +577,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               )
             : LinearGradient(
                 colors: [
-                  Colors.grey.shade800,
-                  Colors.grey.shade900,
+                  Colors.grey.shade300,
+                  Colors.grey.shade400,
                 ],
               ),
         borderRadius: BorderRadius.circular(12),
@@ -525,7 +608,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF2A2D2F),
+        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -540,7 +623,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             const Text(
               'Video Tamamlandı!',
               style: TextStyle(
-                color: Colors.white,
+                color: Color(0xFF1A1D1F),
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
               ),
@@ -550,7 +633,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         content: const Text(
           'Bu dərsi tamamladınız. Növbəti videoya keçmək istəyirsiniz?',
           style: TextStyle(
-            color: Colors.white70,
+            color: Color(0xFF6C7278),
             fontSize: 15,
             height: 1.5,
           ),
@@ -564,7 +647,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             child: Text(
               'Siyahıya Qayıt',
               style: TextStyle(
-                color: Colors.white.withOpacity(0.7),
+                color: const Color(0xFF6C7278),
                 fontSize: 14,
               ),
             ),
@@ -621,8 +704,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             children: [
               Text(
                 label,
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.5),
+                style: const TextStyle(
+                  color: Color(0xFF6C7278),
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
@@ -631,7 +714,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               Text(
                 value,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFF1A1D1F),
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),

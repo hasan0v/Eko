@@ -27,7 +27,7 @@ class SensorGrid extends StatelessWidget {
         // Calculate responsive aspect ratio based on available width
         final width = constraints.maxWidth;
         final spacing = width < 360 ? 8.0 : 12.0;
-        final aspectRatio = width < 360 ? 1.3 : 1.4;
+        final aspectRatio = width < 360 ? 1.0 : 1.1;
 
         return GridView.count(
           shrinkWrap: true,
@@ -40,7 +40,7 @@ class SensorGrid extends StatelessWidget {
             _SensorCard(
               icon: Icons.thermostat,
               label: 'Temperatur',
-              value: '${sensorData!.temperature?.toStringAsFixed(1) ?? '--'}°C',
+              value: '${sensorData!.temperature?.toStringAsFixed(1) ?? '--'}C',
               gradient: AppGradients.errorGradient,
             ),
             _SensorCard(
@@ -51,7 +51,7 @@ class SensorGrid extends StatelessWidget {
             ),
             _SensorCard(
               icon: Icons.cloud,
-              label: 'CO₂ Səviyyəsi',
+              label: 'CO2 Səviyyəsi',
               value: '${sensorData!.co2Level?.toStringAsFixed(0) ?? '--'} ppm',
               gradient: AppGradients.warningGradient,
             ),
@@ -113,32 +113,29 @@ class _SensorCard extends StatelessWidget {
                 child: Icon(icon, color: Colors.white, size: iconSize),
               ),
               SizedBox(height: spacing),
-              Flexible(
-                child: Text(
-                  label,
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  height: 1.2,
                 ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.visible,
               ),
-              const SizedBox(height: 2),
-              Flexible(
-                child: Text(
-                  value,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+              const SizedBox(height: 4),
+              Text(
+                value,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.w700,
                 ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

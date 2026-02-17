@@ -50,7 +50,7 @@ class WaterQualityGrid extends StatelessWidget {
           isDark: isDark,
         ),
         _QualityCard(
-          label: 'Həll olmuş O₂',
+          label: 'Həll olmuş O2',
           value: dissolvedOxygen?.toStringAsFixed(1) ?? '--',
           unit: 'mg/L',
           icon: Icons.air,
@@ -76,7 +76,7 @@ class WaterQualityGrid extends StatelessWidget {
         _QualityCard(
           label: 'Temperatur',
           value: temperature?.toStringAsFixed(1) ?? '--',
-          unit: '°C',
+          unit: 'C',
           icon: Icons.thermostat,
           gradient: _getTempGradient(temperature),
           isDark: isDark,

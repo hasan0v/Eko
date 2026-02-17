@@ -1,20 +1,46 @@
 import '../../../models/water_tank.dart';
 import '../../../models/irrigation.dart';
-import '../../../core/services/api_client.dart';
+import '../../../core/services/water_management_service.dart';
 
 /// Water management repository
 class WaterRepository {
-  final ApiClient _apiClient;
+  final WaterManagementService _service = WaterManagementService();
 
-  WaterRepository({required ApiClient apiClient}) : _apiClient = apiClient;
+  WaterRepository();
 
-  /// Get water tank status
+  /// Get all water tanks
+  Future<List<WaterTank>> getAllTanks() async {
+    try {
+      return await _service.getAllTanks();
+    } catch (e) {
+      throw Exception('Failed to load tanks: $e');
+    }
+  }
+
+  /// Get water tank status (first tank for backward compatibility)
   Future<WaterTank> getTankStatus() async {
     try {
-      // TODO: Replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 500));
-      
-      return _getMockTank();
+      final tanks = await _service.getAllTanks();
+      if (tanks.isEmpty) {
+        // Create a default tank if none exists
+        return await _service.createTank(
+          WaterTank(
+            id: '',
+            name: 'Su çəni',
+            capacity: 1000.0,
+            currentLevel: 750.0,
+            quality: WaterQuality.good,
+            ph: 7.2,
+            dissolvedOxygen: 8.5,
+            nitrate: 15.0,
+            electricalConductivity: 450.0,
+            temperature: 22.5,
+            turbidity: 2.1,
+            lastUpdated: DateTime.now(),
+          ),
+        );
+      }
+      return tanks.first;
     } catch (e) {
       throw Exception('Failed to load tank status: $e');
     }
@@ -23,9 +49,8 @@ class WaterRepository {
   /// Toggle auto-irrigation
   Future<bool> toggleAutoIrrigation(bool enabled) async {
     try {
-      // TODO: Replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 500));
-      
+      final tank = await getTankStatus();
+      await _service.updateTank(tank.copyWith(autoIrrigate: enabled));
       return enabled;
     } catch (e) {
       throw Exception('Failed to toggle auto-irrigation: $e');
@@ -38,17 +63,15 @@ class WaterRepository {
     String? zone,
   }) async {
     try {
-      // TODO: Replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 500));
-      
-      return IrrigationEvent(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+      final event = IrrigationEvent(
+        id: '',
         startTime: DateTime.now(),
         duration: duration,
         waterUsed: 0,
         zone: zone,
         isAutomatic: false,
       );
+      return await _service.createEvent(event);
     } catch (e) {
       throw Exception('Failed to start irrigation: $e');
     }
@@ -57,10 +80,7 @@ class WaterRepository {
   /// Get irrigation schedules
   Future<List<IrrigationSchedule>> getSchedules() async {
     try {
-      // TODO: Replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 500));
-      
-      return _getMockSchedules();
+      return await _service.getAllSchedules();
     } catch (e) {
       throw Exception('Failed to load schedules: $e');
     }
@@ -73,15 +93,13 @@ class WaterRepository {
     String? zone,
   }) async {
     try {
-      // TODO: Replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 500));
-      
-      return IrrigationSchedule(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+      final schedule = IrrigationSchedule(
+        id: '',
         scheduledTime: scheduledTime,
         duration: duration,
         zone: zone,
       );
+      return await _service.createSchedule(schedule);
     } catch (e) {
       throw Exception('Failed to add schedule: $e');
     }
@@ -90,8 +108,7 @@ class WaterRepository {
   /// Delete irrigation schedule
   Future<void> deleteSchedule(String scheduleId) async {
     try {
-      // TODO: Replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 500));
+      await _service.deleteSchedule(scheduleId);
     } catch (e) {
       throw Exception('Failed to delete schedule: $e');
     }
@@ -103,10 +120,7 @@ class WaterRepository {
     DateTime? endDate,
   }) async {
     try {
-      // TODO: Replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 500));
-      
-      return _getMockHistory();
+      return await _service.getIrrigationHistory(limit: 100);
     } catch (e) {
       throw Exception('Failed to load irrigation history: $e');
     }
@@ -118,15 +132,12 @@ class WaterRepository {
     DateTime? endDate,
   }) async {
     try {
-      // TODO: Replace with actual API call
-      await Future.delayed(const Duration(milliseconds: 500));
-      
-      final history = _getMockHistory();
+      final history = await _service.getIrrigationHistory(limit: 100);
       final totalUsed = history.fold<double>(
         0,
         (sum, event) => sum + event.waterUsed,
       );
-      
+
       return {
         'totalUsed': totalUsed,
         'averageDaily': totalUsed / 7,
@@ -136,56 +147,5 @@ class WaterRepository {
     } catch (e) {
       throw Exception('Failed to load usage stats: $e');
     }
-  }
-
-  /// Mock data generators
-  WaterTank _getMockTank() {
-    return WaterTank(
-      id: '1',
-      name: 'Su çəni',
-      capacity: 1000.0,
-      currentLevel: 750.0,
-      quality: WaterQuality.good,
-      ph: 7.2,
-      dissolvedOxygen: 8.5,
-      nitrate: 15.0,
-      electricalConductivity: 450.0,
-      temperature: 22.5,
-      turbidity: 2.1,
-      lastUpdated: DateTime.now(),
-    );
-  }
-
-  List<IrrigationSchedule> _getMockSchedules() {
-    final now = DateTime.now();
-    return [
-      IrrigationSchedule(
-        id: '1',
-        scheduledTime: DateTime(now.year, now.month, now.day, 6, 0),
-        duration: 15,
-        zone: 'Zone A',
-      ),
-      IrrigationSchedule(
-        id: '2',
-        scheduledTime: DateTime(now.year, now.month, now.day, 18, 0),
-        duration: 20,
-        zone: 'Zone B',
-      ),
-    ];
-  }
-
-  List<IrrigationEvent> _getMockHistory() {
-    final now = DateTime.now();
-    return List.generate(
-      7,
-      (index) => IrrigationEvent(
-        id: '${index + 1}',
-        startTime: now.subtract(Duration(days: 6 - index, hours: 6)),
-        endTime: now.subtract(Duration(days: 6 - index, hours: 6, minutes: -15)),
-        duration: 15,
-        waterUsed: 45.0 + (index * 5),
-        zone: index % 2 == 0 ? 'Zone A' : 'Zone B',
-      ),
-    );
   }
 }

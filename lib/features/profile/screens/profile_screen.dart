@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../../core/constants/app_strings.dart';
@@ -8,6 +9,9 @@ import '../../../core/theme/app_animations.dart';
 import '../../../core/widgets/modern_widgets.dart';
 import '../../../core/services/storage_service.dart';
 import '../../auth/data/auth_repository.dart';
+import '../../auth/logic/auth_bloc.dart';
+import '../../auth/logic/auth_event.dart';
+import '../../auth/screens/login_screen.dart';
 import '../../../models/user.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -83,11 +87,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         photoUrl: _imageFile?.path,
       );
 
+      // Reload user data to get the uploaded photo URL
       _currentUser = widget.authRepository.getCurrentUser();
       
       setState(() {
         _isEditingProfile = false;
         _isLoading = false;
+        _imageFile = null; // Clear local file after upload
       });
 
       if (mounted) {
@@ -178,27 +184,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final horizontalPadding = screenWidth < 360 ? 12.0 : 20.0;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1D1F),
+      backgroundColor: const Color(0xFFF8FAFB),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1A1D1F),
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.white.withOpacity(0.25),
-                Colors.white.withOpacity(0.15),
-              ],
-            ),
+            color: const Color(0xFFF0F4F8),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: Colors.white.withOpacity(0.3),
+              color: const Color(0xFFE8ECF0),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withOpacity(0.05),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -206,7 +207,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           child: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
-            color: Colors.white,
+            color: const Color(0xFF1A1D1F),
             iconSize: 20,
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -216,20 +217,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w700,
-            color: Colors.white,
+            color: Color(0xFF1A1D1F),
           ),
         ),
         actions: [
           if (_isEditingProfile)
             IconButton(
-              icon: const Icon(Icons.check, color: Colors.white),
+              icon: const Icon(Icons.check, color: Color(0xFF1A1D1F)),
               onPressed: _isLoading ? null : _saveProfile,
             ),
         ],
       ),
       body: Container(
         decoration: const BoxDecoration(
-          gradient: AppGradients.darkBackgroundGradient,
+          gradient: AppGradients.backgroundGradient,
         ),
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
@@ -243,7 +244,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // Profile Picture Section
                 AnimatedCard(
                   child: ModernCard(
-                    color: Colors.white.withOpacity(0.08),
+                    color: Colors.white,
                     child: Column(
                       children: [
                         Stack(
@@ -262,24 +263,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ],
                             ),
-                            child: _imageFile != null
-                                ? ClipOval(
-                                    child: Image.file(
-                                      _imageFile!,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
-                                : _currentUser?.photoUrl != null
-                                    ? ClipOval(
-                                        child: Image.file(
-                                          File(_currentUser!.photoUrl!),
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (context, error, stack) {
-                                            return _buildDefaultAvatar();
-                                          },
-                                        ),
-                                      )
-                                    : _buildDefaultAvatar(),
+                            child: ClipOval(
+                              child: _buildProfileImage(),
+                            ),
                           ),
                           Positioned(
                             bottom: 0,
@@ -311,7 +297,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Text(
                         _currentUser?.name ?? 'İstifadəçi',
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFF1A1D1F),
                           fontSize: 24,
                           fontWeight: FontWeight.w800,
                         ),
@@ -319,8 +305,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 6),
                       Text(
                         _currentUser?.email ?? '',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
+                        style: const TextStyle(
+                          color: Color(0xFF6C7278),
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                         ),
@@ -408,7 +394,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                               child: const Text(
                                 'Ləğv et',
-                                style: TextStyle(color: Colors.white70),
+                                style: TextStyle(color: Color(0xFF6C7278)),
                               ),
                             ),
                           ),
@@ -454,21 +440,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 16,
-                                    color: Colors.white,
+                                    color: Color(0xFF1A1D1F),
                                   ),
                                 ),
                                 SizedBox(height: 4),
                                 Text(
                                   'Hesabınızı qorumaq üçün şifrənizi yeniləyin',
                                   style: TextStyle(
-                                    color: Colors.white54,
+                                    color: Color(0xFF6C7278),
                                     fontSize: 13,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          const Icon(Icons.chevron_right, color: Colors.white54),
+                          const Icon(Icons.chevron_right, color: Color(0xFF6C7278)),
                         ],
                       ),
                     ),
@@ -521,7 +507,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                               child: const Text(
                                 'Ləğv et',
-                                style: TextStyle(color: Colors.white70),
+                                style: TextStyle(color: Color(0xFF6C7278)),
                               ),
                             ),
                           ),
@@ -601,6 +587,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Widget _buildProfileImage() {
+    // If user just picked an image from device, show that
+    if (_imageFile != null) {
+      return Image.file(
+        _imageFile!,
+        fit: BoxFit.cover,
+      );
+    }
+
+    // If user has a photo URL from database
+    if (_currentUser?.photoUrl != null && _currentUser!.photoUrl!.isNotEmpty) {
+      final photoUrl = _currentUser!.photoUrl!;
+      
+      // Check if it's a network URL (from Supabase Storage)
+      if (photoUrl.startsWith('http://') || photoUrl.startsWith('https://')) {
+        return Image.network(
+          photoUrl,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+                color: Colors.white,
+              ),
+            );
+          },
+          errorBuilder: (context, error, stack) {
+            return _buildDefaultAvatar();
+          },
+        );
+      }
+      
+      // If it's a local file path (legacy support)
+      if (photoUrl.startsWith('/')) {
+        return Image.file(
+          File(photoUrl),
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stack) {
+            return _buildDefaultAvatar();
+          },
+        );
+      }
+    }
+
+    // Default avatar with user's initial
+    return _buildDefaultAvatar();
+  }
+
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
@@ -614,43 +652,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
       enabled: enabled,
       keyboardType: keyboardType,
       validator: validator,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: Color(0xFF1A1D1F)),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(
-          color: enabled ? Colors.white70 : Colors.white38,
+          color: enabled ? const Color(0xFF6C7278) : const Color(0xFF9CA3AF),
         ),
         prefixIcon: Icon(
           icon,
-          color: enabled ? const Color(0xFF19E624) : Colors.white38,
+          color: enabled ? const Color(0xFF2E7D32) : const Color(0xFF9CA3AF),
         ),
         filled: true,
         fillColor: enabled
-            ? Colors.white.withOpacity(0.05)
-            : Colors.white.withOpacity(0.02),
+            ? const Color(0xFFF0F4F8)
+            : const Color(0xFFF8FAFB),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Colors.white.withOpacity(0.1),
+          borderSide: const BorderSide(
+            color: Color(0xFFE8ECF0),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Colors.white.withOpacity(0.1),
+          borderSide: const BorderSide(
+            color: Color(0xFFE8ECF0),
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
-            color: Color(0xFF19E624),
+            color: Color(0xFF2E7D32),
             width: 2,
           ),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Colors.white.withOpacity(0.05),
+          borderSide: const BorderSide(
+            color: Color(0xFFE8ECF0),
           ),
         ),
       ),
@@ -665,29 +703,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return TextFormField(
       controller: controller,
       obscureText: true,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: Color(0xFF1A1D1F)),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: Colors.white70),
-        prefixIcon: Icon(icon, color: const Color(0xFF19E624)),
+        labelStyle: const TextStyle(color: Color(0xFF6C7278)),
+        prefixIcon: Icon(icon, color: const Color(0xFF2E7D32)),
         filled: true,
-        fillColor: Colors.white.withOpacity(0.05),
+        fillColor: const Color(0xFFF0F4F8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Colors.white.withOpacity(0.1),
+          borderSide: const BorderSide(
+            color: Color(0xFFE8ECF0),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Colors.white.withOpacity(0.1),
+          borderSide: const BorderSide(
+            color: Color(0xFFE8ECF0),
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
-            color: Color(0xFF19E624),
+            color: Color(0xFF2E7D32),
             width: 2,
           ),
         ),
@@ -703,15 +741,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFF19E624).withOpacity(0.15),
-                const Color(0xFF19E624).withOpacity(0.08),
+                const Color(0xFF2E7D32).withOpacity(0.15),
+                const Color(0xFF2E7D32).withOpacity(0.08),
               ],
             ),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(
             icon,
-            color: const Color(0xFF19E624),
+            color: const Color(0xFF2E7D32),
             size: 20,
           ),
         ),
@@ -722,8 +760,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Text(
                 label,
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.7),
+                style: const TextStyle(
+                  color: Color(0xFF6C7278),
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
@@ -732,7 +770,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Text(
                 value,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFF1A1D1F),
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                 ),
@@ -753,18 +791,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF2A2D2F),
+        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
         title: const Row(
           children: [
-            Icon(Icons.logout, color: Colors.white),
+            Icon(Icons.logout, color: Color(0xFF1A1D1F)),
             SizedBox(width: 12),
             Text(
               'Çıxış',
               style: TextStyle(
-                color: Colors.white,
+                color: Color(0xFF1A1D1F),
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
@@ -773,14 +811,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         content: const Text(
           'Hesabdan çıxmaq istədiyinizdən əminsiniz?',
-          style: TextStyle(color: Colors.white70, fontSize: 15),
+          style: TextStyle(color: Color(0xFF6C7278), fontSize: 15),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text(
               'Ləğv et',
-              style: TextStyle(color: Colors.white70),
+              style: TextStyle(color: Color(0xFF6C7278)),
             ),
           ),
           ElevatedButton(
@@ -792,9 +830,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             onPressed: () async {
-              await widget.authRepository.logout();
+              // Use AuthBloc to logout
+              context.read<AuthBloc>().add(const AuthLogoutRequested());
+              
               if (mounted) {
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                // Navigate to login screen
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (route) => false,
+                );
               }
             },
             child: const Text('Çıxış'),

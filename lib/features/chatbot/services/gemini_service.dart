@@ -108,7 +108,7 @@ class GeminiService {
       buffer.writeln('- pH: ${soilData['ph']}');
       buffer.writeln('- Nəmlik: ${soilData['moisture']}%');
       if (soilData['temperature'] != null) {
-        buffer.writeln('- Temperatur: ${soilData['temperature']}°C');
+        buffer.writeln('- Temperatur: ${soilData['temperature']}C');
       }
       buffer.writeln('');
     }
@@ -118,14 +118,14 @@ class GeminiService {
       buffer.writeln('- Su səviyyəsi: ${waterData['level']}L / ${waterData['capacity']}L');
       buffer.writeln('- pH: ${waterData['ph']}');
       if (waterData['temperature'] != null) {
-        buffer.writeln('- Temperatur: ${waterData['temperature']}°C');
+        buffer.writeln('- Temperatur: ${waterData['temperature']}C');
       }
       buffer.writeln('');
     }
     
     if (compostData != null) {
       buffer.writeln('♻️ Cari Kompost Məlumatları:');
-      buffer.writeln('- Temperatur: ${compostData['temperature']}°C');
+      buffer.writeln('- Temperatur: ${compostData['temperature']}C');
       buffer.writeln('- Nəmlik: ${compostData['humidity']}%');
       buffer.writeln('- Tamamlanma: ${compostData['progress']}%');
       buffer.writeln('');

@@ -31,11 +31,11 @@ class ModernCard extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
         gradient: gradient,
-        color: color ?? (gradient == null ? Colors.white.withOpacity(0.08) : null),
+        color: color ?? (gradient == null ? Colors.white : null),
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: boxShadow ?? AppShadows.cardShadow,
         border: Border.all(
-          color: Colors.white.withOpacity(0.1),
+          color: const Color(0xFFE8ECF0),
           width: 1,
         ),
       ),
@@ -119,7 +119,7 @@ class SectionHeader extends StatelessWidget {
               Text(
                 title,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Color(0xFF1A1D1F),
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                 ),
@@ -128,8 +128,8 @@ class SectionHeader extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   subtitle!,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.6),
+                  style: const TextStyle(
+                    color: Color(0xFF6C7278),
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),

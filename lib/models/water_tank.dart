@@ -132,5 +132,5 @@ class WaterTank extends Equatable {
     turbidity,
     lastUpdated,
     autoIrrigate,
-    
+  ];
 }

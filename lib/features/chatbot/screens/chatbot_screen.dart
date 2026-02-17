@@ -4,7 +4,7 @@ import '../../../core/theme/app_gradients.dart';
 import '../../../core/theme/app_shadows.dart';
 import '../../../core/config/gemini_config.dart';
 import '../services/gemini_service.dart';
-import '../services/chat_history_service.dart';
+import '../services/supabase_chat_history_service.dart';
 import '../models/chat_message.dart';
 
 class ChatbotScreen extends StatefulWidget {
@@ -37,8 +37,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
   }
 
   Future<void> _loadChatHistory() async {
-    await ChatHistoryService.initialize();
-    final history = _historyService.getRecentMessages(limit: 100);
+    final history = await _historyService.getRecentMessages(limit: 100);
 
     if (history.isEmpty) {
       // Add welcome message if no history
@@ -118,18 +117,18 @@ class _ChatbotScreenState extends State<ChatbotScreen>
       context: context,
       builder:
           (context) => AlertDialog(
-            backgroundColor: const Color(0xFF2A2D2F),
+            backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
             title: const Row(
               children: [
-                Icon(Icons.delete_outline, color: Colors.white),
+                Icon(Icons.delete_outline, color: Color(0xFF1A1D1F)),
                 SizedBox(width: 12),
                 Text(
                   'Söhbəti Təmizlə',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color(0xFF1A1D1F),
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),
@@ -138,14 +137,14 @@ class _ChatbotScreenState extends State<ChatbotScreen>
             ),
             content: const Text(
               'Bütün söhbət tarixçəsini silmək istədiyinizdən əminsiniz?',
-              style: TextStyle(color: Colors.white70, fontSize: 15),
+              style: TextStyle(color: Color(0xFF6C7278), fontSize: 15),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text(
                   'Ləğv et',
-                  style: TextStyle(color: Colors.white70),
+                  style: TextStyle(color: Color(0xFF6C7278)),
                 ),
               ),
               ElevatedButton(
@@ -177,12 +176,14 @@ class _ChatbotScreenState extends State<ChatbotScreen>
     );
   }
 
-  void _showChatHistory() {
-    final allMessages = _historyService.getAllMessages();
+  void _showChatHistory() async {
+    final allMessages = await _historyService.getAllMessages();
+
+    if (!mounted) return;
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF1A1D1F),
+      backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -198,13 +199,13 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                     const Text(
                       '📜 Söhbət Tarixçəsi',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Color(0xFF1A1D1F),
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.close, color: Colors.white),
+                      icon: const Icon(Icons.close, color: Color(0xFF1A1D1F)),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ],
@@ -212,12 +213,12 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                 const SizedBox(height: 8),
                 Text(
                   '${allMessages.length} mesaj',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.6),
+                  style: const TextStyle(
+                    color: Color(0xFF6C7278),
                     fontSize: 14,
                   ),
                 ),
-                const Divider(height: 24, color: Colors.white24),
+                const Divider(height: 24, color: Color(0xFFE8ECF0)),
                 Expanded(
                   child:
                       allMessages.isEmpty
@@ -228,13 +229,13 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                                 Icon(
                                   Icons.history,
                                   size: 64,
-                                  color: Colors.white.withOpacity(0.3),
+                                  color: const Color(0xFF6C7278).withOpacity(0.3),
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
                                   'Hələ heç bir mesaj yoxdur',
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.5),
+                                    color: const Color(0xFF6C7278).withOpacity(0.7),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -256,7 +257,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                                           ? const Color(
                                             0xFF19E624,
                                           ).withOpacity(0.1)
-                                          : Colors.white.withOpacity(0.05),
+                                          : const Color(0xFFF0F4F8),
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
                                     color:
@@ -264,7 +265,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                                             ? const Color(
                                               0xFF19E624,
                                             ).withOpacity(0.3)
-                                            : Colors.white.withOpacity(0.1),
+                                            : const Color(0xFFE8ECF0),
                                   ),
                                 ),
                                 child: Column(
@@ -278,7 +279,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                                           color:
                                               isUser
                                                   ? const Color(0xFF19E624)
-                                                  : Colors.white70,
+                                                  : const Color(0xFF6C7278),
                                         ),
                                         const SizedBox(width: 8),
                                         Text(
@@ -287,7 +288,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                                             color:
                                                 isUser
                                                     ? const Color(0xFF19E624)
-                                                    : Colors.white70,
+                                                    : const Color(0xFF6C7278),
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
                                           ),
@@ -295,10 +296,8 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                                         const Spacer(),
                                         Text(
                                           _formatTimestamp(message.timestamp),
-                                          style: TextStyle(
-                                            color: Colors.white.withOpacity(
-                                              0.4,
-                                            ),
+                                          style: const TextStyle(
+                                            color: Color(0xFF9CA3AF),
                                             fontSize: 11,
                                           ),
                                         ),
@@ -310,7 +309,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                                           ? '${message.content.substring(0, 150)}...'
                                           : message.content,
                                       style: const TextStyle(
-                                        color: Colors.white,
+                                        color: Color(0xFF1A1D1F),
                                         fontSize: 14,
                                       ),
                                       maxLines: 3,
@@ -331,27 +330,22 @@ class _ChatbotScreenState extends State<ChatbotScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1D1F),
+      backgroundColor: const Color(0xFFF8FAFB),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1A1D1F),
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.white.withOpacity(0.25),
-                Colors.white.withOpacity(0.15),
-              ],
-            ),
+            color: const Color(0xFFF0F4F8),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: Colors.white.withOpacity(0.3),
+              color: const Color(0xFFE8ECF0),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.3),
+                color: Colors.black.withOpacity(0.05),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -359,7 +353,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
           ),
           child: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
-            color: Colors.white,
+            color: const Color(0xFF1A1D1F),
             iconSize: 20,
             onPressed: () => Navigator.of(context).pop(),
           ),
@@ -391,15 +385,15 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                    color: Color(0xFF1A1D1F),
                   ),
                 ),
                 Text(
-                  'Kənd Təsərrüfatı Köməkçisi',
+                  'Kənd Təssərrüfatı Köməkçisi',
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
-                    color: Colors.white54,
+                    color: Color(0xFF6C7278),
                   ),
                 ),
               ],
@@ -408,12 +402,12 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.history, color: Colors.white),
+            icon: const Icon(Icons.history, color: Color(0xFF1A1D1F)),
             onPressed: _showChatHistory,
             tooltip: 'Söhbət Tarixçəsi',
           ),
           IconButton(
-            icon: const Icon(Icons.delete_outline, color: Colors.white),
+            icon: const Icon(Icons.delete_outline, color: Color(0xFF1A1D1F)),
             onPressed: _clearChat,
             tooltip: 'Söhbəti Təmizlə',
           ),
@@ -463,7 +457,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
           child: Text(
             '💡 Sürətli Suallar',
             style: TextStyle(
-              color: Colors.white70,
+              color: Color(0xFF6C7278),
               fontSize: 14,
               fontWeight: FontWeight.w600,
             ),
@@ -485,14 +479,16 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                       vertical: 12,
                     ),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.white.withOpacity(0.1),
-                          Colors.white.withOpacity(0.05),
-                        ],
-                      ),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white.withOpacity(0.2)),
+                      border: Border.all(color: const Color(0xFFE8ECF0)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.04),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -505,7 +501,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                         Text(
                           response['title']!,
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: Color(0xFF1A1D1F),
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                           ),
@@ -546,8 +542,8 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                         ? AppGradients.errorGradient
                         : LinearGradient(
                           colors: [
-                            Colors.white.withOpacity(0.12),
-                            Colors.white.withOpacity(0.08),
+                            const Color(0xFFF0F4F8),
+                            const Color(0xFFE8ECF0),
                           ],
                         ),
                 borderRadius: BorderRadius.only(
@@ -558,7 +554,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
+                    color: Colors.black.withOpacity(0.05),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -567,7 +563,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                     isUser
                         ? null
                         : Border.all(
-                          color: Colors.white.withOpacity(0.1),
+                          color: const Color(0xFFE8ECF0),
                           width: 1,
                         ),
               ),
@@ -578,8 +574,8 @@ class _ChatbotScreenState extends State<ChatbotScreen>
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Text(
                 _formatTimestamp(message.timestamp),
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.4),
+                style: const TextStyle(
+                  color: Color(0xFF9CA3AF),
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                 ),
@@ -612,8 +608,8 @@ class _ChatbotScreenState extends State<ChatbotScreen>
             padding: const EdgeInsets.only(bottom: 8, top: 4),
             child: Text(
               line.replaceAll('**', ''),
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: isUser ? Colors.white : const Color(0xFF1A1D1F),
                 fontSize: 15,
                 fontWeight: FontWeight.w800,
                 height: 1.4,
@@ -707,6 +703,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
   }
 
   Widget _buildRichText(String text, bool isUser) {
+    final defaultColor = isUser ? Colors.white : const Color(0xFF1A1D1F);
     final spans = <TextSpan>[];
     final regex = RegExp(
       r'\*\*(.*?)\*\*|(\d+[-.]?\d*[%°C]?)|([🌱💧🌾♻️🌿⚗️📊✅💡🔧📝🎯⚠️])',
@@ -719,8 +716,8 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         spans.add(
           TextSpan(
             text: text.substring(lastIndex, match.start),
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: defaultColor,
               fontSize: 14,
               height: 1.5,
               fontWeight: FontWeight.w400,
@@ -735,8 +732,8 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         spans.add(
           TextSpan(
             text: match.group(1),
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: defaultColor,
               fontSize: 14,
               height: 1.5,
               fontWeight: FontWeight.w800,
@@ -774,8 +771,8 @@ class _ChatbotScreenState extends State<ChatbotScreen>
       spans.add(
         TextSpan(
           text: text.substring(lastIndex),
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: defaultColor,
             fontSize: 14,
             height: 1.5,
             fontWeight: FontWeight.w400,
@@ -786,7 +783,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
 
     return Text.rich(
       TextSpan(children: spans.isEmpty ? [TextSpan(text: text)] : spans),
-      style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.5),
+      style: TextStyle(color: defaultColor, fontSize: 14, height: 1.5),
     );
   }
 
@@ -799,8 +796,8 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.white.withOpacity(0.12),
-              Colors.white.withOpacity(0.08),
+              const Color(0xFFF0F4F8),
+              const Color(0xFFE8ECF0),
             ],
           ),
           borderRadius: const BorderRadius.only(
@@ -836,7 +833,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
           width: 8,
           height: 8,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(opacity),
+            color: const Color(0xFF6C7278).withOpacity(opacity),
             shape: BoxShape.circle,
           ),
         );
@@ -848,10 +845,10 @@ class _ChatbotScreenState extends State<ChatbotScreen>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF2A2D2F),
+        color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withOpacity(0.06),
             blurRadius: 16,
             offset: const Offset(0, -4),
           ),
@@ -863,14 +860,14 @@ class _ChatbotScreenState extends State<ChatbotScreen>
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2A2D2F),
+                  color: const Color(0xFFF0F4F8),
                   borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: Colors.white.withOpacity(0.2)),
+                  border: Border.all(color: const Color(0xFFE8ECF0)),
                 ),
                 child: TextField(
                   controller: _messageController,
                   style: const TextStyle(
-                    color: Color(0xFF4A5568),
+                    color: Color(0xFF1A1D1F),
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                   ),

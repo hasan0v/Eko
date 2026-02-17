@@ -89,16 +89,18 @@ class CompostBloc extends Bloc<CompostEvent, CompostState> {
     emit(const CompostLoading());
     
     try {
-      final batch = await _compostRepository.updateBatchStatus(
-        event.batchId,
-        event.status,
-      );
+      // Get the batch first
+      final batch = await _compostRepository.getBatchById(event.batchId);
       if (batch != null) {
-        emit(CompostBatchUpdated(batch));
+        // Update it with new status
+        final updatedBatch = await _compostRepository.updateBatch(
+          batch.copyWith(status: event.status),
+        );
+        emit(CompostBatchUpdated(updatedBatch));
         
         // Reload batches
         final batches = await _compostRepository.getAllBatches();
-        emit(CompostLoaded(batches: batches, selectedBatch: batch));
+        emit(CompostLoaded(batches: batches, selectedBatch: updatedBatch));
       } else {
         emit(const CompostError('Failed to update batch'));
       }
@@ -115,10 +117,8 @@ class CompostBloc extends Bloc<CompostEvent, CompostState> {
     emit(const CompostLoading());
     
     try {
-      final sensorData = await _compostRepository.getSensorData(
+      final sensorData = await _compostRepository.getSensorReadings(
         event.batchId,
-        startDate: event.startDate,
-        endDate: event.endDate,
       );
       emit(CompostSensorDataLoaded(
         sensorData: sensorData,

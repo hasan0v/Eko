@@ -20,12 +20,12 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1D1F),
+      backgroundColor: const Color(0xFFF8FAFB),
       body: CustomScrollView(
         slivers: [
           // Gradient App Bar
           SliverAppBar(
-            expandedHeight: 200,
+            expandedHeight: 140,
             floating: false,
             pinned: true,
             backgroundColor: Colors.transparent,
@@ -41,8 +41,8 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                       top: -50,
                       right: -50,
                       child: Container(
-                        width: 200,
-                        height: 200,
+                        width: 150,
+                        height: 150,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white.withOpacity(0.1),
@@ -53,8 +53,8 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                       bottom: -30,
                       left: -30,
                       child: Container(
-                        width: 150,
-                        height: 150,
+                        width: 100,
+                        height: 100,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white.withOpacity(0.1),
@@ -63,7 +63,7 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                     ),
                     // Content
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
+                      padding: const EdgeInsets.fromLTRB(20, 50, 20, 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -71,18 +71,18 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                           Row(
                             children: [
                               Container(
-                                padding: const EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(16),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: const Icon(
                                   Icons.school,
                                   color: Colors.white,
-                                  size: 32,
+                                  size: 28,
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                              const SizedBox(width: 12),
                               const Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,16 +91,16 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                                       'Təhsil Mərkəzi',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 28,
+                                        fontSize: 22,
                                         fontWeight: FontWeight.w800,
                                       ),
                                     ),
-                                    SizedBox(height: 4),
+                                    SizedBox(height: 2),
                                     Text(
                                       'Video Dərslər və Bələdçilər',
                                       style: TextStyle(
                                         color: Colors.white70,
-                                        fontSize: 14,
+                                        fontSize: 13,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -120,8 +120,9 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
 
           // Level filters
           SliverToBoxAdapter(
-            child: SizedBox(
-              height: 130,
+            child: Container(
+              height: 100,
+              margin: const EdgeInsets.only(top: 20),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -141,8 +142,8 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
-                      width: 135,
-                      margin: const EdgeInsets.only(right: 12),
+                      width: 115,
+                      margin: const EdgeInsets.only(right: 10),
                       decoration: BoxDecoration(
                         gradient:
                             isSelected
@@ -162,7 +163,7 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color:
                               isSelected
@@ -194,42 +195,42 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 14,
+                          horizontal: 8,
+                          vertical: 6,
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              padding: const EdgeInsets.all(9),
+                              padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                 color:
                                     isSelected
                                         ? Colors.white.withOpacity(0.25)
                                         : level.color.withOpacity(0.15),
-                                borderRadius: BorderRadius.circular(14),
+                                borderRadius: BorderRadius.circular(12),
                               ),
                               child: Icon(
                                 level.icon,
                                 color: isSelected ? Colors.white : level.color,
-                                size: 26,
+                                size: 20,
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 4),
                             Text(
                               'Səviyyə ${index + 1}',
                               style: TextStyle(
                                 color:
                                     isSelected
                                         ? Colors.white
-                                        : Colors.white.withOpacity(0.9),
-                                fontSize: 12,
+                                        : const Color(0xFF1A1D1F),
+                                fontSize: 10,
                                 fontWeight: FontWeight.w700,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 5),
+                            const SizedBox(height: 2),
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
@@ -273,7 +274,7 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                 gradient: LinearGradient(
                   colors: [
                     Colors.transparent,
-                    Colors.white.withOpacity(0.1),
+                    const Color(0xFFE8ECF0),
                     Colors.transparent,
                   ],
                 ),
@@ -346,7 +347,7 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                           Text(
                             level.title,
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: Color(0xFF1A1D1F),
                               fontSize: 19,
                               fontWeight: FontWeight.w800,
                             ),
@@ -355,7 +356,7 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                           Text(
                             level.subtitle,
                             style: TextStyle(
-                              color: Colors.white.withOpacity(0.7),
+                              color: const Color(0xFF6C7278),
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                             ),
@@ -426,22 +427,22 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.white.withOpacity(0.1),
-              Colors.white.withOpacity(0.05),
+              Colors.white,
+              const Color(0xFFF8FAFB),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(22),
-          border: Border.all(color: Colors.white.withOpacity(0.15), width: 1.5),
+          border: Border.all(color: const Color(0xFFE8ECF0), width: 1.5),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withOpacity(0.06),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
             BoxShadow(
-              color: level.color.withOpacity(0.1),
+              color: level.color.withOpacity(0.08),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -602,7 +603,7 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
                         Text(
                           lesson.title,
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: Color(0xFF1A1D1F),
                             fontSize: 13.5,
                             fontWeight: FontWeight.w700,
                             height: 1.3,

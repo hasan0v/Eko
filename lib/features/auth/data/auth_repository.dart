@@ -1,6 +1,10 @@
+import 'dart:io';
+import 'dart:async';
+import 'package:supabase_flutter/supabase_flutter.dart' show AuthException;
 import '../../../models/user.dart';
 import '../../../core/services/api_client.dart';
 import '../../../core/services/storage_service.dart';
+import '../../../core/services/supabase_service.dart';
 
 /// Authentication repository
 class AuthRepository {
@@ -19,32 +23,44 @@ class AuthRepository {
     required String password,
   }) async {
     try {
-      // TODO: Replace with actual API call
-      // final response = await _apiClient.post('/auth/login', data: {
-      //   'email': email,
-      //   'password': password,
-      // });
-      
-      // Mock response for now
-      await Future.delayed(const Duration(seconds: 2));
-      
-      final mockUser = User(
-        id: '1',
-        name: 'Demo User',
+      // Sign in with Supabase
+      final response = await SupabaseService.instance.signInWithEmail(
         email: email,
-        phone: '+1234567890',
-        createdAt: DateTime.now(),
+        password: password,
+      ).timeout(
+        const Duration(seconds: 30),
+        onTimeout: () {
+          throw Exception('İnternet bağlantınızı yoxlayın. Supabase serverə çatmaq mümkün olmadı.');
+        },
+      );
+
+      if (response.user == null) {
+        throw Exception('E-poçt və ya şifrə yanlışdır');
+      }
+
+      // Get user profile from Supabase
+      final profile = await SupabaseService.instance.getProfile();
+      
+      final user = User(
+        id: response.user!.id,
+        name: profile?['name'] ?? 'User',
+        email: response.user!.email ?? email,
+        phone: profile?['phone'],
+        photoUrl: profile?['photo_url'],
+        createdAt: DateTime.parse(response.user!.createdAt),
         lastLogin: DateTime.now(),
       );
 
       // Save user and token to storage
-      await _storage.saveUser(mockUser.toJson());
-      await _storage.saveAuthToken('mock_token_${DateTime.now().millisecondsSinceEpoch}');
+      await _storage.saveUser(user.toJson());
+      await _storage.saveAuthToken(response.session?.accessToken ?? '');
       
       // Set token in API client
-      _apiClient.setAuthToken(_storage.getAuthToken()!);
+      if (response.session?.accessToken != null) {
+        _apiClient.setAuthToken(response.session!.accessToken);
+      }
 
-      return mockUser;
+      return user;
     } catch (e) {
       throw Exception('Login failed: $e');
     }
@@ -59,44 +75,107 @@ class AuthRepository {
     String? photoUrl,
   }) async {
     try {
-      // TODO: Replace with actual API call
-      // final response = await _apiClient.post('/auth/register', data: {
-      //   'name': name,
-      //   'email': email,
-      //   'password': password,
-      //   'phone': phone,
-      // });
+      // Sign up with Supabase
+      final response = await SupabaseService.instance.signUpWithEmail(
+        email: email,
+        password: password,
+        name: name,
+      ).timeout(
+        const Duration(seconds: 30),
+        onTimeout: () {
+          throw Exception('İnternet bağlantınızı yoxlayın. Supabase serverə çatmaq mümkün olmadı.');
+        },
+      );
 
-      // Mock response for now
-      await Future.delayed(const Duration(seconds: 2));
+      if (response.user == null) {
+        throw Exception('Qeydiyyat uğursuz oldu');
+      }
 
-      final mockUser = User(
-        id: '${DateTime.now().millisecondsSinceEpoch}',
+      String? uploadedPhotoUrl = photoUrl;
+
+      // Upload profile photo to Supabase Storage if provided
+      if (photoUrl != null && photoUrl.startsWith('/')) {
+        try {
+          // Read image file
+          final imageFile = File(photoUrl);
+          if (await imageFile.exists()) {
+            final imageBytes = await imageFile.readAsBytes();
+            final fileName = photoUrl.split('/').last;
+            
+            // Upload to Supabase Storage
+            uploadedPhotoUrl = await SupabaseService.instance.uploadProfilePhoto(
+              imageBytes: imageBytes,
+              fileName: fileName,
+            );
+          }
+        } catch (e) {
+          print('Failed to upload profile photo: $e');
+          // Continue with registration even if photo upload fails
+          uploadedPhotoUrl = null;
+        }
+      }
+
+      // Create/update profile with additional info
+      if (phone != null || uploadedPhotoUrl != null) {
+        await SupabaseService.instance.updateProfile(
+          name: name,
+          phone: phone,
+          photoUrl: uploadedPhotoUrl,
+        );
+      }
+
+      final user = User(
+        id: response.user!.id,
         name: name,
         email: email,
         phone: phone,
-        photoUrl: photoUrl,
-        createdAt: DateTime.now(),
+        photoUrl: uploadedPhotoUrl,
+        createdAt: DateTime.parse(response.user!.createdAt),
       );
 
       // Save user and token to storage
-      await _storage.saveUser(mockUser.toJson());
-      await _storage.saveAuthToken('mock_token_${DateTime.now().millisecondsSinceEpoch}');
+      await _storage.saveUser(user.toJson());
+      await _storage.saveAuthToken(response.session?.accessToken ?? '');
       
       // Set token in API client
-      _apiClient.setAuthToken(_storage.getAuthToken()!);
+      if (response.session?.accessToken != null) {
+        _apiClient.setAuthToken(response.session!.accessToken);
+      }
 
-      return mockUser;
+      return user;
+    } on TimeoutException {
+      throw Exception('Qoşulma vaxtı bitdi. İnternet bağlantınızı yoxlayın.');
+    } on AuthException catch (e) {
+      // Handle Supabase auth-specific errors
+      if (e.message.contains('User already registered')) {
+        throw Exception('Bu e-poçt artıq qeydiyyatdan keçib. Giriş edin.');
+      } else if (e.message.contains('Email rate limit exceeded')) {
+        throw Exception('Çox cəhd. Bir az gözləyin və yenidən cəhd edin.');
+      } else if (e.message.contains('Invalid email')) {
+        throw Exception('E-poçt düzgün deyil.');
+      } else if (e.message.contains('Password')) {
+        throw Exception('Şifrə ən azı 6 simvol olmalıdır.');
+      }
+      throw Exception('Qeydiyyat xətası: ${e.message}');
     } catch (e) {
-      throw Exception('Registration failed: $e');
+      // Check for specific network errors
+      final errorMessage = e.toString().toLowerCase();
+      if (errorMessage.contains('sockexception') || 
+          errorMessage.contains('failed host lookup') ||
+          errorMessage.contains('no address associated')) {
+        throw Exception('İnternet bağlantınız yoxdur. WiFi və ya mobil datanı yoxlayın.');
+      } else if (errorMessage.contains('user not authenticated')) {
+        throw Exception('Bu e-poçt artıq istifadə olunur. Giriş edin.');
+      }
+      throw Exception('Qeydiyyat xətası: ${e.toString().replaceAll('Exception: ', '')}');
     }
   }
 
   /// Logout user
   Future<void> logout() async {
     try {
-      // TODO: Call API to invalidate token
-      // await _apiClient.post('/auth/logout');
+      // Sign out from Supabase
+      await SupabaseService.instance.signOut();
 
       // Clear local storage
       await _storage.clearUser();
@@ -118,7 +197,7 @@ class AuthRepository {
 
   /// Check if user is logged in
   bool isLoggedIn() {
-    return _storage.isLoggedIn();
+    return _storage.isLoggedIn() && SupabaseService.instance.isAuthenticated;
   }
 
   /// Request password reset
@@ -163,19 +242,54 @@ class AuthRepository {
         throw Exception('No user logged in');
       }
 
-      // TODO: Call API
-      // final response = await _apiClient.put('/user/profile', data: {
-      //   'name': name,
-      //   'phone': phone,
-      //   'photoUrl': photoUrl,
-      // });
+      String? uploadedPhotoUrl = photoUrl;
 
-      await Future.delayed(const Duration(seconds: 1));
+      // Upload profile photo to Supabase Storage if it's a local file path
+      if (photoUrl != null && photoUrl.startsWith('/')) {
+        try {
+          // Read image file
+          final imageFile = File(photoUrl);
+          if (await imageFile.exists()) {
+            final imageBytes = await imageFile.readAsBytes();
+            final fileName = photoUrl.split('/').last;
+            
+            // Upload to Supabase Storage
+            uploadedPhotoUrl = await SupabaseService.instance.uploadProfilePhoto(
+              imageBytes: imageBytes,
+              fileName: fileName,
+            );
+            
+            // Delete old photo if exists
+            if (currentUser.photoUrl != null && currentUser.photoUrl!.contains('profile-photos/')) {
+              try {
+                final oldPath = Uri.parse(currentUser.photoUrl!).path.split('/storage/v1/object/public/avatars/').last;
+                await SupabaseService.instance.deleteFile(
+                  bucketName: 'avatars',
+                  filePath: oldPath,
+                );
+              } catch (e) {
+                print('Failed to delete old photo: $e');
+              }
+            }
+          }
+        } catch (e) {
+          print('Failed to upload profile photo: $e');
+          // Use existing photo URL if upload fails
+          uploadedPhotoUrl = currentUser.photoUrl;
+        }
+      }
+
+      // Update profile in Supabase
+      await SupabaseService.instance.updateProfile(
+        name: name,
+        phone: phone,
+        photoUrl: uploadedPhotoUrl,
+      );
 
       final updatedUser = currentUser.copyWith(
         name: name,
         phone: phone,
-        photoUrl: photoUrl,
+        photoUrl: uploadedPhotoUrl,
       );
 
       await _storage.saveUser(updatedUser.toJson());

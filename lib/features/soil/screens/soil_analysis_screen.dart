@@ -445,11 +445,11 @@ class _SoilAnalysisScreenState extends State<SoilAnalysisScreen>
                 const Divider(height: 24),
                 _buildEnvironmentalRow(
                   'Temperatur',
-                  '${_currentAnalysis.temperature!.toStringAsFixed(1)}°C',
+                  '${_currentAnalysis.temperature!.toStringAsFixed(1)}C',
                   Icons.thermostat,
                   const Color(0xFFEF5350),
                   _currentAnalysis.temperature! / 40,
-                  'Optimal: 18-25°C',
+                  'Optimal: 18-25C',
                 ),
               ],
             ],
