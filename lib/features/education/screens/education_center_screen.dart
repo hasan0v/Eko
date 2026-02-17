@@ -426,10 +426,7 @@ class _EducationCenterScreenState extends State<EducationCenterScreen> {
         margin: const EdgeInsets.only(left: 20, right: 20, bottom: 14),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Colors.white,
-              const Color(0xFFF8FAFB),
-            ],
+            colors: [Colors.white, const Color(0xFFF8FAFB)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

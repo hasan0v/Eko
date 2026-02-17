@@ -229,13 +229,17 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                                 Icon(
                                   Icons.history,
                                   size: 64,
-                                  color: const Color(0xFF6C7278).withOpacity(0.3),
+                                  color: const Color(
+                                    0xFF6C7278,
+                                  ).withOpacity(0.3),
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
                                   'Hələ heç bir mesaj yoxdur',
                                   style: TextStyle(
-                                    color: const Color(0xFF6C7278).withOpacity(0.7),
+                                    color: const Color(
+                                      0xFF6C7278,
+                                    ).withOpacity(0.7),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -339,10 +343,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
           decoration: BoxDecoration(
             color: const Color(0xFFF0F4F8),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: const Color(0xFFE8ECF0),
-              width: 1.5,
-            ),
+            border: Border.all(color: const Color(0xFFE8ECF0), width: 1.5),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.05),
@@ -562,10 +563,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
                 border:
                     isUser
                         ? null
-                        : Border.all(
-                          color: const Color(0xFFE8ECF0),
-                          width: 1,
-                        ),
+                        : Border.all(color: const Color(0xFFE8ECF0), width: 1),
               ),
               child: _buildFormattedText(message.content, isUser),
             ),
@@ -795,10 +793,7 @@ class _ChatbotScreenState extends State<ChatbotScreen>
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              const Color(0xFFF0F4F8),
-              const Color(0xFFE8ECF0),
-            ],
+            colors: [const Color(0xFFF0F4F8), const Color(0xFFE8ECF0)],
           ),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),

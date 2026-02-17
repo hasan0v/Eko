@@ -34,15 +34,9 @@ class ModernCard extends StatelessWidget {
         color: color ?? (gradient == null ? Colors.white : null),
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: boxShadow ?? AppShadows.cardShadow,
-        border: Border.all(
-          color: const Color(0xFFE8ECF0),
-          width: 1,
-        ),
+        border: Border.all(color: const Color(0xFFE8ECF0), width: 1),
       ),
-      child: Padding(
-        padding: padding!,
-        child: child,
-      ),
+      child: Padding(padding: padding!, child: child),
     );
 
     if (onTap != null) {
@@ -167,12 +161,7 @@ class StatIndicator extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          GradientIcon(
-            icon: icon,
-            gradient: gradient,
-            size: 24,
-            padding: 12,
-          ),
+          GradientIcon(icon: icon, gradient: gradient, size: 24, padding: 12),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -180,9 +169,9 @@ class StatIndicator extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.grey.shade600,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: Colors.grey.shade600),
                 ),
                 const SizedBox(height: 4),
                 Row(
@@ -190,9 +179,8 @@ class StatIndicator extends StatelessWidget {
                   children: [
                     Text(
                       value,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.w700),
                     ),
                     if (unit != null) ...[
                       const SizedBox(width: 4),
@@ -200,9 +188,8 @@ class StatIndicator extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 2),
                         child: Text(
                           unit!,
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.grey.shade600,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: Colors.grey.shade600),
                         ),
                       ),
                     ],
@@ -254,32 +241,33 @@ class GradientButton extends StatelessWidget {
           onTap: isLoading ? null : onPressed,
           borderRadius: BorderRadius.circular(borderRadius),
           child: Center(
-            child: isLoading
-                ? const SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.5,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                  )
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (icon != null) ...[
-                        Icon(icon, color: Colors.white, size: 24),
-                        const SizedBox(width: 12),
-                      ],
-                      Text(
-                        text,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
+            child:
+                isLoading
+                    ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                       ),
-                    ],
-                  ),
+                    )
+                    : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (icon != null) ...[
+                          Icon(icon, color: Colors.white, size: 24),
+                          const SizedBox(width: 12),
+                        ],
+                        Text(
+                          text,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
           ),
         ),
       ),
@@ -312,9 +300,9 @@ class ModernProgressIndicator extends StatelessWidget {
           children: [
             Text(
               label,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
             ),
             Text(
               '${(value * 100).toStringAsFixed(0)}%',
@@ -332,16 +320,11 @@ class ModernProgressIndicator extends StatelessWidget {
             height: 8,
             child: Stack(
               children: [
-                Container(
-                  width: double.infinity,
-                  color: backgroundColor,
-                ),
+                Container(width: double.infinity, color: backgroundColor),
                 FractionallySizedBox(
                   widthFactor: value.clamp(0.0, 1.0),
                   child: Container(
-                    decoration: BoxDecoration(
-                      gradient: gradient,
-                    ),
+                    decoration: BoxDecoration(gradient: gradient),
                   ),
                 ),
               ],

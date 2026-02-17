@@ -117,12 +117,27 @@ class _WeatherCardState extends State<WeatherCard>
   String _getFormattedDate() {
     final now = DateTime.now();
     const months = [
-      'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'İyun',
-      'İyul', 'Avqust', 'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr',
+      'Yanvar',
+      'Fevral',
+      'Mart',
+      'Aprel',
+      'May',
+      'İyun',
+      'İyul',
+      'Avqust',
+      'Sentyabr',
+      'Oktyabr',
+      'Noyabr',
+      'Dekabr',
     ];
     const weekdays = [
-      'Bazar ertəsi', 'Çərşənbə axşamı', 'Çərşənbə',
-      'Cümə axşamı', 'Cümə', 'Şənbə', 'Bazar',
+      'Bazar ertəsi',
+      'Çərşənbə axşamı',
+      'Çərşənbə',
+      'Cümə axşamı',
+      'Cümə',
+      'Şənbə',
+      'Bazar',
     ];
     return '${now.day} ${months[now.month - 1]}, ${weekdays[now.weekday - 1]}';
   }
@@ -315,11 +330,7 @@ class _WeatherCardState extends State<WeatherCard>
             child: Center(
               child: Transform.scale(
                 scale: 1.0 + sin(_secondaryController.value * pi) * 0.05,
-                child: Icon(
-                  _conditionIcon,
-                  size: 44,
-                  color: Colors.white,
-                ),
+                child: Icon(_conditionIcon, size: 44, color: Colors.white),
               ),
             ),
           );
@@ -361,9 +372,10 @@ class _WeatherParticlePainter extends CustomPainter {
   }
 
   void _drawSunParticles(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withOpacity(0.06)
-      ..style = PaintingStyle.fill;
+    final paint =
+        Paint()
+          ..color = Colors.white.withOpacity(0.06)
+          ..style = PaintingStyle.fill;
 
     final rng = Random(42);
     for (int i = 0; i < 6; i++) {
@@ -380,10 +392,11 @@ class _WeatherParticlePainter extends CustomPainter {
   }
 
   void _drawRainDrops(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withOpacity(0.15)
-      ..strokeWidth = 1.5
-      ..strokeCap = StrokeCap.round;
+    final paint =
+        Paint()
+          ..color = Colors.white.withOpacity(0.15)
+          ..strokeWidth = 1.5
+          ..strokeCap = StrokeCap.round;
 
     final rng = Random(42);
     for (int i = 0; i < 12; i++) {
@@ -391,18 +404,15 @@ class _WeatherParticlePainter extends CustomPainter {
       final speed = 0.6 + rng.nextDouble() * 0.4;
       final y = ((progress * speed + i * 0.08) % 1.0) * (size.height + 20) - 10;
       final length = 8.0 + rng.nextDouble() * 12;
-      canvas.drawLine(
-        Offset(x, y),
-        Offset(x - 2, y + length),
-        paint,
-      );
+      canvas.drawLine(Offset(x, y), Offset(x - 2, y + length), paint);
     }
   }
 
   void _drawSnowflakes(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withOpacity(0.2)
-      ..style = PaintingStyle.fill;
+    final paint =
+        Paint()
+          ..color = Colors.white.withOpacity(0.2)
+          ..style = PaintingStyle.fill;
 
     final rng = Random(42);
     for (int i = 0; i < 10; i++) {
@@ -416,9 +426,10 @@ class _WeatherParticlePainter extends CustomPainter {
   }
 
   void _drawCloudParticles(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white.withOpacity(0.05)
-      ..style = PaintingStyle.fill;
+    final paint =
+        Paint()
+          ..color = Colors.white.withOpacity(0.05)
+          ..style = PaintingStyle.fill;
 
     for (int i = 0; i < 3; i++) {
       final xOffset = sin((progress + i * 0.33) * 2 * pi) * 20;
@@ -460,15 +471,17 @@ class _WeatherIconPainter extends CustomPainter {
     final radius = size.width / 2;
 
     // Pulsing glow
-    final glowPaint = Paint()
-      ..color = Colors.white.withOpacity(0.08 + pulseProgress * 0.06)
-      ..style = PaintingStyle.fill;
+    final glowPaint =
+        Paint()
+          ..color = Colors.white.withOpacity(0.08 + pulseProgress * 0.06)
+          ..style = PaintingStyle.fill;
     canvas.drawCircle(center, radius, glowPaint);
 
     // Inner ring
-    final innerGlow = Paint()
-      ..color = Colors.white.withOpacity(0.12 + pulseProgress * 0.05)
-      ..style = PaintingStyle.fill;
+    final innerGlow =
+        Paint()
+          ..color = Colors.white.withOpacity(0.12 + pulseProgress * 0.05)
+          ..style = PaintingStyle.fill;
     canvas.drawCircle(center, radius * 0.72, innerGlow);
 
     if (condition == WeatherCondition.sunny ||
@@ -478,18 +491,25 @@ class _WeatherIconPainter extends CustomPainter {
   }
 
   void _drawSunRays(Canvas canvas, Offset center, double radius) {
-    final rayPaint = Paint()
-      ..color = Colors.white.withOpacity(0.12)
-      ..strokeWidth = 2.0
-      ..strokeCap = StrokeCap.round;
+    final rayPaint =
+        Paint()
+          ..color = Colors.white.withOpacity(0.12)
+          ..strokeWidth = 2.0
+          ..strokeCap = StrokeCap.round;
 
     for (int i = 0; i < 8; i++) {
       final angle = (i / 8) * 2 * pi + progress * 2 * pi;
       final innerR = radius * 0.55;
       final outerR = radius * 0.88;
       canvas.drawLine(
-        Offset(center.dx + cos(angle) * innerR, center.dy + sin(angle) * innerR),
-        Offset(center.dx + cos(angle) * outerR, center.dy + sin(angle) * outerR),
+        Offset(
+          center.dx + cos(angle) * innerR,
+          center.dy + sin(angle) * innerR,
+        ),
+        Offset(
+          center.dx + cos(angle) * outerR,
+          center.dy + sin(angle) * outerR,
+        ),
         rayPaint,
       );
     }
@@ -497,5 +517,6 @@ class _WeatherIconPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _WeatherIconPainter oldDelegate) =>
-      progress != oldDelegate.progress || pulseProgress != oldDelegate.pulseProgress;
+      progress != oldDelegate.progress ||
+      pulseProgress != oldDelegate.pulseProgress;
 }

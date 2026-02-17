@@ -8,10 +8,7 @@ import '../../../core/theme/app_shadows.dart';
 class VideoPlayerScreen extends StatefulWidget {
   final LessonModel lesson;
 
-  const VideoPlayerScreen({
-    super.key,
-    required this.lesson,
-  });
+  const VideoPlayerScreen({super.key, required this.lesson});
 
   @override
   State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
@@ -138,10 +135,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               decoration: BoxDecoration(
                 color: const Color(0xFFF0F4F8),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: const Color(0xFFE8ECF0),
-                  width: 1.5,
-                ),
+                border: Border.all(color: const Color(0xFFE8ECF0), width: 1.5),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.05),
@@ -162,9 +156,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               decoration: BoxDecoration(
                 color: const Color(0xFFF0F4F8),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: const Color(0xFFE8ECF0),
-                ),
+                border: Border.all(color: const Color(0xFFE8ECF0)),
               ),
               child: const Text(
                 'Video Dərs',
@@ -207,10 +199,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (_hasError)
-                  _buildErrorWidget()
-                else
-                  player,
+                if (_hasError) _buildErrorWidget() else player,
                 if (!_hasError) _buildVideoControls(),
                 _buildVideoInfo(),
               ],
@@ -247,11 +236,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               color: Colors.red.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.error_outline,
-              color: Colors.red,
-              size: 48,
-            ),
+            child: const Icon(Icons.error_outline, color: Colors.red, size: 48),
           ),
           const SizedBox(height: 16),
           const Text(
@@ -266,10 +251,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           const Text(
             'İnternet bağlantınızı yoxlayın və yenidən cəhd edin',
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Color(0xFF6C7278),
-              fontSize: 14,
-            ),
+            style: TextStyle(color: Color(0xFF6C7278), fontSize: 14),
           ),
           const SizedBox(height: 20),
           ElevatedButton.icon(
@@ -298,10 +280,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: const Color(0xFFE8ECF0),
-          width: 1.5,
-        ),
+        border: Border.all(color: const Color(0xFFE8ECF0), width: 1.5),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -315,10 +294,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         children: [
           // Level badge
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 10,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -338,11 +314,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  widget.lesson.level.icon,
-                  size: 18,
-                  color: Colors.white,
-                ),
+                Icon(widget.lesson.level.icon, size: 18, color: Colors.white),
                 const SizedBox(width: 8),
                 Text(
                   widget.lesson.level.title,
@@ -434,20 +406,20 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     );
   }
 
-  Widget _buildInfoChip(IconData icon, String label, String value, Color color) {
+  Widget _buildInfoChip(
+    IconData icon,
+    String label,
+    String value,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            color.withOpacity(0.15),
-            color.withOpacity(0.08),
-          ],
+          colors: [color.withOpacity(0.15), color.withOpacity(0.08)],
         ),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-        ),
+        border: Border.all(color: color.withOpacity(0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -458,11 +430,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               color: color.withOpacity(0.2),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(
-              icon,
-              color: color,
-              size: 16,
-            ),
+            child: Icon(icon, color: color, size: 16),
           ),
           const SizedBox(width: 10),
           Column(
@@ -516,43 +484,49 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         children: [
           _buildControlButton(
             icon: Icons.replay_10,
-            onPressed: _isPlayerReady
-                ? () {
-                    _controller.seekTo(
-                      _controller.value.position - const Duration(seconds: 10),
-                    );
-                  }
-                : null,
+            onPressed:
+                _isPlayerReady
+                    ? () {
+                      _controller.seekTo(
+                        _controller.value.position -
+                            const Duration(seconds: 10),
+                      );
+                    }
+                    : null,
           ),
           _buildControlButton(
             icon: _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-            onPressed: _isPlayerReady
-                ? () {
-                    setState(() {
-                      _controller.value.isPlaying
-                          ? _controller.pause()
-                          : _controller.play();
-                    });
-                  }
-                : null,
+            onPressed:
+                _isPlayerReady
+                    ? () {
+                      setState(() {
+                        _controller.value.isPlaying
+                            ? _controller.pause()
+                            : _controller.play();
+                      });
+                    }
+                    : null,
           ),
           _buildControlButton(
             icon: Icons.forward_10,
-            onPressed: _isPlayerReady
-                ? () {
-                    _controller.seekTo(
-                      _controller.value.position + const Duration(seconds: 10),
-                    );
-                  }
-                : null,
+            onPressed:
+                _isPlayerReady
+                    ? () {
+                      _controller.seekTo(
+                        _controller.value.position +
+                            const Duration(seconds: 10),
+                      );
+                    }
+                    : null,
           ),
           _buildControlButton(
             icon: Icons.fullscreen,
-            onPressed: _isPlayerReady
-                ? () {
-                    _controller.toggleFullScreenMode();
-                  }
-                : null,
+            onPressed:
+                _isPlayerReady
+                    ? () {
+                      _controller.toggleFullScreenMode();
+                    }
+                    : null,
           ),
         ],
       ),
@@ -568,29 +542,28 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       width: 48,
       height: 48,
       decoration: BoxDecoration(
-        gradient: isEnabled
-            ? LinearGradient(
-                colors: [
-                  widget.lesson.level.color.withOpacity(0.8),
-                  widget.lesson.level.color.withOpacity(0.6),
-                ],
-              )
-            : LinearGradient(
-                colors: [
-                  Colors.grey.shade300,
-                  Colors.grey.shade400,
-                ],
-              ),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: isEnabled
-            ? [
-                BoxShadow(
-                  color: widget.lesson.level.color.withOpacity(0.3),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
+        gradient:
+            isEnabled
+                ? LinearGradient(
+                  colors: [
+                    widget.lesson.level.color.withOpacity(0.8),
+                    widget.lesson.level.color.withOpacity(0.6),
+                  ],
+                )
+                : LinearGradient(
+                  colors: [Colors.grey.shade300, Colors.grey.shade400],
                 ),
-              ]
-            : null,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow:
+            isEnabled
+                ? [
+                  BoxShadow(
+                    color: widget.lesson.level.color.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+                : null,
       ),
       child: IconButton(
         icon: Icon(icon),
@@ -607,78 +580,76 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        title: Row(
-          children: [
-            Icon(
-              Icons.check_circle,
-              color: widget.lesson.level.color,
-              size: 28,
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-            const SizedBox(width: 12),
-            const Text(
-              'Video Tamamlandı!',
+            title: Row(
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: widget.lesson.level.color,
+                  size: 28,
+                ),
+                const SizedBox(width: 12),
+                const Text(
+                  'Video Tamamlandı!',
+                  style: TextStyle(
+                    color: Color(0xFF1A1D1F),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+            content: const Text(
+              'Bu dərsi tamamladınız. Növbəti videoya keçmək istəyirsiniz?',
               style: TextStyle(
-                color: Color(0xFF1A1D1F),
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
+                color: Color(0xFF6C7278),
+                fontSize: 15,
+                height: 1.5,
               ),
             ),
-          ],
-        ),
-        content: const Text(
-          'Bu dərsi tamamladınız. Növbəti videoya keçmək istəyirsiniz?',
-          style: TextStyle(
-            color: Color(0xFF6C7278),
-            fontSize: 15,
-            height: 1.5,
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Siyahıya Qayıt',
+                  style: TextStyle(
+                    color: const Color(0xFF6C7278),
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: widget.lesson.level.color,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  // TODO: Navigate to next video in the same level
+                },
+                child: const Text(
+                  'Növbəti Video',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Siyahıya Qayıt',
-              style: TextStyle(
-                color: const Color(0xFF6C7278),
-                fontSize: 14,
-              ),
-            ),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: widget.lesson.level.color,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 12,
-              ),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              // TODO: Navigate to next video in the same level
-            },
-            child: const Text(
-              'Növbəti Video',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -691,11 +662,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             color: color.withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(
-            icon,
-            color: color,
-            size: 20,
-          ),
+          child: Icon(icon, color: color, size: 20),
         ),
         const SizedBox(width: 16),
         Expanded(

@@ -123,12 +123,14 @@ class DashboardView extends StatelessWidget {
                         width: 50,
                         height: 50,
                         decoration: BoxDecoration(
-                          gradient: authRepository.getCurrentUser()?.photoUrl == null
-                              ? AppGradients.primaryGradient
-                              : null,
-                          color: authRepository.getCurrentUser()?.photoUrl != null
-                              ? Colors.white
-                              : null,
+                          gradient:
+                              authRepository.getCurrentUser()?.photoUrl == null
+                                  ? AppGradients.primaryGradient
+                                  : null,
+                          color:
+                              authRepository.getCurrentUser()?.photoUrl != null
+                                  ? Colors.white
+                                  : null,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -138,45 +140,46 @@ class DashboardView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: authRepository.getCurrentUser()?.photoUrl != null
-                            ? ClipOval(
-                                child: Image.network(
-                                  authRepository.getCurrentUser()!.photoUrl!,
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Center(
-                                      child: Text(
-                                        authRepository
-                                                .getCurrentUser()
-                                                ?.name[0]
-                                                .toUpperCase() ??
-                                            'U',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w900,
+                        child:
+                            authRepository.getCurrentUser()?.photoUrl != null
+                                ? ClipOval(
+                                  child: Image.network(
+                                    authRepository.getCurrentUser()!.photoUrl!,
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Center(
+                                        child: Text(
+                                          authRepository
+                                                  .getCurrentUser()
+                                                  ?.name[0]
+                                                  .toUpperCase() ??
+                                              'U',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w900,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              )
-                            : Center(
-                                child: Text(
-                                  authRepository
-                                          .getCurrentUser()
-                                          ?.name[0]
-                                          .toUpperCase() ??
-                                      'U',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w900,
+                                      );
+                                    },
+                                  ),
+                                )
+                                : Center(
+                                  child: Text(
+                                    authRepository
+                                            .getCurrentUser()
+                                            ?.name[0]
+                                            .toUpperCase() ??
+                                        'U',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w900,
+                                    ),
                                   ),
                                 ),
-                              ),
                       ),
                     ),
                   ],
@@ -198,8 +201,9 @@ class DashboardView extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       AppStrings.monitorFarm,
-                      style: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(color: const Color(0xFF6C7278)),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: const Color(0xFF6C7278),
+                      ),
                     ),
                   ],
                 ),

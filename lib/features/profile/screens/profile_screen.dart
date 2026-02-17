@@ -17,10 +17,7 @@ import '../../../models/user.dart';
 class ProfileScreen extends StatefulWidget {
   final AuthRepository authRepository;
 
-  const ProfileScreen({
-    super.key,
-    required this.authRepository,
-  });
+  const ProfileScreen({super.key, required this.authRepository});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -89,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       // Reload user data to get the uploaded photo URL
       _currentUser = widget.authRepository.getCurrentUser();
-      
+
       setState(() {
         _isEditingProfile = false;
         _isLoading = false;
@@ -111,10 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Xəta: $e'),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text('Xəta: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -193,10 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           decoration: BoxDecoration(
             color: const Color(0xFFF0F4F8),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: const Color(0xFFE8ECF0),
-              width: 1.5,
-            ),
+            border: Border.all(color: const Color(0xFFE8ECF0), width: 1.5),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.05),
@@ -248,73 +239,73 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Column(
                       children: [
                         Stack(
-                        children: [
-                          Container(
-                            width: 120,
-                            height: 120,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: AppGradients.primaryGradient,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0xFF19E624).withOpacity(0.3),
-                                  blurRadius: 24,
-                                  offset: const Offset(0, 8),
-                                ),
-                              ],
-                            ),
-                            child: ClipOval(
-                              child: _buildProfileImage(),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: GestureDetector(
-                              onTap: _pickImage,
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  gradient: AppGradients.infoGradient,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: Colors.white,
-                                    width: 3,
+                          children: [
+                            Container(
+                              width: 120,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: AppGradients.primaryGradient,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(
+                                      0xFF19E624,
+                                    ).withOpacity(0.3),
+                                    blurRadius: 24,
+                                    offset: const Offset(0, 8),
                                   ),
-                                  boxShadow: AppShadows.cardShadow,
-                                ),
-                                child: const Icon(
-                                  Icons.camera_alt,
-                                  size: 20,
-                                  color: Colors.white,
+                                ],
+                              ),
+                              child: ClipOval(child: _buildProfileImage()),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: GestureDetector(
+                                onTap: _pickImage,
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    gradient: AppGradients.infoGradient,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 3,
+                                    ),
+                                    boxShadow: AppShadows.cardShadow,
+                                  ),
+                                  child: const Icon(
+                                    Icons.camera_alt,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          _currentUser?.name ?? 'İstifadəçi',
+                          style: const TextStyle(
+                            color: Color(0xFF1A1D1F),
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800,
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        _currentUser?.name ?? 'İstifadəçi',
-                        style: const TextStyle(
-                          color: Color(0xFF1A1D1F),
-                          fontSize: 24,
-                          fontWeight: FontWeight.w800,
                         ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        _currentUser?.email ?? '',
-                        style: const TextStyle(
-                          color: Color(0xFF6C7278),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                        const SizedBox(height: 6),
+                        Text(
+                          _currentUser?.email ?? '',
+                          style: const TextStyle(
+                            color: Color(0xFF6C7278),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
                 const SizedBox(height: 24),
 
                 // Profile Info Section
@@ -326,7 +317,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                
+
                 StaggeredListItem(
                   index: 1,
                   child: ModernCard(
@@ -364,11 +355,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: GradientButton(
-                            text: _isEditingProfile ? 'Yadda Saxla' : 'Redaktə Et',
+                            text:
+                                _isEditingProfile
+                                    ? 'Yadda Saxla'
+                                    : 'Redaktə Et',
                             icon: _isEditingProfile ? Icons.save : Icons.edit,
-                            gradient: _isEditingProfile
-                                ? AppGradients.successGradient
-                                : AppGradients.infoGradient,
+                            gradient:
+                                _isEditingProfile
+                                    ? AppGradients.successGradient
+                                    : AppGradients.infoGradient,
                             isLoading: _isLoading,
                             onPressed: () {
                               if (_isEditingProfile) {
@@ -414,7 +409,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                
+
                 if (!_isChangingPassword)
                   StaggeredListItem(
                     index: 3,
@@ -454,7 +449,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                           ),
-                          const Icon(Icons.chevron_right, color: Color(0xFF6C7278)),
+                          const Icon(
+                            Icons.chevron_right,
+                            color: Color(0xFF6C7278),
+                          ),
                         ],
                       ),
                     ),
@@ -520,12 +518,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // Account Info
                 StaggeredListItem(
                   index: 4,
-                  child: const SectionHeader(
-                    title: 'Hesab Məlumatı',
-                  ),
+                  child: const SectionHeader(title: 'Hesab Məlumatı'),
                 ),
                 const SizedBox(height: 16),
-                
+
                 StaggeredListItem(
                   index: 5,
                   child: ModernCard(
@@ -590,16 +586,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildProfileImage() {
     // If user just picked an image from device, show that
     if (_imageFile != null) {
-      return Image.file(
-        _imageFile!,
-        fit: BoxFit.cover,
-      );
+      return Image.file(_imageFile!, fit: BoxFit.cover);
     }
 
     // If user has a photo URL from database
     if (_currentUser?.photoUrl != null && _currentUser!.photoUrl!.isNotEmpty) {
       final photoUrl = _currentUser!.photoUrl!;
-      
+
       // Check if it's a network URL (from Supabase Storage)
       if (photoUrl.startsWith('http://') || photoUrl.startsWith('https://')) {
         return Image.network(
@@ -609,10 +602,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (loadingProgress == null) return child;
             return Center(
               child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
+                value:
+                    loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
                 color: Colors.white,
               ),
             );
@@ -622,7 +616,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
         );
       }
-      
+
       // If it's a local file path (legacy support)
       if (photoUrl.startsWith('/')) {
         return Image.file(
@@ -663,33 +657,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
           color: enabled ? const Color(0xFF2E7D32) : const Color(0xFF9CA3AF),
         ),
         filled: true,
-        fillColor: enabled
-            ? const Color(0xFFF0F4F8)
-            : const Color(0xFFF8FAFB),
+        fillColor: enabled ? const Color(0xFFF0F4F8) : const Color(0xFFF8FAFB),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: Color(0xFFE8ECF0),
-          ),
+          borderSide: const BorderSide(color: Color(0xFFE8ECF0)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: Color(0xFFE8ECF0),
-          ),
+          borderSide: const BorderSide(color: Color(0xFFE8ECF0)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: Color(0xFF2E7D32),
-            width: 2,
-          ),
+          borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: Color(0xFFE8ECF0),
-          ),
+          borderSide: const BorderSide(color: Color(0xFFE8ECF0)),
         ),
       ),
     );
@@ -712,22 +695,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         fillColor: const Color(0xFFF0F4F8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: Color(0xFFE8ECF0),
-          ),
+          borderSide: const BorderSide(color: Color(0xFFE8ECF0)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: Color(0xFFE8ECF0),
-          ),
+          borderSide: const BorderSide(color: Color(0xFFE8ECF0)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: Color(0xFF2E7D32),
-            width: 2,
-          ),
+          borderSide: const BorderSide(color: Color(0xFF2E7D32), width: 2),
         ),
       ),
     );
@@ -747,11 +723,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(
-            icon,
-            color: const Color(0xFF2E7D32),
-            size: 20,
-          ),
+          child: Icon(icon, color: const Color(0xFF2E7D32), size: 20),
         ),
         const SizedBox(width: 16),
         Expanded(
@@ -790,61 +762,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _showLogoutDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        title: const Row(
-          children: [
-            Icon(Icons.logout, color: Color(0xFF1A1D1F)),
-            SizedBox(width: 12),
-            Text(
-              'Çıxış',
-              style: TextStyle(
-                color: Color(0xFF1A1D1F),
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: const Row(
+              children: [
+                Icon(Icons.logout, color: Color(0xFF1A1D1F)),
+                SizedBox(width: 12),
+                Text(
+                  'Çıxış',
+                  style: TextStyle(
+                    color: Color(0xFF1A1D1F),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+            content: const Text(
+              'Hesabdan çıxmaq istədiyinizdən əminsiniz?',
+              style: TextStyle(color: Color(0xFF6C7278), fontSize: 15),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  'Ləğv et',
+                  style: TextStyle(color: Color(0xFF6C7278)),
+                ),
               ),
-            ),
-          ],
-        ),
-        content: const Text(
-          'Hesabdan çıxmaq istədiyinizdən əminsiniz?',
-          style: TextStyle(color: Color(0xFF6C7278), fontSize: 15),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Ləğv et',
-              style: TextStyle(color: Color(0xFF6C7278)),
-            ),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () async {
+                  // Use AuthBloc to logout
+                  context.read<AuthBloc>().add(const AuthLogoutRequested());
+
+                  if (mounted) {
+                    // Navigate to login screen
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                      (route) => false,
+                    );
+                  }
+                },
+                child: const Text('Çıxış'),
               ),
-            ),
-            onPressed: () async {
-              // Use AuthBloc to logout
-              context.read<AuthBloc>().add(const AuthLogoutRequested());
-              
-              if (mounted) {
-                // Navigate to login screen
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  (route) => false,
-                );
-              }
-            },
-            child: const Text('Çıxış'),
+            ],
           ),
-        ],
-      ),
     );
   }
 }
