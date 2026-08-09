@@ -30,8 +30,8 @@ The app is now configured to upload profile photos to Supabase Storage.
 ### Testing
 
 **Test User Credentials**:
-- Email: `test@ecobin.app`
-- Password: `testpassword123`
+- Email: supplied privately
+- Password: supplied privately
 
 **To Test Profile Upload**:
 1. Register a new account

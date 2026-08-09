@@ -73,8 +73,8 @@ build\app\outputs\flutter-apk\app-release.apk
 
 ## Test Credentials
 
-**Email**: test@ecobin.app  
-**Password**: testpassword123
+**Email**: supplied privately
+**Password**: supplied privately
 
 ## Installation
 

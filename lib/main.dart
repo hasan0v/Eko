@@ -26,7 +26,7 @@ void main() async {
   print('✅ Supabase initialized');
 
   // Note: Authentication is now handled by AuthBloc
-  // Users must log in with: test@ecobin.app / testpassword123
+  // Test credentials must be distributed privately and never committed.
 
   // Initialize services
   final storageService = StorageService();

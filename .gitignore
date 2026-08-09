@@ -36,6 +36,11 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Local tooling, generated metadata, and backups
+/.firebase/
+*.wbk
+TEST_CREDENTIALS.md
+
 # Symbolication related
 app.*.symbols
 

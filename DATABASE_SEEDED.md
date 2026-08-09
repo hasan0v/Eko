@@ -21,8 +21,8 @@ Your Supabase database has been populated with realistic Azerbaijani agricultura
 ## 🔐 Test User Credentials
 
 **User ID**: `a0000000-0000-0000-0000-000000000001`  
-**Email**: `test@ecobin.app`  
-**Password**: `testpassword123`  
+**Email**: supplied privately
+**Password**: supplied privately
 **Name**: Əli Məmmədov
 
 You can use these credentials to sign in to the app and see all the seeded data.
@@ -177,8 +177,8 @@ Update `lib/main.dart` to sign in with test credentials:
 // In main() function, replace anonymous auth with:
 try {
   await SupabaseService.instance.signInWithEmail(
-    'test@ecobin.app',
-    'testpassword123',
+    dotenv.env['TEST_USER_EMAIL']!,
+    dotenv.env['TEST_USER_PASSWORD']!,
   );
   print('✅ Signed in as test user');
 } catch (e) {
@@ -189,8 +189,8 @@ try {
 ### Method 3: Sign In Screen
 
 If you have a login screen in your app, use these credentials:
-- **Email**: `test@ecobin.app`
-- **Password**: `testpassword123`
+- **Email**: set locally with `TEST_USER_EMAIL`
+- **Password**: set locally with `TEST_USER_PASSWORD`
 
 ---
 

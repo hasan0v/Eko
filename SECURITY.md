@@ -12,7 +12,7 @@
 **Before (Exposed Keys):**
 ```dart
 // gemini_config.dart
-static const String apiKey = 'AIzaSyAW7tjLqQnUB1hCvcAsXq5Y9-XtOI_VMcQ';
+static const String apiKey = 'REDACTED_DO_NOT_COMMIT_KEYS';
 
 // supabase_config.dart
 static const String supabaseUrl = 'https://txbwrqlwcqvnzkhytbdq.supabase.co';

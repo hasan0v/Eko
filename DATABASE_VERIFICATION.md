@@ -286,8 +286,8 @@ The app is configured to **auto-sign-in with test credentials**:
 
 ```dart
 await SupabaseService.instance.signInWithEmail(
-  'test@ecobin.app',
-  'testpassword123',
+  dotenv.env['TEST_USER_EMAIL']!,
+  dotenv.env['TEST_USER_PASSWORD']!,
 );
 ```
 
