@@ -1,17 +1,24 @@
-# EcoBin Mobile App
+# EcoBin Mobile
 
-**Smart Farming & Sustainability Companion**
+A Flutter companion for composting, irrigation, soil health, IoT monitoring, and AI-assisted recommendations.
 
-EcoBin is a comprehensive Flutter-based mobile application designed to help users manage composting, water irrigation, and soil health through IoT sensors and AI-powered recommendations.
+| Field | Value |
+| --- | --- |
+| Focus | Mobile, IoT, and applied AI |
+| Status | Active portfolio project |
 
-## 📱 Features
+## Overview
+
+A Flutter companion for composting, irrigation, soil health, IoT monitoring, and AI-assisted recommendations.
+
+## Features
 
 ### Core Modules
-- **🌿 Compost Management**: Real-time monitoring of compost batches with sensor data (temperature, humidity, CO2, weight)
-- **💧 Water Management**: Automated irrigation control, water quality monitoring, and usage tracking
-- **🌱 Soil Analysis**: NPK nutrient levels, pH monitoring, and AI-powered recommendations
-- **📚 Education Center**: Video tutorials and articles about sustainable farming
-- **🤖 AI Assistant**: Chatbot for instant answers about farm status and best practices
+- **Compost Management**: Real-time monitoring of compost batches with sensor data (temperature, humidity, CO2, weight)
+- **Water Management**: Automated irrigation control, water quality monitoring, and usage tracking
+- **Soil Analysis**: NPK nutrient levels, pH monitoring, and AI-powered recommendations
+- **Education Center**: Video tutorials and articles about sustainable farming
+- **AI Assistant**: Chatbot for instant answers about farm status and best practices
 
 ### Authentication & Onboarding
 - Beautiful splash screen with animations
@@ -25,29 +32,29 @@ EcoBin is a comprehensive Flutter-based mobile application designed to help user
 - Quick stats overview (Compost, Water, Temperature, Soil pH)
 - Critical alerts system
 
-## 🏗️ Architecture
+## Architecture
 
 ### Feature-First Structure
 ```
 lib/
-├── core/                       # Shared code
-│   ├── constants/             # Colors, Strings, Assets
-│   ├── theme/                 # Light/Dark themes
-│   ├── utils/                 # Helpers & validators
-│   ├── widgets/               # Reusable UI components
-│   └── services/              # API, Storage, etc.
-├── features/                  # Feature modules
-│   ├── auth/                  # Authentication & Onboarding
-│   ├── dashboard/             # Home screen
-│   ├── compost/               # Compost management
-│   ├── water/                 # Water management
-│   ├── soil/                  # Soil analysis
-│   ├── education/             # Learning resources
-│   └── chatbot/               # AI assistant
-└── models/                    # Data models
+ core/                       # Shared code
+    constants/             # Colors, Strings, Assets
+    theme/                 # Light/Dark themes
+    utils/                 # Helpers & validators
+    widgets/               # Reusable UI components
+    services/              # API, Storage, etc.
+ features/                  # Feature modules
+    auth/                  # Authentication & Onboarding
+    dashboard/             # Home screen
+    compost/               # Compost management
+    water/                 # Water management
+    soil/                  # Soil analysis
+    education/             # Learning resources
+    chatbot/               # AI assistant
+ models/                    # Data models
 ```
 
-## 🎨 Design System
+## Design System
 
 ### Color Palette
 - **Primary**: `#19E624` (Eco Green)
@@ -60,11 +67,11 @@ lib/
 - **Body Text**: Inter (400-500 weight)
 
 ### Theme Support
-- ✅ Light Mode
-- ✅ Dark Mode
+- Light Mode
+- Dark Mode
 - Auto-detection based on system preferences
 
-## 🚀 Getting Started
+## Getting started
 
 ### Prerequisites
 - Flutter SDK 3.29.3 or higher
@@ -73,12 +80,12 @@ lib/
 - For iOS: Xcode 15+
 - For Android: Android SDK 21+
 
-### Installation
+### Getting started
 
 1. **Clone the repository**
 ```bash
 git clone <repository-url>
-cd Eko
+
 ```
 
 2. **Install dependencies**
@@ -101,7 +108,7 @@ flutter run -d ios
 flutter run -d chrome
 ```
 
-## 📦 Dependencies
+## Dependencies
 
 ### State Management
 - `flutter_bloc` - BLoC pattern for state management
@@ -132,7 +139,7 @@ flutter run -d chrome
 - `flutter_chat_ui` - Chat interface
 - `speech_to_text` - Voice input
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run all tests
@@ -145,18 +152,18 @@ flutter test --coverage
 flutter test test/widget_test.dart
 ```
 
-## 📱 Supported Platforms
+## Supported Platforms
 
-- ✅ Android (API 21+)
-- ✅ iOS (13.0+)
-- ✅ Windows
-- ✅ macOS
-- ✅ Linux
-- ✅ Web
+- Android (API 21+)
+- iOS (13.0+)
+- Windows
+- macOS
+- Linux
+- Web
 
-## 🔧 Development Status
+## Development Status
 
-### ✅ Completed
+### Completed
 - [x] Project setup & architecture
 - [x] Theme system (Light/Dark)
 - [x] Core constants & assets
@@ -168,7 +175,7 @@ flutter test test/widget_test.dart
 - [x] Bottom navigation bar
 - [x] Basic screen placeholders
 
-### 🔄 In Progress
+### In Progress
 - [ ] State management with BLoC
 - [ ] API integration
 - [ ] Compost monitoring features
@@ -177,7 +184,7 @@ flutter test test/widget_test.dart
 - [ ] Education center content
 - [ ] AI chatbot integration
 
-### 📋 Planned
+### Planned
 - [ ] Real-time data from IoT sensors
 - [ ] Push notifications
 - [ ] Data export/import
@@ -186,7 +193,7 @@ flutter test test/widget_test.dart
 - [ ] Unit & integration tests
 - [ ] App store deployment
 
-## 🌐 Localization
+## Localization
 
 Currently supports:
 - English (default)
@@ -194,21 +201,21 @@ Currently supports:
 Planned:
 - Turkish (Türkçe)
 
-## 📄 License
+## License
 
 This project is proprietary. All rights reserved.
 
-## 👥 Team
+## Team
 
 - **Project**: EcoBin Smart Farming
 - **Platform**: Flutter (Cross-platform)
 - **Started**: December 7, 2025
 
-## 📞 Support
+## Support
 
 For issues, feature requests, or questions, please create an issue in the repository.
 
-## 🔄 Version History
+## Version History
 
 ### v1.0.0 (In Development)
 - Initial release
@@ -219,4 +226,13 @@ For issues, feature requests, or questions, please create an issue in the reposi
 
 ---
 
-**Built with ❤️ using Flutter**
+## Repository
+
+```bash
+git clone https://github.com/hasan0v/ecobin-mobile.git
+cd ecobin-mobile
+```
+
+## Status
+
+Active portfolio project.
